@@ -15,6 +15,10 @@ const HeaderContainer = styled.header`
   top: 0;
   z-index: 100;
   box-shadow: ${({ theme }) => theme.shadows.md};
+
+  @media (max-width: 414px) {
+    padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+  }
 `
 
 const HeaderContent = styled.div`
@@ -24,11 +28,15 @@ const HeaderContent = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.md};
+  flex-wrap: nowrap;
 
-  flex-wrap: nowrap; /* 🔑 impede quebra no desktop */
+  @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
+    flex-wrap: wrap;
+    gap: ${({ theme }) => theme.spacing.sm};
+  }
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    flex-direction: column;
+  @media (max-width: 414px) {
+    gap: ${({ theme }) => theme.spacing.xs};
   }
 `
 
@@ -37,17 +45,35 @@ const Logo = styled(Link)`
   align-items: center;
   gap: ${({ theme }) => theme.spacing.sm};
 
-  white-space: nowrap; /* 🔑 texto não quebra */
-  flex-shrink: 0;      /* 🔑 logo não encolhe */
+  white-space: nowrap;
+  flex-shrink: 1;
+  min-width: 0;
 
   font-family: ${({ theme }) => theme.fonts.epic};
-  font-size: ${({ theme }) => theme.fontSizes.xl}; /* menor para nome longo */
+  font-size: ${({ theme }) => theme.fontSizes.xl};
   font-weight: 200;
   color: ${({ theme }) => theme.colors.gold};
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 2px;
   transition: ${({ theme }) => theme.transitions.normal};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
+    font-size: ${({ theme }) => theme.fontSizes.lg};
+    letter-spacing: 1px;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.fontSizes.md};
+    letter-spacing: 0.5px;
+    gap: ${({ theme }) => theme.spacing.xs};
+  }
+
+  @media (max-width: 414px) {
+    font-size: ${({ theme }) => theme.fontSizes.md};
+    letter-spacing: 0.5px;
+    gap: ${({ theme }) => theme.spacing.xs};
+  }
 
   &:hover {
     text-shadow: ${({ theme }) => theme.shadows.gold};
@@ -59,22 +85,29 @@ const LogoIcon = styled.img`
   width: 28px;
   height: 28px;
   object-fit: contain;
+
+  @media (max-width: 414px) {
+    width: 24px;
+    height: 24px;
+  }
 `
 
 const Nav = styled.nav`
   display: flex;
   gap: ${({ theme }) => theme.spacing.md};
   flex-wrap: nowrap;
+  align-items: center;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    justify-content: center;
-    width: 100%;
-    flex-wrap: wrap;
+  @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
+    gap: ${({ theme }) => theme.spacing.sm};
   }
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    flex-direction: column;
-    gap: ${({ theme }) => theme.spacing.xs};
+  @media (max-width: ${({ theme }) => theme.breakpoints.intermediate}) {
+    display: none;
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.intermediate}) {
+    display: flex;
   }
 `
 
@@ -89,6 +122,13 @@ const NavLink = styled(Link)<{ isActive?: boolean }>`
   transition: ${({ theme }) => theme.transitions.normal};
   position: relative;
   white-space: nowrap;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
+    font-size: ${({ theme }) => theme.fontSizes.xs};
+    padding: ${({ theme }) => theme.spacing.xs}
+      ${({ theme }) => theme.spacing.xs};
+  }
 
   &::after {
     content: '';
@@ -120,20 +160,52 @@ const MobileMenuButton = styled.button`
   padding: ${({ theme }) => theme.spacing.xs};
   border-radius: ${({ theme }) => theme.borderRadius.md};
   cursor: pointer;
+  flex-shrink: 0;
+  margin-left: ${({ theme }) => theme.spacing.sm};
+  font-size: 1.5rem;
+  width: auto;
+  height: auto;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.intermediate}) {
     display: block;
+  }
+
+  @media (min-width: calc(${({ theme }) => theme.breakpoints.intermediate} + 1px)) {
+    display: none;
+  }
+
+  @media (max-width: 414px) {
+    padding: ${({ theme }) => theme.spacing.xs};
+    margin-left: ${({ theme }) => theme.spacing.xs};
+    min-width: 36px;
+    min-height: 36px;
   }
 `
 
-const MobileNav = styled(Nav)<{ isOpen: boolean }>`
+const MobileNav = styled.nav<{ isOpen: boolean }>`
   display: none;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.intermediate}) {
     display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
     flex-direction: column;
     width: 100%;
-    margin-top: ${({ theme }) => theme.spacing.md};
+    background: linear-gradient(
+      135deg,
+      ${({ theme }) => theme.colors.darker} 0%,
+      ${({ theme }) => theme.colors.dark} 100%
+    );
+    padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
+    gap: ${({ theme }) => theme.spacing.xs};
+    box-shadow: ${({ theme }) => theme.shadows.md};
+    border-bottom: 2px solid ${({ theme }) => theme.colors.gold};
+  }
+
+  @media (min-width: calc(${({ theme }) => theme.breakpoints.intermediate} + 1px)) {
+    display: none;
   }
 `
 
@@ -160,23 +232,6 @@ export const Header: React.FC = () => {
           OLD WORLD LAST CHAOS
         </Logo>
 
-        <MobileMenuButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-          ☰
-        </MobileMenuButton>
-
-        <MobileNav isOpen={mobileMenuOpen}>
-          {navigationItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              isActive={location.pathname === item.path}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {item.label}
-            </NavLink>
-          ))}
-        </MobileNav>
-
         <Nav>
           {navigationItems.map((item) => (
             <NavLink
@@ -188,7 +243,24 @@ export const Header: React.FC = () => {
             </NavLink>
           ))}
         </Nav>
+
+        <MobileMenuButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          ☰
+        </MobileMenuButton>
       </HeaderContent>
+
+      <MobileNav isOpen={mobileMenuOpen}>
+        {navigationItems.map((item) => (
+          <NavLink
+            key={item.path}
+            to={item.path}
+            isActive={location.pathname === item.path}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            {item.label}
+          </NavLink>
+        ))}
+      </MobileNav>
     </HeaderContainer>
   )
 }

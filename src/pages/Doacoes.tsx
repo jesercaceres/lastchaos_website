@@ -31,6 +31,15 @@ const PackagesGrid = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: ${({ theme }) => theme.spacing.xl};
 
+  @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: ${({ theme }) => theme.spacing.lg};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;
   }
@@ -49,6 +58,10 @@ const PackageCard = styled(Card)<{ isPopular?: boolean }>`
     `
     box-shadow: ${theme.shadows.gold};
     transform: scale(1.05);
+    
+    @media (max-width: ${theme.breakpoints.large}) {
+      transform: scale(1.02);
+    }
     
     @media (max-width: ${theme.breakpoints.tablet}) {
       transform: scale(1);

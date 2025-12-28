@@ -31,6 +31,15 @@ const ServersGrid = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: ${({ theme }) => theme.spacing.lg};
 
+  @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: ${({ theme }) => theme.spacing.md};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;
   }

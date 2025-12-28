@@ -82,6 +82,8 @@ export const theme = {
     mobile: '480px',
     tablet: '768px',
     desktop: '1024px',
+    intermediate: '951px',
+    large: '1310px',
     wide: '1440px',
   },
 } as const
