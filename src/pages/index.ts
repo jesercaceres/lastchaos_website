@@ -1,0 +1,8 @@
+export { Home } from './Home'
+export { Login } from './Login'
+export { Registro } from './Registro'
+export { Download } from './Download'
+export { Servidores } from './Servidores'
+export { Comunidade } from './Comunidade'
+export { Regras } from './Regras'
+export { Doacoes } from './Doacoes'
