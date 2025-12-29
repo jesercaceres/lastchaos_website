@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import logo from '../../assets/icons/logo.ico'
@@ -15,6 +15,8 @@ const HeaderContainer = styled.header`
   top: 0;
   z-index: 100;
   box-shadow: ${({ theme }) => theme.shadows.md};
+  width: 100%;
+  box-sizing: border-box;
 
   @media (max-width: 414px) {
     padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
@@ -29,6 +31,9 @@ const HeaderContent = styled.div`
   align-items: center;
   gap: ${({ theme }) => theme.spacing.md};
   flex-wrap: nowrap;
+  width: 100%;
+  padding: 0 ${({ theme }) => theme.spacing.sm};
+  box-sizing: border-box;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
     flex-wrap: wrap;
@@ -223,9 +228,21 @@ const navigationItems = [
 export const Header: React.FC = () => {
   const location = useLocation()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const headerRef = useRef<HTMLElement | null>(null)
+
+  useEffect(() => {
+    const setHeaderHeight = () => {
+      const height = headerRef.current?.offsetHeight ?? 0
+      document.documentElement.style.setProperty('--header-height', `${height}px`)
+    }
+
+    setHeaderHeight()
+    window.addEventListener('resize', setHeaderHeight)
+    return () => window.removeEventListener('resize', setHeaderHeight)
+  }, [])
 
   return (
-    <HeaderContainer>
+    <HeaderContainer ref={headerRef as any}>
       <HeaderContent>
         <Logo to="/">
           <LogoIcon src={logo} alt="Old World Last Chaos" />

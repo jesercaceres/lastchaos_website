@@ -6,11 +6,22 @@ const HomeContainer = styled.div`
   max-width: 1440px;
   margin: 0 auto;
   padding: ${({ theme }) => theme.spacing.lg};
+  width: 100%;
+  box-sizing: border-box;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    padding: ${({ theme }) => theme.spacing.md};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    padding: ${({ theme }) => theme.spacing.sm};
+  }
 `
 
 const HeroSection = styled.section`
   position: relative;
-  min-height: 500px;
+  /* Make hero fill the visible viewport minus the header height. Use 100dvh for mobile viewport correctness. */
+  min-height: calc(100dvh - var(--header-height, 0px));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,8 +35,13 @@ const HeroSection = styled.section`
   margin-bottom: ${({ theme }) => theme.spacing['2xl']};
   overflow: hidden;
 
+  /* Ensure reasonable minimums on small viewports and limit excessive height on very tall screens */
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    min-height: 400px;
+    min-height: max(360px, calc(100dvh - var(--header-height, 0px)));
+  }
+
+  @media (min-height: 900px) {
+    min-height: min(calc(100dvh - var(--header-height, 0px)), 760px);
   }
 `
 
@@ -65,7 +81,41 @@ const HeroButtons = styled.div`
 `
 
 const Section = styled.section`
-  margin-bottom: ${({ theme }) => theme.spacing['2xl']};
+  /* Use a reusable, responsive section gap while keeping natural DOM flow */
+  margin-block: var(--section-gap, ${({ theme }) => theme.spacing['2xl']});
+  padding-block: calc(var(--section-gap, 2.5rem) / 2);
+`
+
+/* Specialized section for Últimas Notícias: allow it to occupy the visible
+   viewport (minus header) and provide a larger bottom gap before the next section. */
+const NewsSection = styled(Section)`
+  min-height: max(420px, calc(100dvh - var(--header-height, 0px)));
+  /* use a decorative in-flow divider instead of a large empty gap */
+  margin-block-end: var(--section-gap, 1rem);
+
+  &::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: clamp(36px, 6vh, 72px);
+    margin-top: calc(var(--section-gap, 1rem) / 2);
+    /* layered background: soft vertical fade + thin centered gold line */
+    background-image:
+      linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.35) 30%, rgba(0,0,0,0.35) 70%, rgba(0,0,0,0)),
+      linear-gradient(90deg, transparent calc(50% - 1px), ${({ theme }) => theme.colors.gold} 50%, transparent calc(50% + 1px));
+    background-repeat: no-repeat, no-repeat;
+    background-size: 100% 100%, 100% 2px;
+    background-position: center center, center 50%;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    min-height: 360px;
+    &::after {
+      height: clamp(28px, 8vh, 56px);
+      margin-top: calc(var(--section-gap, 0.75rem) / 2);
+      background-size: 100% 100%, 100% 1.5px;
+    }
+  }
 `
 
 const SectionTitle = styled.h2`
@@ -73,7 +123,7 @@ const SectionTitle = styled.h2`
   font-size: ${({ theme }) => theme.fontSizes['4xl']};
   color: ${({ theme }) => theme.colors.gold};
   text-align: center;
-  margin-bottom: ${({ theme }) => theme.spacing.xl};
+  margin-bottom: ${({ theme }) => `calc(${theme.spacing.xl} + 0.5rem)`};
 `
 
 const ServersGrid = styled.div`
@@ -118,6 +168,10 @@ const NewsCard = styled(Card)`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.lg};
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    padding: ${({ theme }) => theme.spacing.md};
+  }
 `
 
 const NewsImage = styled.img`
@@ -178,7 +232,23 @@ export const Home: React.FC = () => {
         </HeroContent>
       </HeroSection>
 
+      <NewsSection>
+        <SectionTitle>Últimas Notícias</SectionTitle>
+        <NewsGrid>
+          {featuredNews.map((news) => (
+            <NewsCard key={news.id} hoverable>
+              {news.image && <NewsImage src={news.image} alt={news.title} />}
+              <NewsCategory>{news.category}</NewsCategory>
+              <NewsTitle>{news.title}</NewsTitle>
+              <NewsContent>{news.content}</NewsContent>
+              <NewsDate>{new Date(news.date).toLocaleDateString('pt-BR')}</NewsDate>
+            </NewsCard>
+          ))}
+        </NewsGrid>
+      </NewsSection>
+      
       <Section>
+
         <SectionTitle>Servidores em Destaque</SectionTitle>
         <ServersGrid>
           {featuredServers.map((server) => (
@@ -200,21 +270,6 @@ export const Home: React.FC = () => {
             </div>
           ))}
         </ServersGrid>
-      </Section>
-
-      <Section>
-        <SectionTitle>Últimas Notícias</SectionTitle>
-        <NewsGrid>
-          {featuredNews.map((news) => (
-            <NewsCard key={news.id} hoverable>
-              {news.image && <NewsImage src={news.image} alt={news.title} />}
-              <NewsCategory>{news.category}</NewsCategory>
-              <NewsTitle>{news.title}</NewsTitle>
-              <NewsContent>{news.content}</NewsContent>
-              <NewsDate>{new Date(news.date).toLocaleDateString('pt-BR')}</NewsDate>
-            </NewsCard>
-          ))}
-        </NewsGrid>
       </Section>
     </HomeContainer>
   )

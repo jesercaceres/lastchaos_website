@@ -5,6 +5,22 @@ const RegrasContainer = styled.div`
   max-width: 1000px;
   margin: ${({ theme }) => theme.spacing['2xl']} auto;
   padding: ${({ theme }) => theme.spacing.xl};
+  width: 100%;
+  box-sizing: border-box;
+
+  /* Ajuste de altura para viewports altas (limitar espaço vertical excessivo) */
+  @media (min-height: 690px) {
+    min-height: clamp(500px, calc(100dvh - var(--header-height, 72px)), 760px);
+  }
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    padding: ${({ theme }) => theme.spacing.md};
+    margin: ${({ theme }) => theme.spacing.lg} auto;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    padding: ${({ theme }) => theme.spacing.sm};
+    margin: ${({ theme }) => theme.spacing.md} auto;
+  }
 `
 
 const Title = styled.h1`

@@ -8,9 +8,17 @@ export const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     box-sizing: border-box;
   }
 
+  :root {
+    --header-height: 0px; /* updated by Header.tsx at runtime */
+    /* smaller, more compact gap: responsive between 0.75rem and 1.5rem */
+    --section-gap: clamp(0.75rem, 2vh, 1.5rem); /* reusable vertical gap between sections */
+  }
+
   html {
     font-size: 16px;
     scroll-behavior: smooth;
+    width: 100%;
+    min-height: 100dvh;
   }
 
   body {
@@ -18,7 +26,8 @@ export const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     background: linear-gradient(135deg, ${({ theme }) => theme.colors.darker} 0%, ${({ theme }) => theme.colors.dark} 100%);
     color: ${({ theme }) => theme.colors.white};
     line-height: 1.6;
-    min-height: 100vh;
+    min-height: 100dvh;
+    width: 100%;
     overflow-x: hidden;
   }
 
@@ -57,6 +66,11 @@ export const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     font-weight: 700;
     line-height: 1.2;
     margin-bottom: ${({ theme }) => theme.spacing.md};
+  }
+
+  /* Ensure anchored sections respect the header height and avoid being obscured */
+  section {
+    scroll-margin-top: calc(var(--header-height, 0px) + 1rem);
   }
 
   h1 {

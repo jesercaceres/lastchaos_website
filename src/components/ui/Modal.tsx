@@ -23,7 +23,7 @@ const ModalContainer = styled.div`
   padding: ${({ theme }) => theme.spacing.xl};
   max-width: 500px;
   width: 90%;
-  max-height: 90vh;
+  max-height: 90dvh;
   overflow-y: auto;
   box-shadow: ${({ theme }) => theme.shadows.xl};
   animation: fadeIn 0.3s ease-in-out;
