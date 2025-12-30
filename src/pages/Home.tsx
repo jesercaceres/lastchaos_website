@@ -77,20 +77,6 @@ const NewsSection = styled(Section)`
   min-height: max(420px, calc(100dvh - var(--header-height, 0px)));
   margin-block-end: var(--section-gap, 1rem);
 
-  &::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: clamp(36px, 6vh, 72px);
-    margin-top: calc(var(--section-gap, 1rem) / 2);
-    /* layered background: soft vertical fade + thin centered gold line */
-    background-image:
-      linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.35) 30%, rgba(0,0,0,0.35) 70%, rgba(0,0,0,0)),
-      linear-gradient(90deg, transparent calc(50% - 1px), ${({ theme }) => theme.colors.gold} 50%, transparent calc(50% + 1px));
-    background-repeat: no-repeat, no-repeat;
-    background-size: 100% 100%, 100% 2px;
-    background-position: center center, center 50%;
-  }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     min-height: 360px;
