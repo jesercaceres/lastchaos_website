@@ -75,7 +75,6 @@ const Section = styled.section`
    viewport (minus header) and provide a larger bottom gap before the next section. */
 const NewsSection = styled(Section)`
   min-height: max(420px, calc(100dvh - var(--header-height, 0px)));
-  /* use a decorative in-flow divider instead of a large empty gap */
   margin-block-end: var(--section-gap, 1rem);
 
   &::after {
@@ -282,33 +281,3 @@ export const Home: React.FC = () => {
   )
 }
 
-/*
-  DEBUG / Devtip: Styled Components class names
-
-  To get readable class names in the inspector (e.g. `HeroSection-sc-xyz` instead
-  of opaque hashes) enable the styled-components displayName plugin.
-
-  - For Babel (CRA / Babel setups): install `babel-plugin-styled-components`
-    and add to your `.babelrc` / `babel.config.js`:
-
-    {
-      "plugins": [["babel-plugin-styled-components", { "displayName": true, "fileName": false }]]
-    }
-
-  - For Vite + SWC: configure the SWC plugin or use `vite-plugin-babel` to run
-    the styled-components transform. Alternatively, if using `esbuild` or SWC
-    without a plugin, prefer `vite-plugin-styled-components` which enables the
-    same transform and displayName behavior.
-
-  - Example with `vite-plugin-styled-components` (vite.config.ts):
-
-    import styledComponents from 'vite-plugin-styled-components'
-
-    export default defineConfig({
-      plugins: [react(), styledComponents({ displayName: true })]
-    })
-
-  Enabling `displayName` makes development inspection and debugging much easier
-  by producing component-aware class names in dev builds. Do not enable in
-  production if you want minimal class names.
-*/

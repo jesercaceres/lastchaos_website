@@ -3,30 +3,30 @@ import { News } from '../types'
 export const mockNews: News[] = [
   {
     id: '1',
-    title: 'Novo Evento: Batalha dos Deuses',
+    title: 'Novo Evento: O Natal está chegando em Juno!',
     content:
-      'Participe do evento mais épico do ano! A Batalha dos Deuses está começando. Reúna seu clã e lute pela glória eterna.',
-    date: '2024-12-20',
+      'Participe do evento mais épico do ano! Não perca os drops, 2X EXP e recompensas exclusivas de Natal.',
+    date: '2025-12-26',
     category: 'event',
-    image: 'https://via.placeholder.com/600x300?text=Batalha+dos+Deuses',
+    image: '/assets/images/santas-event-news.png', 
   },
   {
     id: '2',
-    title: 'Atualização 2.5 - Novas Classes Disponíveis',
+    title: 'Festival da Virada: a grande celebraçao!',
     content:
-      'Descubra as novas classes: Arcano Místico e Cavaleiro Sombrio. Novas habilidades, novos desafios!',
-    date: '2024-12-15',
-    category: 'update',
-    image: 'https://via.placeholder.com/600x300?text=Novas+Classes',
+      'Recompensas incríveis aguardam por você no Festival da Virada em Iris! Junte-se ao grande banquete para celebrar com novos desafios e prêmios especiais.',
+    date: '2025-12-31',
+    category: 'event',
+    image: '/assets/images/happy-new-year-news.png',
   },
   {
     id: '3',
-    title: 'Servidor Athena Em Breve',
+    title: 'Lançamento oficial do Servidor Athena',
     content:
       'Estamos felizes em anunciar o lançamento do novo servidor Athena em breve! Prepare-se para uma nova aventura.',
     date: '2024-12-10',
     category: 'news',
-    image: 'https://via.placeholder.com/600x300?text=Servidor+Athena',
+    image: '/assets/images/Athenas-release-news.png',
   },
   {
     id: '4',
