@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { ButtonLink, Card } from '../components/ui'
 import { mockNews, mockServers } from '../mocks'
+import heroImage from '../assets/images/oldWorld-lc.png'
 
 const HomeContainer = styled.div`
   max-width: 1440px;
@@ -19,65 +20,49 @@ const HomeContainer = styled.div`
 `
 
 const HeroSection = styled.section`
+  /* Full-screen immersive hero section */
+  width: 100%;
+  height: 100vh;
   position: relative;
-  /* Make hero fill the visible viewport minus the header height. Use 100dvh for mobile viewport correctness. */
-  min-height: calc(100dvh - var(--header-height, 0px));
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(
-      135deg,
-      rgba(26, 26, 26, 0.9) 0%,
-      rgba(13, 13, 13, 0.95) 100%
+  flex-direction: column;
+  justify-content: flex-end;
+  background-image: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8) 0%,
+      transparent 40%
     ),
-    url('https://via.placeholder.com/1920x1080?text=Last+Chaos+Hero') center/cover;
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  margin-bottom: ${({ theme }) => theme.spacing['2xl']};
+    url(${heroImage});
+  background-position: center top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding-bottom: 24vh;
   overflow: hidden;
-
-  /* Ensure reasonable minimums on small viewports and limit excessive height on very tall screens */
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    min-height: max(360px, calc(100dvh - var(--header-height, 0px)));
-  }
-
-  @media (min-height: 900px) {
-    min-height: min(calc(100dvh - var(--header-height, 0px)), 760px);
-  }
-`
-
-const HeroContent = styled.div`
-  text-align: center;
-  padding: ${({ theme }) => theme.spacing.xl};
-  z-index: 1;
-`
-
-const HeroTitle = styled.h1`
-  font-family: ${({ theme }) => theme.fonts.epic};
-  font-size: ${({ theme }) => theme.fontSizes['5xl']};
-  color: ${({ theme }) => theme.colors.gold};
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-  margin-bottom: ${({ theme }) => theme.spacing.md};
-  animation: fadeIn 0.8s ease-in-out;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    font-size: ${({ theme }) => theme.fontSizes['3xl']};
-  }
-`
-
-const HeroSubtitle = styled.p`
-  font-size: ${({ theme }) => theme.fontSizes.xl};
-  color: ${({ theme }) => theme.colors.white};
-  margin-bottom: ${({ theme }) => theme.spacing.xl};
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-  animation: fadeIn 1s ease-in-out;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
 `
 
 const HeroButtons = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.spacing.md};
   justify-content: center;
-  flex-wrap: wrap;
+  flex-direction: row;
   animation: fadeIn 1.2s ease-in-out;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    flex-wrap: wrap;
+  }
+`
+
+/* `HeroInner` and `HeroContent` removed: their responsibilities are applied
+   directly to `HeroSection` so it can span the full viewport width. */
+
+const ButtonsOverlay = styled.div`
+  position: relative;
+  display: flex;
+  gap: ${({ theme }) => theme.spacing.md};
+  z-index: 2;
+  flex-wrap: wrap;
+  justify-content: center;
 `
 
 const Section = styled.section`
@@ -211,16 +196,38 @@ const NewsCategory = styled.span`
   text-transform: uppercase;
 `
 
+const ServerTitle = styled.h3`
+  font-family: ${({ theme }) => theme.fonts.epic};
+  font-size: ${({ theme }) => theme.fontSizes.lg};
+  color: ${({ theme }) => theme.colors.gold};
+  margin: 0 0 ${({ theme }) => theme.spacing.md} 0;
+`
+
+const ServerMeta = styled.p`
+  color: ${({ theme }) => theme.colors.gray};
+  margin: 0 0 0.5rem 0;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+
+  strong {
+    color: ${({ theme }) => theme.colors.white};
+    font-weight: 700;
+  }
+`
+
+const ServerStats = styled.p`
+  color: ${({ theme }) => theme.colors.gray};
+  margin: 0 0 ${({ theme }) => theme.spacing.md} 0;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+`
+
 export const Home: React.FC = () => {
   const featuredServers = mockServers.filter((server) => server.status === 'online').slice(0, 3)
   const featuredNews = mockNews.slice(0, 3)
 
   return (
-    <HomeContainer>
-      <HeroSection>
-        <HeroContent>
-          <HeroTitle>Last Chaos</HeroTitle>
-          <HeroSubtitle>The Best Legend MMORPG</HeroSubtitle>
+    <>
+      <HeroSection role="img" aria-label="Old World Last Chaos">
+        <ButtonsOverlay>
           <HeroButtons>
             <ButtonLink size="large" to="/download">
               Baixar Jogo
@@ -229,10 +236,11 @@ export const Home: React.FC = () => {
               Registrar-se
             </ButtonLink>
           </HeroButtons>
-        </HeroContent>
+        </ButtonsOverlay>
       </HeroSection>
 
-      <NewsSection>
+      <HomeContainer>
+        <NewsSection>
         <SectionTitle>Últimas Notícias</SectionTitle>
         <NewsGrid>
           {featuredNews.map((news) => (
@@ -254,15 +262,13 @@ export const Home: React.FC = () => {
           {featuredServers.map((server) => (
             <div key={server.id}>
               <Card hoverable>
-                <h3 style={{ color: '#D4AF37', fontFamily: "'Cinzel', serif", marginBottom: '1rem' }}>
-                  {server.name}
-                </h3>
-                <p style={{ color: '#999', marginBottom: '0.5rem' }}>
-                  Tipo: <strong style={{ color: '#fff' }}>{server.type}</strong>
-                </p>
-                <p style={{ color: '#999', marginBottom: '1rem' }}>
+                <ServerTitle>{server.name}</ServerTitle>
+                <ServerMeta>
+                  Tipo: <strong>{server.type}</strong>
+                </ServerMeta>
+                <ServerStats>
                   {server.players} / {server.maxPlayers} Jogadores
-                </p>
+                </ServerStats>
                 <ButtonLink variant="secondary" size="small" fullWidth to="/servidores">
                   Ver Detalhes
                 </ButtonLink>
@@ -271,6 +277,38 @@ export const Home: React.FC = () => {
           ))}
         </ServersGrid>
       </Section>
-    </HomeContainer>
+      </HomeContainer>
+    </>
   )
 }
+
+/*
+  DEBUG / Devtip: Styled Components class names
+
+  To get readable class names in the inspector (e.g. `HeroSection-sc-xyz` instead
+  of opaque hashes) enable the styled-components displayName plugin.
+
+  - For Babel (CRA / Babel setups): install `babel-plugin-styled-components`
+    and add to your `.babelrc` / `babel.config.js`:
+
+    {
+      "plugins": [["babel-plugin-styled-components", { "displayName": true, "fileName": false }]]
+    }
+
+  - For Vite + SWC: configure the SWC plugin or use `vite-plugin-babel` to run
+    the styled-components transform. Alternatively, if using `esbuild` or SWC
+    without a plugin, prefer `vite-plugin-styled-components` which enables the
+    same transform and displayName behavior.
+
+  - Example with `vite-plugin-styled-components` (vite.config.ts):
+
+    import styledComponents from 'vite-plugin-styled-components'
+
+    export default defineConfig({
+      plugins: [react(), styledComponents({ displayName: true })]
+    })
+
+  Enabling `displayName` makes development inspection and debugging much easier
+  by producing component-aware class names in dev builds. Do not enable in
+  production if you want minimal class names.
+*/
