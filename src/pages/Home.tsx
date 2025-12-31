@@ -6,7 +6,8 @@ import heroImage from '../assets/images/oldWorld-lc.png'
 const HomeContainer = styled.div`
   max-width: 1440px;
   margin: 0 auto;
-  padding: ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.xl};
+  margin-top: ${({ theme }) => theme.spacing.xs};
   width: 100%;
   box-sizing: border-box;
 
@@ -66,7 +67,6 @@ const ButtonsOverlay = styled.div`
 `
 
 const Section = styled.section`
-  /* Use a reusable, responsive section gap while keeping natural DOM flow */
   margin-block: var(--section-gap, ${({ theme }) => theme.spacing['2xl']});
   padding-block: calc(var(--section-gap, 2.5rem) / 2);
 `
@@ -74,12 +74,23 @@ const Section = styled.section`
 /* Specialized section for Últimas Notícias: allow it to occupy the visible
    viewport (minus header) and provide a larger bottom gap before the next section. */
 const NewsSection = styled(Section)`
-  min-height: max(420px, calc(100dvh - var(--header-height, 0px)));
+  /* Configuração Base (Desktop Grande) */
+  min-height: max(420px, calc(83dvh - var(--header-height, 0px)));
   margin-block-end: var(--section-gap, 1rem);
 
+  /* --- AQUI ESTÁ A CORREÇÃO PARA NOTEBOOKS --- */
+  /* Quando a tela for menor que 1440px (tamanho comum de notebooks), 
+     forçamos um espaço extra embaixo. */
+  @media (max-width: 1440px) {
+    margin-bottom: 80px; /* Pode aumentar para 100px ou 120px se quiser mais espaço */
+    min-height: auto;    /* Garante que a altura se ajuste ao conteúdo */
+  }
 
+  /* Configuração para Tablets/Mobile (que já existia) */
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     min-height: 360px;
+    margin-bottom: 40px; /* Espaço menor para mobile */
+    
     &::after {
       height: clamp(28px, 8vh, 56px);
       margin-top: calc(var(--section-gap, 0.75rem) / 2);
@@ -97,21 +108,30 @@ const SectionTitle = styled.h2`
 `
 
 const ServersGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* Utilizando o espaçamento definido no seu tema */
   gap: ${({ theme }) => theme.spacing.lg};
 
+  & > div {
+    flex: 1 1 300px; 
+    max-width: 400px; /* Limite para não esticar demais */
+    width: 100%;
+  }
+
+  /* Breakpoint Large */
   @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: ${({ theme }) => theme.spacing.md};
   }
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
+  /* Breakpoint Mobile */
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    grid-template-columns: 1fr;
+    gap: ${({ theme }) => theme.spacing.sm};
+    
+    & > div {
+        max-width: 100%;
+    }
   }
 `
 
@@ -241,7 +261,6 @@ export const Home: React.FC = () => {
       </NewsSection>
       
       <Section>
-
         <SectionTitle>Servidores em Destaque</SectionTitle>
         <ServersGrid>
           {featuredServers.map((server) => (

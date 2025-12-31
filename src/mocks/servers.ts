@@ -13,7 +13,7 @@ export const mockServers: Server[] = [
   {
     id: '2',
     name: 'Hades',
-    type: 'PvE',
+    type: 'PvP',
     status: 'online',
     players: 890,
     maxPlayers: 1500,
@@ -22,7 +22,7 @@ export const mockServers: Server[] = [
   {
     id: '3',
     name: 'Zeus',
-    type: 'Hard',
+    type: 'PvP',
     status: 'online',
     players: 450,
     maxPlayers: 1000,
@@ -40,7 +40,7 @@ export const mockServers: Server[] = [
   {
     id: '5',
     name: 'Apollo',
-    type: 'PvE',
+    type: 'PvP',
     status: 'offline',
     players: 0,
     maxPlayers: 1500,
