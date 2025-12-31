@@ -55,6 +55,7 @@ export const theme = {
     lg: '2rem',
     xl: '3rem',
     '2xl': '4rem',
+    xxl: '10rem',
   },
   
   borderRadius: {

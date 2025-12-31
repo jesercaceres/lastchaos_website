@@ -74,23 +74,24 @@ const Section = styled.section`
 /* Specialized section for Últimas Notícias: allow it to occupy the visible
    viewport (minus header) and provide a larger bottom gap before the next section. */
 const NewsSection = styled(Section)`
-  /* Configuração Base (Desktop Grande) */
-  min-height: max(420px, calc(83dvh - var(--header-height, 0px)));
-  margin-block-end: var(--section-gap, 1rem);
+  /* Removemos a altura fixa complexa que causava o problema de sobreposição/colagem */
+  display: flex;
+  flex-direction: column;
+  
+  /* Garante um espaço mínimo visualmente agradável */
+  min-height: 500px; 
+  
+  /* O pulo do gato: Margin-bottom fixo e seguro */
+  margin-bottom: ${({ theme }) => theme.spacing.xxl}; 
 
-  /* --- AQUI ESTÁ A CORREÇÃO PARA NOTEBOOKS --- */
-  /* Quando a tela for menor que 1440px (tamanho comum de notebooks), 
-     forçamos um espaço extra embaixo. */
   @media (max-width: 1440px) {
-    margin-bottom: 80px; /* Pode aumentar para 100px ou 120px se quiser mais espaço */
-    min-height: auto;    /* Garante que a altura se ajuste ao conteúdo */
+    margin-bottom: 80px;
   }
 
-  /* Configuração para Tablets/Mobile (que já existia) */
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    min-height: 360px;
-    margin-bottom: 40px; /* Espaço menor para mobile */
+    margin-bottom: 40px;
     
+    /* Mantém seu efeito decorativo se desejar */
     &::after {
       height: clamp(28px, 8vh, 56px);
       margin-top: calc(var(--section-gap, 0.75rem) / 2);
@@ -227,7 +228,7 @@ const ServerStats = styled.p`
 
 export const Home: React.FC = () => {
   const featuredServers = mockServers.filter((server) => server.status === 'online').slice(0, 3)
-  const featuredNews = mockNews.slice(0, 3)
+  const featuredNews = mockNews.slice(0, 6)
 
   return (
     <>
