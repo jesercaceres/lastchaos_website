@@ -6,7 +6,6 @@ import {
   Login,
   Registro,
   Download,
-  Servidores,
   Comunidade,
   Regras,
   Doacoes,
@@ -21,7 +20,6 @@ export const AppRoutes: React.FC = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
         <Route path="/download" element={<Download />} />
-        <Route path="/servidores" element={<Servidores />} />
         <Route path="/comunidade" element={<Comunidade />} />
         <Route path="/regras" element={<Regras />} />
         <Route path="/doacoes" element={<Doacoes />} />

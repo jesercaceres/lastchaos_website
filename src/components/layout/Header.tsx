@@ -216,7 +216,6 @@ const MobileNav = styled.nav<{ isOpen: boolean }>`
 
 const navigationItems = [
   { path: '/', label: 'Início' },
-  { path: '/servidores', label: 'Servidores' },
   { path: '/download', label: 'Download' },
   { path: '/comunidade', label: 'Comunidade' },
   { path: '/regras', label: 'Regras' },

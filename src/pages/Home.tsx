@@ -227,8 +227,8 @@ const ServerStats = styled.p`
 `
 
 export const Home: React.FC = () => {
-  const featuredServers = mockServers.filter((server) => server.status === 'online').slice(0, 3)
-  const featuredNews = mockNews.slice(0, 6)
+  const featuredServers = mockServers
+  const featuredNews = mockNews.slice(0, 3)
 
   return (
     <>
@@ -274,8 +274,9 @@ export const Home: React.FC = () => {
                 <ServerStats>
                   {server.players} / {server.maxPlayers} Jogadores
                 </ServerStats>
-                <ButtonLink variant="secondary" size="small" fullWidth to="/servidores">
-                  Ver Detalhes
+                s
+                <ButtonLink variant="secondary" size="small" fullWidth to="/download">
+                  Jogar agora
                 </ButtonLink>
               </Card>
             </div>
