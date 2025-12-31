@@ -14,7 +14,7 @@ const StyledButtonLink = styled(Link)<Omit<ButtonProps, 'as'>>`
   display: inline-block;
   text-align: center;
   width: ${({ fullWidth }) => (fullWidth ? '100%' : 'auto')};
-  
+
   /* Tamanhos */
   ${({ size }) => {
     switch (size) {

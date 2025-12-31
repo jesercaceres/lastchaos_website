@@ -5,7 +5,7 @@ export const mockDonationPackages: DonationPackage[] = [
     id: '1',
     name: 'Pacote Iniciante',
     description: 'Perfeito para começar sua jornada',
-    price: 19.90,
+    price: 19.9,
     currency: 'BRL',
     benefits: [
       '500 Moedas de Ouro',
@@ -18,7 +18,7 @@ export const mockDonationPackages: DonationPackage[] = [
     id: '2',
     name: 'Pacote Guerreiro',
     description: 'Para jogadores que buscam poder',
-    price: 49.90,
+    price: 49.9,
     currency: 'BRL',
     benefits: [
       '1.500 Moedas de Ouro',
@@ -34,7 +34,7 @@ export const mockDonationPackages: DonationPackage[] = [
     id: '3',
     name: 'Pacote Lendário',
     description: 'A experiência definitiva',
-    price: 99.90,
+    price: 99.9,
     currency: 'BRL',
     benefits: [
       '3.500 Moedas de Ouro',
@@ -51,7 +51,7 @@ export const mockDonationPackages: DonationPackage[] = [
     id: '4',
     name: 'Pacote Épico',
     description: 'Domine o reino',
-    price: 149.90,
+    price: 149.9,
     currency: 'BRL',
     benefits: [
       '5.000 Moedas de Ouro',

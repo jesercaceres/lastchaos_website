@@ -18,8 +18,7 @@ const StyledInput = styled.input<{ hasError?: boolean }>`
   width: 100%;
   padding: 0.75rem 1rem;
   background: ${({ theme }) => theme.colors.dark};
-  border: 2px solid
-    ${({ theme, hasError }) => (hasError ? theme.colors.error : theme.colors.gray)};
+  border: 2px solid ${({ theme, hasError }) => (hasError ? theme.colors.error : theme.colors.gray)};
   border-radius: ${({ theme }) => theme.borderRadius.md};
   color: ${({ theme }) => theme.colors.white};
   font-size: ${({ theme }) => theme.fontSizes.md};
@@ -28,9 +27,7 @@ const StyledInput = styled.input<{ hasError?: boolean }>`
   &:focus {
     border-color: ${({ theme, hasError }) => (hasError ? theme.colors.error : theme.colors.gold)};
     box-shadow: ${({ theme, hasError }) =>
-      hasError
-        ? `0 0 0 3px rgba(244, 67, 54, 0.1)`
-        : `0 0 0 3px rgba(212, 175, 55, 0.1)`};
+      hasError ? `0 0 0 3px rgba(244, 67, 54, 0.1)` : `0 0 0 3px rgba(212, 175, 55, 0.1)`};
     outline: none;
   }
 

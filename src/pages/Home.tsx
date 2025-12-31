@@ -21,7 +21,6 @@ const HomeContainer = styled.div`
 `
 
 const HeroSection = styled.section`
-  /* Full-screen immersive hero section */
   width: 100%;
   height: 100vh;
   position: relative;
@@ -47,15 +46,13 @@ const HeroButtons = styled.div`
   gap: ${({ theme }) => theme.spacing.md};
   justify-content: center;
   flex-direction: row;
+  /* Usando a animação global fadeIn */
   animation: fadeIn 1.2s ease-in-out;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     flex-wrap: wrap;
   }
 `
-
-/* `HeroInner` and `HeroContent` removed: their responsibilities are applied
-   directly to `HeroSection` so it can span the full viewport width. */
 
 const ButtonsOverlay = styled.div`
   position: relative;
@@ -71,17 +68,10 @@ const Section = styled.section`
   padding-block: calc(var(--section-gap, 2.5rem) / 2);
 `
 
-/* Specialized section for Últimas Notícias: allow it to occupy the visible
-   viewport (minus header) and provide a larger bottom gap before the next section. */
 const NewsSection = styled(Section)`
-  /* Removemos a altura fixa complexa que causava o problema de sobreposição/colagem */
   display: flex;
   flex-direction: column;
-  
-  /* Garante um espaço mínimo visualmente agradável */
   min-height: 500px; 
-  
-  /* O pulo do gato: Margin-bottom fixo e seguro */
   margin-bottom: ${({ theme }) => theme.spacing.xxl}; 
 
   @media (max-width: 1440px) {
@@ -90,8 +80,6 @@ const NewsSection = styled(Section)`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     margin-bottom: 40px;
-    
-    /* Mantém seu efeito decorativo se desejar */
     &::after {
       height: clamp(28px, 8vh, 56px);
       margin-top: calc(var(--section-gap, 0.75rem) / 2);
@@ -108,28 +96,26 @@ const SectionTitle = styled.h2`
   margin-bottom: ${({ theme }) => `calc(${theme.spacing.xl} + 0.5rem)`};
 `
 
+// --- ESTILOS DO GRID E NEWS ---
+
 const ServersGrid = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  /* Utilizando o espaçamento definido no seu tema */
   gap: ${({ theme }) => theme.spacing.lg};
 
   & > div {
     flex: 1 1 300px; 
-    max-width: 400px; /* Limite para não esticar demais */
+    max-width: 400px; 
     width: 100%;
   }
 
-  /* Breakpoint Large */
   @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
     gap: ${({ theme }) => theme.spacing.md};
   }
 
-  /* Breakpoint Mobile */
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     gap: ${({ theme }) => theme.spacing.sm};
-    
     & > div {
         max-width: 100%;
     }
@@ -202,11 +188,30 @@ const NewsCategory = styled.span`
   text-transform: uppercase;
 `
 
+// --- ESTILOS ESPECÍFICOS DO CARD DE SERVIDOR ---
+
+const ServerHeader = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
+`
+
+const StatusDot = styled.span<{ $online?: boolean }>`
+  height: 10px;
+  width: 10px;
+  background-color: ${({ $online }) => ($online ? '#2ecc71' : '#e74c3c')};
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 12px;
+  /* AQUI: Referenciamos a animação 'ripple' definida no GlobalStyle */
+  animation: ${({ $online }) => ($online ? 'ripple' : 'none')} 2s infinite;
+`
+
 const ServerTitle = styled.h3`
   font-family: ${({ theme }) => theme.fonts.epic};
   font-size: ${({ theme }) => theme.fontSizes.lg};
   color: ${({ theme }) => theme.colors.gold};
-  margin: 0 0 ${({ theme }) => theme.spacing.md} 0;
+  margin: 0;
 `
 
 const ServerMeta = styled.p`
@@ -220,14 +225,51 @@ const ServerMeta = styled.p`
   }
 `
 
+const RatesContainer = styled.div`
+  display: flex;
+  gap: 8px;
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+`
+
+const RateBadge = styled.span`
+  background: rgba(255, 215, 0, 0.1);
+  color: ${({ theme }) => theme.colors.gold};
+  border: 1px solid ${({ theme }) => theme.colors.gold};
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+`
+
 const ServerStats = styled.p`
   color: ${({ theme }) => theme.colors.gray};
-  margin: 0 0 ${({ theme }) => theme.spacing.md} 0;
+  margin: 0;
   font-size: ${({ theme }) => theme.fontSizes.sm};
+  display: flex;
+  justify-content: space-between;
+`
+
+const ProgressBarContainer = styled.div`
+  width: 100%;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  margin-top: 8px;
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+  overflow: hidden;
+`
+
+const ProgressBarFill = styled.div<{ $percent: number }>`
+  height: 100%;
+  width: ${({ $percent }) => $percent}%;
+  background: linear-gradient(90deg, #d4af37, #f1c40f);
+  border-radius: 4px;
+  transition: width 1s ease-in-out;
 `
 
 export const Home: React.FC = () => {
-  const featuredServers = mockServers
+  const featuredServers = mockServers.slice(0, 3) 
   const featuredNews = mockNews.slice(0, 3)
 
   return (
@@ -247,44 +289,63 @@ export const Home: React.FC = () => {
 
       <HomeContainer>
         <NewsSection>
-        <SectionTitle>Últimas Notícias</SectionTitle>
-        <NewsGrid>
-          {featuredNews.map((news) => (
-            <NewsCard key={news.id} hoverable>
-              {news.image && <NewsImage src={news.image} alt={news.title} />}
-              <NewsCategory>{news.category}</NewsCategory>
-              <NewsTitle>{news.title}</NewsTitle>
-              <NewsContent>{news.content}</NewsContent>
-              <NewsDate>{new Date(news.date).toLocaleDateString('pt-BR')}</NewsDate>
-            </NewsCard>
-          ))}
-        </NewsGrid>
-      </NewsSection>
-      
-      <Section>
-        <SectionTitle>Servidores em Destaque</SectionTitle>
-        <ServersGrid>
-          {featuredServers.map((server) => (
-            <div key={server.id}>
-              <Card hoverable>
-                <ServerTitle>{server.name}</ServerTitle>
-                <ServerMeta>
-                  Tipo: <strong>{server.type}</strong>
-                </ServerMeta>
-                <ServerStats>
-                  {server.players} / {server.maxPlayers} Jogadores
-                </ServerStats>
-                s
-                <ButtonLink variant="secondary" size="small" fullWidth to="/download">
-                  Jogar agora
-                </ButtonLink>
-              </Card>
-            </div>
-          ))}
-        </ServersGrid>
-      </Section>
+          <SectionTitle>Últimas Notícias</SectionTitle>
+          <NewsGrid>
+            {featuredNews.map((news) => (
+              <NewsCard key={news.id} hoverable>
+                {news.image && <NewsImage src={news.image} alt={news.title} />}
+                <NewsCategory>{news.category}</NewsCategory>
+                <NewsTitle>{news.title}</NewsTitle>
+                <NewsContent>{news.content}</NewsContent>
+                <NewsDate>{new Date(news.date).toLocaleDateString('pt-BR')}</NewsDate>
+              </NewsCard>
+            ))}
+          </NewsGrid>
+        </NewsSection>
+        
+        <Section>
+          <SectionTitle>Servidores em Destaque</SectionTitle>
+          <ServersGrid>
+            {featuredServers.map((server) => {
+               const populationPercent = Math.min((server.players / server.maxPlayers) * 100, 100);
+               const isOnline = server.status === 'online';
+
+               return (
+                <div key={server.id}>
+                  <Card hoverable>
+                    <ServerHeader>
+                      <StatusDot $online={isOnline} />
+                      <ServerTitle>{server.name}</ServerTitle>
+                    </ServerHeader>
+
+                    <ServerMeta>
+                      Tipo: <strong>{server.type}</strong>
+                    </ServerMeta>
+                    
+                    <RatesContainer>
+                      <RateBadge>XP 5x</RateBadge>
+                      <RateBadge>DROP 3x</RateBadge>
+                    </RatesContainer>
+
+                    <ServerStats>
+                      <span>Jogadores</span>
+                      <span>{server.players} / {server.maxPlayers}</span>
+                    </ServerStats>
+                    
+                    <ProgressBarContainer>
+                      <ProgressBarFill $percent={populationPercent} />
+                    </ProgressBarContainer>
+
+                    <ButtonLink variant="secondary" size="small" fullWidth to="/download">
+                      Jogar agora
+                    </ButtonLink>
+                  </Card>
+                </div>
+               )
+            })}
+          </ServersGrid>
+        </Section>
       </HomeContainer>
     </>
   )
 }
-

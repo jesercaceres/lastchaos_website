@@ -13,7 +13,7 @@ const RegistroContainer = styled.div`
 
   /* Ajuste de altura para viewports altas (forms centram melhor, limitar espaço) */
   @media (min-height: 690px) {
-     min-height: clamp(500px, calc(100dvh - var(--header-height, 72px)), 760px);
+    min-height: clamp(500px, calc(100dvh - var(--header-height, 72px)), 760px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -25,7 +25,11 @@ const RegistroContainer = styled.div`
 `
 
 const RegistroCard = styled.div`
-  background: linear-gradient(135deg, ${({ theme }) => theme.colors.dark} 0%, ${({ theme }) => theme.colors.darker} 100%);
+  background: linear-gradient(
+    135deg,
+    ${({ theme }) => theme.colors.dark} 0%,
+    ${({ theme }) => theme.colors.darker} 100%
+  );
   border: 2px solid ${({ theme }) => theme.colors.gold};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   padding: ${({ theme }) => theme.spacing.xl};
@@ -145,15 +149,14 @@ export const Registro: React.FC = () => {
     }, 1000)
   }
 
-  const handleChange = (field: keyof RegisterFormData) => (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setFormData((prev) => ({ ...prev, [field]: e.target.value }))
-    // Limpar erro do campo ao digitar
-    if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }))
+  const handleChange =
+    (field: keyof RegisterFormData) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData(prev => ({ ...prev, [field]: e.target.value }))
+      // Limpar erro do campo ao digitar
+      if (errors[field]) {
+        setErrors(prev => ({ ...prev, [field]: undefined }))
+      }
     }
-  }
 
   return (
     <RegistroContainer>

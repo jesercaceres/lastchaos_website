@@ -170,15 +170,9 @@ export const Download: React.FC = () => {
             <FileInfoItem>
               • O download pode levar alguns minutos dependendo da sua conexão
             </FileInfoItem>
-            <FileInfoItem>
-              • Certifique-se de ter espaço suficiente no disco
-            </FileInfoItem>
-            <FileInfoItem>
-              • Execute o instalador como administrador
-            </FileInfoItem>
-            <FileInfoItem>
-              • Antivírus pode solicitar permissão durante a instalação
-            </FileInfoItem>
+            <FileInfoItem>• Certifique-se de ter espaço suficiente no disco</FileInfoItem>
+            <FileInfoItem>• Execute o instalador como administrador</FileInfoItem>
+            <FileInfoItem>• Antivírus pode solicitar permissão durante a instalação</FileInfoItem>
           </FileInfo>
         </DownloadCard>
       </DownloadSection>

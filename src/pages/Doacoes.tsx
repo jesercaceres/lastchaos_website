@@ -89,7 +89,11 @@ const PopularBadge = styled.div`
   position: absolute;
   top: -15px;
   right: 20px;
-  background: linear-gradient(135deg, ${({ theme }) => theme.colors.gold} 0%, ${({ theme }) => theme.colors.darkGold} 100%);
+  background: linear-gradient(
+    135deg,
+    ${({ theme }) => theme.colors.gold} 0%,
+    ${({ theme }) => theme.colors.darkGold} 100%
+  );
   color: ${({ theme }) => theme.colors.dark};
   padding: 0.5rem 1rem;
   border-radius: ${({ theme }) => theme.borderRadius.full};
@@ -184,7 +188,7 @@ export const Doacoes: React.FC = () => {
       </Description>
 
       <PackagesGrid>
-        {mockDonationPackages.map((pkg) => (
+        {mockDonationPackages.map(pkg => (
           <PackageCard key={pkg.id} isPopular={pkg.popular}>
             {pkg.popular && <PopularBadge>Mais Popular</PopularBadge>}
             <PackageName>{pkg.name}</PackageName>

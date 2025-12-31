@@ -117,12 +117,10 @@ const Nav = styled.nav`
 `
 
 const NavLink = styled(Link)<{ isActive?: boolean }>`
-  color: ${({ theme, isActive }) =>
-    isActive ? theme.colors.gold : theme.colors.white};
+  color: ${({ theme, isActive }) => (isActive ? theme.colors.gold : theme.colors.white)};
   text-decoration: none;
   font-weight: ${({ isActive }) => (isActive ? 600 : 400)};
-  padding: ${({ theme }) => theme.spacing.xs}
-    ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
   border-radius: ${({ theme }) => theme.borderRadius.md};
   transition: ${({ theme }) => theme.transitions.normal};
   position: relative;
@@ -131,8 +129,7 @@ const NavLink = styled(Link)<{ isActive?: boolean }>`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
     font-size: ${({ theme }) => theme.fontSizes.xs};
-    padding: ${({ theme }) => theme.spacing.xs}
-      ${({ theme }) => theme.spacing.xs};
+    padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.xs};
   }
 
   &::after {
@@ -249,24 +246,18 @@ export const Header: React.FC = () => {
         </Logo>
 
         <Nav>
-          {navigationItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              isActive={location.pathname === item.path}
-            >
+          {navigationItems.map(item => (
+            <NavLink key={item.path} to={item.path} isActive={location.pathname === item.path}>
               {item.label}
             </NavLink>
           ))}
         </Nav>
 
-        <MobileMenuButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-          ☰
-        </MobileMenuButton>
+        <MobileMenuButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>☰</MobileMenuButton>
       </HeaderContent>
 
       <MobileNav isOpen={mobileMenuOpen}>
-        {navigationItems.map((item) => (
+        {navigationItems.map(item => (
           <NavLink
             key={item.path}
             to={item.path}

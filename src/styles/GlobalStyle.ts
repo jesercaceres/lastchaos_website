@@ -106,7 +106,8 @@ export const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     display: block;
   }
 
-  /* Animações */
+  /* --- Animações --- */
+  
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -127,6 +128,7 @@ export const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     }
   }
 
+  /* Pulse de Opacidade (bom para Loading/Skeletons) */
   @keyframes pulse {
     0%, 100% {
       opacity: 1;
@@ -143,5 +145,12 @@ export const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     100% {
       background-position: 1000px 0;
     }
+  }
+
+  /* Efeito de onda/radar para o LED online (NOVO) */
+  @keyframes ripple {
+    0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
   }
 `

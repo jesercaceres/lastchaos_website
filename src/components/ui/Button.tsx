@@ -12,7 +12,7 @@ const StyledButton = styled.button<Omit<ButtonProps, 'as'>>`
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
   width: ${({ fullWidth }) => (fullWidth ? '100%' : 'auto')};
-  
+
   /* Tamanhos */
   ${({ size }) => {
     switch (size) {

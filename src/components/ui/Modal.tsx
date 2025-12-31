@@ -17,7 +17,11 @@ const Overlay = styled.div<{ isOpen: boolean }>`
 `
 
 const ModalContainer = styled.div`
-  background: linear-gradient(135deg, ${({ theme }) => theme.colors.dark} 0%, ${({ theme }) => theme.colors.darker} 100%);
+  background: linear-gradient(
+    135deg,
+    ${({ theme }) => theme.colors.dark} 0%,
+    ${({ theme }) => theme.colors.darker} 100%
+  );
   border: 2px solid ${({ theme }) => theme.colors.gold};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   padding: ${({ theme }) => theme.spacing.xl};
@@ -89,7 +93,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, title }
 
   return (
     <Overlay isOpen={isOpen} onClick={onClose}>
-      <ModalContainer onClick={(e) => e.stopPropagation()}>
+      <ModalContainer onClick={e => e.stopPropagation()}>
         <CloseButton onClick={onClose} aria-label="Fechar modal">
           ×
         </CloseButton>

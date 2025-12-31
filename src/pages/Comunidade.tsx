@@ -83,7 +83,11 @@ const CommunityDescription = styled.p`
 const CommunityButton = styled.a`
   display: inline-block;
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
-  background: linear-gradient(135deg, ${({ theme }) => theme.colors.gold} 0%, ${({ theme }) => theme.colors.darkGold} 100%);
+  background: linear-gradient(
+    135deg,
+    ${({ theme }) => theme.colors.gold} 0%,
+    ${({ theme }) => theme.colors.darkGold} 100%
+  );
   color: ${({ theme }) => theme.colors.dark};
   text-decoration: none;
   border-radius: ${({ theme }) => theme.borderRadius.md};
@@ -94,7 +98,11 @@ const CommunityButton = styled.a`
   margin-top: ${({ theme }) => theme.spacing.md};
 
   &:hover {
-    background: linear-gradient(135deg, ${({ theme }) => theme.colors.lightGold} 0%, ${({ theme }) => theme.colors.gold} 100%);
+    background: linear-gradient(
+      135deg,
+      ${({ theme }) => theme.colors.lightGold} 0%,
+      ${({ theme }) => theme.colors.gold} 100%
+    );
     box-shadow: ${({ theme }) => theme.shadows.gold};
     transform: translateY(-2px);
   }
@@ -139,7 +147,7 @@ export const Comunidade: React.FC = () => {
         comunidade Last Chaos!
       </Description>
       <CommunitiesGrid>
-        {communities.map((community) => (
+        {communities.map(community => (
           <CommunityCard key={community.id} hoverable>
             <CommunityIcon>{community.icon}</CommunityIcon>
             <CommunityTitle>{community.name}</CommunityTitle>

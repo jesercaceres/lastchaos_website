@@ -1,15 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Header, Footer } from '../components/layout'
-import {
-  Home,
-  Login,
-  Registro,
-  Download,
-  Comunidade,
-  Regras,
-  Doacoes,
-} from '../pages'
+import { Home, Login, Registro, Download, Comunidade, Regras, Doacoes } from '../pages'
 
 export const AppRoutes: React.FC = () => {
   return (

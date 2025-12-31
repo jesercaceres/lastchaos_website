@@ -8,7 +8,7 @@ export const mockNews: News[] = [
       'Participe do evento mais épico do ano! Não perca os drops, 2X EXP e recompensas exclusivas de Natal.',
     date: '2025-12-26',
     category: 'event',
-    image: '/assets/images/santas-event-news.png', 
+    image: '/assets/images/santas-event-news.png',
   },
   {
     id: '2',
