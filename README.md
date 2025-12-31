@@ -92,4 +92,4 @@ Para integrar com um backend real:
 5. Implementar testes unitários e de integração
 
 ## 📄 Licença
-© 2025 Jéser Cáceres. Todos os direitos reservados.
+© 2025 Jéser Cáceres Marcelino. Todos os direitos reservados.
