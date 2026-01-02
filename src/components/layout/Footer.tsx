@@ -28,7 +28,7 @@ export const Footer: React.FC = () => {
 
   return (
     <FooterContainer>
-      <Copyright>© {currentYear} Old World Last Chaos. Todos os direitos reservados.</Copyright>
+      <Copyright>© {currentYear} Jéser Cáceres Marcelino. Todos os direitos reservados.</Copyright>
     </FooterContainer>
   )
 }

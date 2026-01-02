@@ -46,16 +46,25 @@ export const theme = {
     '3xl': '1.875rem',
     '4xl': '2.25rem',
     '5xl': '3rem',
+
   },
 
-  spacing: {
-    xs: '0.5rem',
-    sm: '1rem',
-    md: '1.5rem',
-    lg: '2rem',
-    xl: '3rem',
-    '2xl': '4rem',
-    xxl: '10rem',
+spacing: {
+    xs: '0.5rem',    // 8px
+    sm: '1rem',      // 16px
+    md: '1.5rem',    // 24px
+    lg: '2rem',      // 32px
+    xl: '3rem',      // 48px
+    '2xl': '4rem',   // 64px
+  
+    '3xl': '5rem',   // 80px
+    '4xl': '6rem',   // 96px
+    '5xl': '8rem',   // 128px  <-- Usado no topo das Notícias
+    '6xl': '10rem',  // 160px  <-- Usado no topo dos Servidores
+    '7xl': '12rem',  // 192px
+    '8xl': '14rem',  // 224px  <-- Usado no fundo dos Servidores
+    
+    xxl: '10rem',    // (Mantido o seu original por compatibilidade)
   },
 
   borderRadius: {
