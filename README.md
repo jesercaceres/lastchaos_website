@@ -79,7 +79,7 @@ src/
 - Não inclui backend
 - Não inclui integração real de pagamento
 - Dados são mockados (servidores, notícias, pacotes)
-- Site desenvolvido apenas para fins educacionais
+
 
 ## 🔧 Próximos Passos
 
@@ -92,5 +92,4 @@ Para integrar com um backend real:
 5. Implementar testes unitários e de integração
 
 ## 📄 Licença
-
-Este projeto é apenas para fins educacionais.
+© 2025 Jéser Cáceres Marcelino. Todos os direitos reservados.
