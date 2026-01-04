@@ -1,13 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { ButtonLink, Card, SectionDivider } from '../components/ui' 
+import { ButtonLink, Card, SectionDivider } from '../components/ui'
 import { mockNews, mockServers } from '../mocks'
 import heroImage from '../assets/images/oldWorld-lc.png'
 
-
-import newsBg from '../assets/images/news-bg.png' 
-import serversBg from '../assets/images/servers-bg.png' 
+import newsBg from '../assets/images/news-bg.png'
+import serversBg from '../assets/images/servers-bg.png'
 
 // --- CONTAINER DE CONTEÚDO (Centraliza o conteúdo sobre os backgrounds) ---
 const ContentContainer = styled.div`
@@ -32,8 +31,8 @@ const HeroSection = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  background-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, transparent 50%),
-    url(${heroImage});
+  background-image:
+    linear-gradient(to top, rgba(0, 0, 0, 1) 0%, transparent 50%), url(${heroImage});
   background-position: center top;
   background-size: cover;
   padding-bottom: 24vh;
@@ -67,14 +66,14 @@ const NewsSectionWrapper = styled.section`
   width: 100%;
   position: relative;
   /* Espaçamento generoso para mostrar o background */
-  padding-top: ${({ theme }) => theme.spacing['5xl']}; 
-  padding-bottom: ${({ theme }) => theme.spacing['5xl']};
-  
+  padding-top: ${({ theme }) => theme.spacing['3xl']};
+  padding-bottom: ${({ theme }) => theme.spacing['7xl']};
+
   background-image: 
     /* Gradiente fade-to-black nas bordas */
-    linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.7) 100%),
+    linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.5) 30%, rgba(0, 0, 0, 0.7) 100%),
     url(${newsBg});
-    
+
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -84,14 +83,14 @@ const NewsSectionWrapper = styled.section`
 const ServersSectionWrapper = styled.section`
   width: 100%;
   position: relative;
-  padding-top: ${({ theme }) => theme.spacing['6xl']};
+  padding-top: ${({ theme }) => theme.spacing['5xl']};
   padding-bottom: ${({ theme }) => theme.spacing['8xl']};
-  
+
   background-image: 
     /* Gradiente fade-to-black nas bordas */
-    linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 50%, #000 100%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 50%, #000 100%),
     url(${serversBg});
-    
+
   background-size: cover;
   background-position: center;
 `
@@ -102,7 +101,11 @@ const SectionTitle = styled.h2`
   color: ${({ theme }) => theme.colors.gold};
   text-align: center;
   margin-bottom: ${({ theme }) => `calc(${theme.spacing.xl} + 0.5rem)`};
-  text-shadow: 0 4px 15px rgba(0,0,0,1);
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 1);
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.fontSizes['3xl']};
+  }
 `
 
 // --- GRIDS E CARDS ---
@@ -111,14 +114,20 @@ const ServersGrid = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   gap: ${({ theme }) => theme.spacing.lg};
-  & > div { flex: 1 1 300px; max-width: 400px; width: 100%; }
+  & > div {
+    flex: 1 1 300px;
+    max-width: 400px;
+    width: 100%;
+  }
 `
 
 const NewsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: ${({ theme }) => theme.spacing.lg};
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) { grid-template-columns: 1fr; }
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    grid-template-columns: 1fr;
+  }
 `
 
 // Card Transparente (Glassmorphism)
@@ -127,7 +136,7 @@ const TransparentCard = styled(Card)`
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
   padding: ${({ theme }) => theme.spacing.lg};
-  background: rgba(11, 12, 16, 0.80);
+  background: rgba(11, 12, 16, 0.8);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(212, 175, 55, 0.15);
   transition: all 0.3s ease;
@@ -135,7 +144,7 @@ const TransparentCard = styled(Card)`
   &:hover {
     transform: translateY(-5px);
     border-color: ${({ theme }) => theme.colors.gold};
-    background: rgba(11, 12, 16, 0.90);
+    background: rgba(11, 12, 16, 0.9);
   }
 `
 
@@ -147,21 +156,30 @@ const NewsImage = styled.img`
 `
 const NewsTitle = styled.h3`
   font-family: ${({ theme }) => theme.fonts.epic};
-  font-size: ${({ theme }) => theme.fontSizes.xl};
+  font-size: ${({ theme }) => theme.fontSizes.md};
   color: ${({ theme }) => theme.colors.gold};
   margin: 0;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.fontSizes.md};
+  }
 `
 const NewsContent = styled.p`
   color: ${({ theme }) => theme.colors.lightGray};
   font-size: ${({ theme }) => theme.fontSizes.sm};
   line-height: 1.6;
   flex-grow: 1;
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.fontSizes.xs};
+  }
 `
 const NewsDate = styled.span`
   color: ${({ theme }) => theme.colors.gray};
   font-size: ${({ theme }) => theme.fontSizes.xs};
 `
 const NewsCategory = styled.span`
+margin-top: ${({ theme }) => theme.spacing.sm};
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
   display: inline-block;
   padding: 0.25rem 0.75rem;
   background: ${({ theme }) => theme.colors.brown};
@@ -173,23 +191,73 @@ const NewsCategory = styled.span`
 `
 
 // Estilos internos do card de servidor
-const ServerHeader = styled.div` display: flex; align-items: center; margin-bottom: 0.5rem; `
-const StatusDot = styled.span<{ $online?: boolean }>`
-  height: 10px; width: 10px; background-color: ${({ $online }) => ($online ? '#2ecc71' : '#e74c3c')};
-  border-radius: 50%; margin-right: 12px; display: inline-block;
+const ServerHeader = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
 `
-const ServerTitle = styled.h3` font-family: ${({ theme }) => theme.fonts.epic}; color: ${({ theme }) => theme.colors.gold}; margin: 0; `
-const ServerMeta = styled.p` color: ${({ theme }) => theme.colors.gray}; font-size: 0.875rem; margin-bottom: 0.5rem; strong { color: white; } `
-const RatesContainer = styled.div` display: flex; gap: 8px; margin-bottom: 1rem; `
-const RateBadge = styled.span` background: rgba(255, 215, 0, 0.1); color: ${({ theme }) => theme.colors.gold}; border: 1px solid ${({ theme }) => theme.colors.gold}; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; `
-const ServerStats = styled.p` color: ${({ theme }) => theme.colors.gray}; font-size: 0.875rem; display: flex; justify-content: space-between; `
-const ProgressBarContainer = styled.div` width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 4px; margin-top: 8px; margin-bottom: 1rem; overflow: hidden; `
-const ProgressBarFill = styled.div<{ $percent: number }>` height: 100%; width: ${({ $percent }) => $percent}%; background: linear-gradient(90deg, #d4af37, #f1c40f); `
-
+const StatusDot = styled.span<{ $online?: boolean }>`
+  height: 10px;
+  width: 10px;
+  background-color: ${({ $online }) => ($online ? '#2ecc71' : '#e74c3c')};
+  border-radius: 50%;
+  margin-right: 12px;
+  display: inline-block;
+`
+const ServerTitle = styled.h3`
+  font-family: ${({ theme }) => theme.fonts.epic};
+  color: ${({ theme }) => theme.colors.gold};
+  margin: 0;
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.fontSizes['xl']};
+  }
+`
+const ServerMeta = styled.p`
+  color: ${({ theme }) => theme.colors.gray};
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  strong {
+    color: white;
+  }
+`
+const RatesContainer = styled.div`
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1rem;
+`
+const RateBadge = styled.span`
+  background: rgba(255, 215, 0, 0.1);
+  color: ${({ theme }) => theme.colors.gold};
+  border: 1px solid ${({ theme }) => theme.colors.gold};
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+`
+const ServerStats = styled.p`
+  color: ${({ theme }) => theme.colors.gray};
+  font-size: 0.875rem;
+  display: flex;
+  justify-content: space-between;
+`
+const ProgressBarContainer = styled.div`
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  margin-top: 8px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+`
+const ProgressBarFill = styled.div<{ $percent: number }>`
+  height: 100%;
+  width: ${({ $percent }) => $percent}%;
+  background: linear-gradient(90deg, #d4af37, #f1c40f);
+`
 
 // --- COMPONENTE HOME ---
 export const Home: React.FC = () => {
-  const featuredServers = mockServers.slice(0, 3) 
+  const featuredServers = mockServers.slice(0, 3)
   const featuredNews = mockNews.slice(0, 3)
 
   return (
@@ -197,8 +265,12 @@ export const Home: React.FC = () => {
       <HeroSection role="img" aria-label="Old World Last Chaos">
         <ButtonsOverlay>
           <HeroButtons>
-            <ButtonLink size="large" to="/download">Baixar Jogo</ButtonLink>
-            <ButtonLink size="large" variant="secondary" to="/registro">Registrar-se</ButtonLink>
+            <ButtonLink size="large" to="/download">
+              Baixar Jogo
+            </ButtonLink>
+            <ButtonLink size="large" variant="secondary" to="/registro">
+              Registrar-se
+            </ButtonLink>
           </HeroButtons>
         </ButtonsOverlay>
       </HeroSection>
@@ -208,7 +280,7 @@ export const Home: React.FC = () => {
         <ContentContainer>
           <SectionTitle>Últimas Notícias</SectionTitle>
           <NewsGrid>
-            {featuredNews.map((news) => (
+            {featuredNews.map(news => (
               <TransparentCard key={news.id} hoverable>
                 {news.image && <NewsImage src={news.image} alt={news.title} />}
                 <NewsCategory>{news.category}</NewsCategory>
@@ -230,11 +302,11 @@ export const Home: React.FC = () => {
         <ContentContainer>
           <SectionTitle>Servidores em Destaque</SectionTitle>
           <ServersGrid>
-            {featuredServers.map((server) => {
-               const populationPercent = Math.min((server.players / server.maxPlayers) * 100, 100);
-               const isOnline = server.status === 'online';
+            {featuredServers.map(server => {
+              const populationPercent = Math.min((server.players / server.maxPlayers) * 100, 100)
+              const isOnline = server.status === 'online'
 
-               return (
+              return (
                 <div key={server.id}>
                   <TransparentCard hoverable>
                     <ServerHeader>
@@ -242,22 +314,28 @@ export const Home: React.FC = () => {
                       <ServerTitle>{server.name}</ServerTitle>
                     </ServerHeader>
 
-                    <ServerMeta>Tipo: <strong>{server.type}</strong></ServerMeta>
+                    <ServerMeta>
+                      Tipo: <strong>{server.type}</strong>
+                    </ServerMeta>
                     <RatesContainer>
                       <RateBadge>XP 5x</RateBadge>
                       <RateBadge>DROP 3x</RateBadge>
                     </RatesContainer>
                     <ServerStats>
                       <span>Jogadores</span>
-                      <span>{server.players} / {server.maxPlayers}</span>
+                      <span>
+                        {server.players} / {server.maxPlayers}
+                      </span>
                     </ServerStats>
                     <ProgressBarContainer>
                       <ProgressBarFill $percent={populationPercent} />
                     </ProgressBarContainer>
-                    <ButtonLink variant="secondary" size="small" fullWidth to="/download">Jogar agora</ButtonLink>
+                    <ButtonLink variant="secondary" size="small" fullWidth to="/download">
+                      Jogar agora
+                    </ButtonLink>
                   </TransparentCard>
                 </div>
-               )
+              )
             })}
           </ServersGrid>
         </ContentContainer>

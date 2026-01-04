@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const SectionDivider = styled.div`
   position: relative;
   width: 100%;
-  max-width: 1000px; /* Não vai até a borda total, igual ao Lost Ark */
+  max-width: 1650px; /* Não vai até a borda total, igual ao Lost Ark */
   height: 1px; /* Linha ultra fina */
   margin: 0 auto; /* Centraliza */
   
