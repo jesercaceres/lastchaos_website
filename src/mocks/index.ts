@@ -1,3 +1,6 @@
 export { mockServers } from './servers'
 export { mockNews } from './news'
 export { mockDonationPackages } from './donationPackages'
+export { mockPlayerRating } from './playerRating'
+export { mockCastleOwners } from './castleOwners'
+export { mockGuildRating } from './guildRating'

@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Header, Footer } from '../components/layout'
-import { Home, Login, Registro, Download, Comunidade, Regras, Doacoes } from '../pages'
+import { Home, Login, Registro, Download, Comunidade, Regras, Doacoes, Ranking } from '../pages'
 
 export const AppRoutes: React.FC = () => {
   return (
@@ -15,6 +15,7 @@ export const AppRoutes: React.FC = () => {
         <Route path="/comunidade" element={<Comunidade />} />
         <Route path="/regras" element={<Regras />} />
         <Route path="/doacoes" element={<Doacoes />} />
+        <Route path="/ranking" element={<Ranking />} />
       </Routes>
       <Footer />
     </BrowserRouter>

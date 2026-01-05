@@ -88,3 +88,24 @@ export interface ModalProps {
   children: React.ReactNode
   title?: string
 }
+
+// Ranking - Player Rating
+export interface PlayerRatingEntry {
+  position: number
+  nickname: string
+  race: string
+  level: number
+}
+
+// Ranking - Castle Owners
+export interface CastleOwnerEntry {
+  castle: 'Dratan' | 'Merac'
+  guildNickname: string
+}
+
+// Ranking - Guild Rating
+export interface GuildRatingEntry {
+  position: number
+  name: string
+  members: number
+}

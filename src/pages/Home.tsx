@@ -1,12 +1,26 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { ButtonLink, Card, SectionDivider } from '../components/ui'
-import { mockNews, mockServers } from '../mocks'
+import { ButtonLink, Card, PlayersRankAndGuildChampionsStyles, SectionDivider } from '../components/ui'
+import { mockCastleOwners, mockGuildRating, mockNews, mockPlayerRating, mockServers } from '../mocks'
 import heroImage from '../assets/images/oldWorld-lc.png'
 
 import newsBg from '../assets/images/news-bg.png'
 import serversBg from '../assets/images/servers-bg.png'
+
+const RankingsSectionWrapper = styled.section`
+  width: 100%;
+  position: relative;
+  padding-top: ${({ theme }) => theme.spacing['5xl']};
+  padding-bottom: ${({ theme }) => theme.spacing['8xl']};
+
+  background-image:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.65) 50%, #000 100%),
+    url(${serversBg});
+
+  background-size: cover;
+  background-position: center;
+`
 
 // --- CONTAINER DE CONTEÚDO (Centraliza o conteúdo sobre os backgrounds) ---
 const ContentContainer = styled.div`
@@ -119,6 +133,10 @@ const ServersGrid = styled.div`
     max-width: 400px;
     width: 100%;
   }
+`
+
+const RankedAndGuildsGrid = styled.div`
+  margin-top: ${({ theme }) => theme.spacing.xl};
 `
 
 const NewsGrid = styled.div`
@@ -340,6 +358,90 @@ export const Home: React.FC = () => {
           </ServersGrid>
         </ContentContainer>
       </ServersSectionWrapper>
+
+      
+      {/* SEÇÃO 3: RANKINGS */} 
+      <RankingsSectionWrapper>
+        <ContentContainer>
+          <SectionTitle>Rankings</SectionTitle>
+
+          <RankedAndGuildsGrid>
+            <PlayersRankAndGuildChampionsStyles.ContainerCard>
+              <PlayersRankAndGuildChampionsStyles.Columns>
+                <PlayersRankAndGuildChampionsStyles.Section>
+                  <PlayersRankAndGuildChampionsStyles.TitleRow>
+                    <PlayersRankAndGuildChampionsStyles.Title>Player Rating</PlayersRankAndGuildChampionsStyles.Title>
+                    <ButtonLink variant="secondary" size="small" to="/ranking">
+                      Ver ranking
+                    </ButtonLink>
+                  </PlayersRankAndGuildChampionsStyles.TitleRow>
+
+                  <PlayersRankAndGuildChampionsStyles.Block>
+                    <PlayersRankAndGuildChampionsStyles.TableHeaderPlayers>
+                      <PlayersRankAndGuildChampionsStyles.HeaderCellCenter>N°</PlayersRankAndGuildChampionsStyles.HeaderCellCenter>
+                      <div>Nickname</div>
+                      <PlayersRankAndGuildChampionsStyles.HeaderCellRight>Race</PlayersRankAndGuildChampionsStyles.HeaderCellRight>
+                      <PlayersRankAndGuildChampionsStyles.HeaderCellRight>Level</PlayersRankAndGuildChampionsStyles.HeaderCellRight>
+                    </PlayersRankAndGuildChampionsStyles.TableHeaderPlayers>
+
+                    {mockPlayerRating.map(player => (
+                      <PlayersRankAndGuildChampionsStyles.RowPlayers key={`${player.position}-${player.nickname}`}>
+                        <PlayersRankAndGuildChampionsStyles.PositionBadge $position={player.position}>
+                          {player.position}
+                        </PlayersRankAndGuildChampionsStyles.PositionBadge>
+                        <PlayersRankAndGuildChampionsStyles.Nickname title={player.nickname}>
+                          {player.nickname}
+                        </PlayersRankAndGuildChampionsStyles.Nickname>
+                        <PlayersRankAndGuildChampionsStyles.MutedRightCell>{player.race}</PlayersRankAndGuildChampionsStyles.MutedRightCell>
+                        <PlayersRankAndGuildChampionsStyles.RightCell>{player.level}</PlayersRankAndGuildChampionsStyles.RightCell>
+                      </PlayersRankAndGuildChampionsStyles.RowPlayers>
+                    ))}
+                  </PlayersRankAndGuildChampionsStyles.Block>
+                </PlayersRankAndGuildChampionsStyles.Section>
+
+                <PlayersRankAndGuildChampionsStyles.Section>
+                  <PlayersRankAndGuildChampionsStyles.Title>Guild Rating</PlayersRankAndGuildChampionsStyles.Title>
+
+                  <PlayersRankAndGuildChampionsStyles.Block>
+                    <PlayersRankAndGuildChampionsStyles.TableHeaderGuilds>
+                      <PlayersRankAndGuildChampionsStyles.HeaderCellCenter>N°</PlayersRankAndGuildChampionsStyles.HeaderCellCenter>
+                      <div>Name</div>
+                      <PlayersRankAndGuildChampionsStyles.HeaderCellRight>Members</PlayersRankAndGuildChampionsStyles.HeaderCellRight>
+                    </PlayersRankAndGuildChampionsStyles.TableHeaderGuilds>
+
+                    {mockGuildRating.map(guild => (
+                      <PlayersRankAndGuildChampionsStyles.RowGuilds key={`${guild.position}-${guild.name}`}>
+                        <PlayersRankAndGuildChampionsStyles.PositionBadge $position={guild.position}>
+                          {guild.position}
+                        </PlayersRankAndGuildChampionsStyles.PositionBadge>
+                        <PlayersRankAndGuildChampionsStyles.Nickname title={guild.name}>{guild.name}</PlayersRankAndGuildChampionsStyles.Nickname>
+                        <PlayersRankAndGuildChampionsStyles.RightCell>{guild.members}</PlayersRankAndGuildChampionsStyles.RightCell>
+                      </PlayersRankAndGuildChampionsStyles.RowGuilds>
+                    ))}
+                  </PlayersRankAndGuildChampionsStyles.Block>
+                </PlayersRankAndGuildChampionsStyles.Section>
+
+                <PlayersRankAndGuildChampionsStyles.Section>
+                  <PlayersRankAndGuildChampionsStyles.Title>Castle Owners</PlayersRankAndGuildChampionsStyles.Title>
+
+                  <PlayersRankAndGuildChampionsStyles.CastleList>
+                    {mockCastleOwners.map(owner => (
+                      <PlayersRankAndGuildChampionsStyles.CastleRow key={owner.castle}>
+                        <PlayersRankAndGuildChampionsStyles.CastleName>
+                          Castle in {owner.castle}
+                        </PlayersRankAndGuildChampionsStyles.CastleName>
+                        <PlayersRankAndGuildChampionsStyles.GuildName title={owner.guildNickname}>
+                          {owner.guildNickname}
+                        </PlayersRankAndGuildChampionsStyles.GuildName>
+                      </PlayersRankAndGuildChampionsStyles.CastleRow>
+                    ))}
+                  </PlayersRankAndGuildChampionsStyles.CastleList>
+                </PlayersRankAndGuildChampionsStyles.Section>
+              </PlayersRankAndGuildChampionsStyles.Columns>
+            </PlayersRankAndGuildChampionsStyles.ContainerCard>
+          </RankedAndGuildsGrid>
+        </ContentContainer>
+      </RankingsSectionWrapper>
     </>
   )
 }
