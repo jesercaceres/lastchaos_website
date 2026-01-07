@@ -20,6 +20,11 @@ const Columns = styled.div`
 const Section = styled.section`
   padding: ${({ theme }) => theme.spacing.lg};
 
+  /* Ajuste de padding para mobile para ganhar espaço */
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    padding: ${({ theme }) => theme.spacing.md};
+  }
+
   &:not(:first-child) {
     border-left: 1px solid rgba(212, 175, 55, 0.12);
   }
@@ -37,6 +42,11 @@ const Title = styled.h3`
   color: ${({ theme }) => theme.colors.gold};
   margin: 0;
   font-size: ${({ theme }) => theme.fontSizes['2xl']};
+  
+  /* Ajuste de fonte no mobile */
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.fontSizes.xl};
+  }
 `
 
 const TitleRow = styled.div`
@@ -44,6 +54,10 @@ const TitleRow = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: ${({ theme }) => theme.spacing.sm};
+  
+  /* CORREÇÃO 1: Permitir que o botão caia para a linha de baixo se faltar espaço */
+  flex-wrap: wrap; 
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
 `
 
 const HeaderCellRight = styled.div`
@@ -54,8 +68,10 @@ const HeaderCellCenter = styled.div`
   text-align: center;
 `
 
+/* CORREÇÃO 2: Grid Responsivo para Players */
 const TableHeaderPlayers = styled.div`
   display: grid;
+  /* Desktop: mantém layout original */
   grid-template-columns: 64px 1fr 110px 80px;
   gap: ${({ theme }) => theme.spacing.sm};
   padding: ${({ theme }) => theme.spacing.sm} 0;
@@ -65,6 +81,16 @@ const TableHeaderPlayers = styled.div`
   text-transform: uppercase;
   letter-spacing: 0.5px;
   border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+
+  /* Mobile: Removemos a coluna 'Race' (3ª coluna) e ajustamos tamanhos */
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    grid-template-columns: 40px 1fr 0px 60px; /* Coluna do meio com 0px para esconder */
+    
+    /* Esconde visualmente o cabeçalho da Raça */
+    & > div:nth-child(3) {
+      display: none;
+    }
+  }
 `
 
 const TableHeaderGuilds = styled.div`
@@ -78,15 +104,31 @@ const TableHeaderGuilds = styled.div`
   text-transform: uppercase;
   letter-spacing: 0.5px;
   border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    grid-template-columns: 40px 1fr 70px;
+  }
 `
 
+/* CORREÇÃO 3: Grid Responsivo para Linhas de Players */
 const RowPlayers = styled.div`
   display: grid;
+  /* Desktop */
   grid-template-columns: 64px 1fr 110px 80px;
   gap: ${({ theme }) => theme.spacing.sm};
   align-items: center;
   padding: ${({ theme }) => theme.spacing.sm} 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+  /* Mobile: Segue o mesmo padrão do Header */
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    grid-template-columns: 40px 1fr 0px 60px;
+    
+    /* Esconde a coluna de Raça */
+    & > div:nth-child(3) {
+      display: none;
+    }
+  }
 `
 
 const RowGuilds = styled.div`
@@ -96,6 +138,10 @@ const RowGuilds = styled.div`
   align-items: center;
   padding: ${({ theme }) => theme.spacing.sm} 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    grid-template-columns: 40px 1fr 70px;
+  }
 `
 
 const PositionBadge = styled.div<{ $position: number }>`
@@ -115,6 +161,13 @@ const PositionBadge = styled.div<{ $position: number }>`
     return theme.colors.gray
   }};
   border: 1px solid rgba(255, 255, 255, 0.12);
+
+  /* Ajuste no mobile para o badge ficar menor */
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+  }
 `
 
 const Nickname = styled.div`
@@ -123,6 +176,8 @@ const Nickname = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  /* Garante que o texto não estoure a coluna */
+  min-width: 0; 
 `
 
 const RightCell = styled.div`
@@ -164,6 +219,10 @@ const CastleName = styled.div`
   font-family: ${({ theme }) => theme.fonts.epic};
   color: ${({ theme }) => theme.colors.lightGray};
   font-size: ${({ theme }) => theme.fontSizes.lg};
+  
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.fontSizes.md};
+  }
 `
 
 const GuildName = styled.div`
