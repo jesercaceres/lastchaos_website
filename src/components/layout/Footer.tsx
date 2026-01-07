@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 const FooterContainer = styled.footer`
-  
   width: 100%;
   box-sizing: border-box;
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {

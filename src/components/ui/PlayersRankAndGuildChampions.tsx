@@ -42,7 +42,7 @@ const Title = styled.h3`
   color: ${({ theme }) => theme.colors.gold};
   margin: 0;
   font-size: ${({ theme }) => theme.fontSizes['2xl']};
-  
+
   /* Ajuste de fonte no mobile */
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     font-size: ${({ theme }) => theme.fontSizes.xl};
@@ -54,9 +54,9 @@ const TitleRow = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: ${({ theme }) => theme.spacing.sm};
-  
+
   /* CORREÇÃO 1: Permitir que o botão caia para a linha de baixo se faltar espaço */
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   margin-bottom: ${({ theme }) => theme.spacing.sm};
 `
 
@@ -85,7 +85,7 @@ const TableHeaderPlayers = styled.div`
   /* Mobile: Removemos a coluna 'Race' (3ª coluna) e ajustamos tamanhos */
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: 40px 1fr 0px 60px; /* Coluna do meio com 0px para esconder */
-    
+
     /* Esconde visualmente o cabeçalho da Raça */
     & > div:nth-child(3) {
       display: none;
@@ -123,7 +123,7 @@ const RowPlayers = styled.div`
   /* Mobile: Segue o mesmo padrão do Header */
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: 40px 1fr 0px 60px;
-    
+
     /* Esconde a coluna de Raça */
     & > div:nth-child(3) {
       display: none;
@@ -155,9 +155,12 @@ const PositionBadge = styled.div<{ $position: number }>`
   font-family: ${({ theme }) => theme.fonts.epic};
   color: ${({ theme, $position }) => ($position === 1 ? theme.colors.dark : theme.colors.white)};
   background: ${({ theme, $position }) => {
-    if ($position === 1) return `linear-gradient(135deg, ${theme.colors.gold} 0%, ${theme.colors.lightGold} 100%)`
-    if ($position === 2) return `linear-gradient(135deg, ${theme.colors.gray} 0%, ${theme.colors.lightGray} 100%)`
-    if ($position === 3) return `linear-gradient(135deg, ${theme.colors.brown} 0%, ${theme.colors.lightBrown} 100%)`
+    if ($position === 1)
+      return `linear-gradient(135deg, ${theme.colors.gold} 0%, ${theme.colors.lightGold} 100%)`
+    if ($position === 2)
+      return `linear-gradient(135deg, ${theme.colors.gray} 0%, ${theme.colors.lightGray} 100%)`
+    if ($position === 3)
+      return `linear-gradient(135deg, ${theme.colors.brown} 0%, ${theme.colors.lightBrown} 100%)`
     return theme.colors.gray
   }};
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -177,7 +180,7 @@ const Nickname = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   /* Garante que o texto não estoure a coluna */
-  min-width: 0; 
+  min-width: 0;
 `
 
 const RightCell = styled.div`
@@ -219,7 +222,7 @@ const CastleName = styled.div`
   font-family: ${({ theme }) => theme.fonts.epic};
   color: ${({ theme }) => theme.colors.lightGray};
   font-size: ${({ theme }) => theme.fontSizes.lg};
-  
+
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     font-size: ${({ theme }) => theme.fontSizes.md};
   }

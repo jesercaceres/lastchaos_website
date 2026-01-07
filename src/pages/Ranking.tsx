@@ -99,18 +99,28 @@ export const Ranking: React.FC = () => {
 
       <PlayersRankAndGuildChampionsStyles.ContainerCard>
         <PlayersRankAndGuildChampionsStyles.Section>
-          <PlayersRankAndGuildChampionsStyles.Title>Player Rating</PlayersRankAndGuildChampionsStyles.Title>
+          <PlayersRankAndGuildChampionsStyles.Title>
+            Player Rating
+          </PlayersRankAndGuildChampionsStyles.Title>
 
           <PlayersRankAndGuildChampionsStyles.Block>
             <PlayersRankAndGuildChampionsStyles.TableHeaderPlayers>
-              <PlayersRankAndGuildChampionsStyles.HeaderCellCenter>N°</PlayersRankAndGuildChampionsStyles.HeaderCellCenter>
+              <PlayersRankAndGuildChampionsStyles.HeaderCellCenter>
+                N°
+              </PlayersRankAndGuildChampionsStyles.HeaderCellCenter>
               <div>Nickname</div>
-              <PlayersRankAndGuildChampionsStyles.HeaderCellRight>Race</PlayersRankAndGuildChampionsStyles.HeaderCellRight>
-              <PlayersRankAndGuildChampionsStyles.HeaderCellRight>Level</PlayersRankAndGuildChampionsStyles.HeaderCellRight>
+              <PlayersRankAndGuildChampionsStyles.HeaderCellRight>
+                Race
+              </PlayersRankAndGuildChampionsStyles.HeaderCellRight>
+              <PlayersRankAndGuildChampionsStyles.HeaderCellRight>
+                Level
+              </PlayersRankAndGuildChampionsStyles.HeaderCellRight>
             </PlayersRankAndGuildChampionsStyles.TableHeaderPlayers>
 
             {players.map(player => (
-              <PlayersRankAndGuildChampionsStyles.RowPlayers key={`${player.position}-${player.nickname}`}>
+              <PlayersRankAndGuildChampionsStyles.RowPlayers
+                key={`${player.position}-${player.nickname}`}
+              >
                 <PlayersRankAndGuildChampionsStyles.PositionBadge $position={player.position}>
                   {player.position}
                 </PlayersRankAndGuildChampionsStyles.PositionBadge>
@@ -119,8 +129,12 @@ export const Ranking: React.FC = () => {
                   {player.nickname}
                 </PlayersRankAndGuildChampionsStyles.Nickname>
 
-                <PlayersRankAndGuildChampionsStyles.MutedRightCell>{player.race}</PlayersRankAndGuildChampionsStyles.MutedRightCell>
-                <PlayersRankAndGuildChampionsStyles.RightCell>{player.level}</PlayersRankAndGuildChampionsStyles.RightCell>
+                <PlayersRankAndGuildChampionsStyles.MutedRightCell>
+                  {player.race}
+                </PlayersRankAndGuildChampionsStyles.MutedRightCell>
+                <PlayersRankAndGuildChampionsStyles.RightCell>
+                  {player.level}
+                </PlayersRankAndGuildChampionsStyles.RightCell>
               </PlayersRankAndGuildChampionsStyles.RowPlayers>
             ))}
           </PlayersRankAndGuildChampionsStyles.Block>
