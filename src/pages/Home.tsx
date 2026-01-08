@@ -22,6 +22,7 @@ import serversBg from '../assets/images/servers-bg.png'
 const RankingsSectionWrapper = styled.section`
   width: 100%;
   position: relative;
+  height: 100vh;
   padding-top: ${({ theme }) => theme.spacing['5xl']};
   padding-bottom: ${({ theme }) => theme.spacing['8xl']};
 
@@ -108,7 +109,7 @@ const NewsSectionWrapper = styled.section`
 // 2. Wrapper para Servidores
 const ServersSectionWrapper = styled.section`
   width: 100%;
-  height: 75vh;
+  height: 90vh;
   position: relative;
   padding-top: ${({ theme }) => theme.spacing['5xl']};
   padding-bottom: ${({ theme }) => theme.spacing['8xl']};
@@ -234,6 +235,7 @@ const StatusDot = styled.span<{ $online?: boolean }>`
   border-radius: 50%;
   margin-right: 12px;
   display: inline-block;
+  animation: ripple 2s infinite;
 `
 const ServerTitle = styled.h3`
   font-family: ${({ theme }) => theme.fonts.epic};
