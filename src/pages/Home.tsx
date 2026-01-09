@@ -17,22 +17,8 @@ import {
 import heroImage from '../assets/images/oldWorld-lc.png'
 
 import newsBg from '../assets/images/news-bg.png'
-import serversBg from '../assets/images/servers-bg.png'
-
-const RankingsSectionWrapper = styled.section`
-  width: 100%;
-  position: relative;
-  height: 100vh;
-  padding-top: ${({ theme }) => theme.spacing['5xl']};
-  padding-bottom: ${({ theme }) => theme.spacing['8xl']};
-
-  background-image:
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.65) 50%, #000 100%),
-    url(${serversBg});
-
-  background-size: cover;
-  background-position: center;
-`
+import serversBg from '../assets/images/server-bg.png'
+import rankingBg from '../assets/images/ranking-bg.png'
 
 // --- CONTAINER DE CONTEÚDO (Centraliza o conteúdo sobre os backgrounds) ---
 const ContentContainer = styled.div`
@@ -58,7 +44,7 @@ const HeroSection = styled.section`
   flex-direction: column;
   justify-content: flex-end;
   background-image:
-    linear-gradient(to top, rgba(0, 0, 0, 1) 0%, transparent 50%), url(${heroImage});
+    linear-gradient(to top, rgba(0, 0, 0, 10) 0%, transparent 30%), url(${heroImage});
   background-position: center top;
   background-size: cover;
   padding-bottom: 24vh;
@@ -93,32 +79,40 @@ const NewsSectionWrapper = styled.section`
   height: 95vh;
   position: relative;
   /* Espaçamento generoso para mostrar o background */
-  padding-top: ${({ theme }) => theme.spacing['3xl']};
+  padding-top: ${({ theme }) => theme.spacing['8xl']};
   padding-bottom: ${({ theme }) => theme.spacing['7xl']};
 
-  background-image: 
-    /* Gradiente fade-to-black nas bordas */
-    linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.5) 30%, rgba(0, 0, 0, 0.7) 100%),
-    url(${newsBg});
-
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+ 
 `
+
+const RankingsSectionWrapper = styled.section`
+  width: 100%;
+  position: relative;
+  height: 100vh;
+  padding-top: ${({ theme }) => theme.spacing['6xl']};
+  padding-bottom: ${({ theme }) => theme.spacing['8xl']};
+    // Exemplo aplicado na sua string de estilo
+background-image: 
+    linear-gradient(to bottom, rgba(0, 0, 0, 10) 0%, transparent 18%), // Topo
+    linear-gradient(to top, rgba(0, 0, 0, 10) 0%, transparent 50%),    // Baixo
+    url(${newsBg});
+  background-position: center;
+  background-size: cover;
+`
+
 
 // 2. Wrapper para Servidores
 const ServersSectionWrapper = styled.section`
   width: 100%;
   height: 90vh;
   position: relative;
-  padding-top: ${({ theme }) => theme.spacing['5xl']};
+  padding-top: ${({ theme }) => theme.spacing['8xl']};
   padding-bottom: ${({ theme }) => theme.spacing['8xl']};
 
   background-image: 
-    /* Gradiente fade-to-black nas bordas */
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 50%, #000 100%),
+  linear-gradient(to bottom, rgba(0, 0, 0, 10) 0%, transparent 100%), // Topo
+    linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 30%),    // Baixo
     url(${serversBg});
-
   background-size: cover;
   background-position: center;
 `
@@ -308,6 +302,8 @@ export const Home: React.FC = () => {
         </ButtonsOverlay>
       </HeroSection>
 
+       <SectionDivider />
+
       {/* SEÇÃO 1: NOTÍCIAS */}
       <NewsSectionWrapper>
         <ContentContainer>
@@ -443,7 +439,6 @@ export const Home: React.FC = () => {
         </ContentContainer>
       </RankingsSectionWrapper>
 
-      <SectionDivider />
 
       {/* SEÇÃO 2: SERVIDORES */}
       <ServersSectionWrapper>
