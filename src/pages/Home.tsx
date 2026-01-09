@@ -76,13 +76,17 @@ const ButtonsOverlay = styled.div`
 // 1. Wrapper para Notícias
 const NewsSectionWrapper = styled.section`
   width: 100%;
-  height: 95vh;
+  height: 100vh;
   position: relative;
   /* Espaçamento generoso para mostrar o background */
-  padding-top: ${({ theme }) => theme.spacing['8xl']};
+  padding-top: ${({ theme }) => theme.spacing['6xl']};
   padding-bottom: ${({ theme }) => theme.spacing['7xl']};
-
- 
+  background-image:
+  url(${newsBg});
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  
 `
 
 const RankingsSectionWrapper = styled.section`
@@ -95,7 +99,7 @@ const RankingsSectionWrapper = styled.section`
 background-image: 
     linear-gradient(to bottom, rgba(0, 0, 0, 10) 0%, transparent 18%), // Topo
     linear-gradient(to top, rgba(0, 0, 0, 10) 0%, transparent 50%),    // Baixo
-    url(${newsBg});
+    url(${rankingBg});
   background-position: center;
   background-size: cover;
 `
