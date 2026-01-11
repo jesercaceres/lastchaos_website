@@ -1,24 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import {
-  ButtonLink,
-  Card,
-  PlayersRankAndGuildChampionsStyles,
-  SectionDivider,
-} from '../components/ui'
-import {
-  mockCastleOwners,
-  mockGuildRating,
-  mockNews,
-  mockPlayerRating,
-  mockServers,
-} from '../mocks'
+import { ButtonLink } from '../shared/components/ui/ButtonLink'
+import { Card } from '../shared/components/ui/Card'
+import { SectionDivider } from '../shared/components/ui/SectionDivider'
+import { mockNews, mockServers } from '../mocks'
+import { HomeRankingsSection } from '../features/ranking/components/HomeRankingsSection'
 import heroImage from '../assets/images/oldWorld-lc.png'
 
 import newsBg from '../assets/images/news-bg.png'
 import serversBg from '../assets/images/server-bg.png'
-import rankingBg from '../assets/images/ranking-bg.png'
 
 // --- CONTAINER DE CONTEÚDO (Centraliza o conteúdo sobre os backgrounds) ---
 const ContentContainer = styled.div`
@@ -89,21 +80,6 @@ const NewsSectionWrapper = styled.section`
   
 `
 
-const RankingsSectionWrapper = styled.section`
-  width: 100%;
-  position: relative;
-  height: 100vh;
-  padding-top: ${({ theme }) => theme.spacing['6xl']};
-  padding-bottom: ${({ theme }) => theme.spacing['8xl']};
-    // Exemplo aplicado na sua string de estilo
-background-image: 
-    linear-gradient(to bottom, rgba(0, 0, 0, 10) 0%, transparent 18%), // Topo
-    linear-gradient(to top, rgba(0, 0, 0, 10) 0%, transparent 50%),    // Baixo
-    url(${rankingBg});
-  background-position: center;
-  background-size: cover;
-`
-
 
 // 2. Wrapper para Servidores
 const ServersSectionWrapper = styled.section`
@@ -145,10 +121,6 @@ const ServersGrid = styled.div`
     max-width: 400px;
     width: 100%;
   }
-`
-
-const RankedAndGuildsGrid = styled.div`
-  margin-top: ${({ theme }) => theme.spacing.xl};
 `
 
 const NewsGrid = styled.div`
@@ -329,119 +301,7 @@ export const Home: React.FC = () => {
       <SectionDivider />
 
       {/* SEÇÃO 3: RANKINGS */}
-      <RankingsSectionWrapper>
-        <ContentContainer>
-          <SectionTitle>Rankings</SectionTitle>
-
-          <RankedAndGuildsGrid>
-            <PlayersRankAndGuildChampionsStyles.ContainerCard>
-              <PlayersRankAndGuildChampionsStyles.Columns>
-                <PlayersRankAndGuildChampionsStyles.Section>
-                  <PlayersRankAndGuildChampionsStyles.TitleRow>
-                    <PlayersRankAndGuildChampionsStyles.Title>
-                      Player Rating
-                    </PlayersRankAndGuildChampionsStyles.Title>
-                    <ButtonLink variant="secondary" size="small" to="/ranking">
-                      Ver ranking
-                    </ButtonLink>
-                  </PlayersRankAndGuildChampionsStyles.TitleRow>
-
-                  <PlayersRankAndGuildChampionsStyles.Block>
-                    <PlayersRankAndGuildChampionsStyles.TableHeaderPlayers>
-                      <PlayersRankAndGuildChampionsStyles.HeaderCellCenter>
-                        N°
-                      </PlayersRankAndGuildChampionsStyles.HeaderCellCenter>
-                      <div>Nickname</div>
-                      <PlayersRankAndGuildChampionsStyles.HeaderCellRight>
-                        Race
-                      </PlayersRankAndGuildChampionsStyles.HeaderCellRight>
-                      <PlayersRankAndGuildChampionsStyles.HeaderCellRight>
-                        Level
-                      </PlayersRankAndGuildChampionsStyles.HeaderCellRight>
-                    </PlayersRankAndGuildChampionsStyles.TableHeaderPlayers>
-
-                    {mockPlayerRating.map(player => (
-                      <PlayersRankAndGuildChampionsStyles.RowPlayers
-                        key={`${player.position}-${player.nickname}`}
-                      >
-                        <PlayersRankAndGuildChampionsStyles.PositionBadge
-                          $position={player.position}
-                        >
-                          {player.position}
-                        </PlayersRankAndGuildChampionsStyles.PositionBadge>
-                        <PlayersRankAndGuildChampionsStyles.Nickname title={player.nickname}>
-                          {player.nickname}
-                        </PlayersRankAndGuildChampionsStyles.Nickname>
-                        <PlayersRankAndGuildChampionsStyles.MutedRightCell>
-                          {player.race}
-                        </PlayersRankAndGuildChampionsStyles.MutedRightCell>
-                        <PlayersRankAndGuildChampionsStyles.RightCell>
-                          {player.level}
-                        </PlayersRankAndGuildChampionsStyles.RightCell>
-                      </PlayersRankAndGuildChampionsStyles.RowPlayers>
-                    ))}
-                  </PlayersRankAndGuildChampionsStyles.Block>
-                </PlayersRankAndGuildChampionsStyles.Section>
-
-                <PlayersRankAndGuildChampionsStyles.Section>
-                  <PlayersRankAndGuildChampionsStyles.Title>
-                    Guild Rating
-                  </PlayersRankAndGuildChampionsStyles.Title>
-
-                  <PlayersRankAndGuildChampionsStyles.Block>
-                    <PlayersRankAndGuildChampionsStyles.TableHeaderGuilds>
-                      <PlayersRankAndGuildChampionsStyles.HeaderCellCenter>
-                        N°
-                      </PlayersRankAndGuildChampionsStyles.HeaderCellCenter>
-                      <div>Name</div>
-                      <PlayersRankAndGuildChampionsStyles.HeaderCellRight>
-                        Members
-                      </PlayersRankAndGuildChampionsStyles.HeaderCellRight>
-                    </PlayersRankAndGuildChampionsStyles.TableHeaderGuilds>
-
-                    {mockGuildRating.map(guild => (
-                      <PlayersRankAndGuildChampionsStyles.RowGuilds
-                        key={`${guild.position}-${guild.name}`}
-                      >
-                        <PlayersRankAndGuildChampionsStyles.PositionBadge
-                          $position={guild.position}
-                        >
-                          {guild.position}
-                        </PlayersRankAndGuildChampionsStyles.PositionBadge>
-                        <PlayersRankAndGuildChampionsStyles.Nickname title={guild.name}>
-                          {guild.name}
-                        </PlayersRankAndGuildChampionsStyles.Nickname>
-                        <PlayersRankAndGuildChampionsStyles.RightCell>
-                          {guild.members}
-                        </PlayersRankAndGuildChampionsStyles.RightCell>
-                      </PlayersRankAndGuildChampionsStyles.RowGuilds>
-                    ))}
-                  </PlayersRankAndGuildChampionsStyles.Block>
-                </PlayersRankAndGuildChampionsStyles.Section>
-
-                <PlayersRankAndGuildChampionsStyles.Section>
-                  <PlayersRankAndGuildChampionsStyles.Title>
-                    Castle Owners
-                  </PlayersRankAndGuildChampionsStyles.Title>
-
-                  <PlayersRankAndGuildChampionsStyles.CastleList>
-                    {mockCastleOwners.map(owner => (
-                      <PlayersRankAndGuildChampionsStyles.CastleRow key={owner.castle}>
-                        <PlayersRankAndGuildChampionsStyles.CastleName>
-                          Castle in {owner.castle}
-                        </PlayersRankAndGuildChampionsStyles.CastleName>
-                        <PlayersRankAndGuildChampionsStyles.GuildName title={owner.guildNickname}>
-                          {owner.guildNickname}
-                        </PlayersRankAndGuildChampionsStyles.GuildName>
-                      </PlayersRankAndGuildChampionsStyles.CastleRow>
-                    ))}
-                  </PlayersRankAndGuildChampionsStyles.CastleList>
-                </PlayersRankAndGuildChampionsStyles.Section>
-              </PlayersRankAndGuildChampionsStyles.Columns>
-            </PlayersRankAndGuildChampionsStyles.ContainerCard>
-          </RankedAndGuildsGrid>
-        </ContentContainer>
-      </RankingsSectionWrapper>
+      <HomeRankingsSection />
 
 
       {/* SEÇÃO 2: SERVIDORES */}
