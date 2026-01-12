@@ -66,17 +66,22 @@ const ButtonsOverlay = styled.div`
 
 // 1. Wrapper para Notícias
 const NewsSectionWrapper = styled.section`
+padding-top: ${({ theme }) => theme.spacing.xl};
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   position: relative;
   /* Espaçamento generoso para mostrar o background */
-  padding-top: ${({ theme }) => theme.spacing['6xl']};
-  padding-bottom: ${({ theme }) => theme.spacing['7xl']};
+  align-content: center;
   background-image:
   url(${newsBg});
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    padding-bottom: ${({ theme }) => theme.spacing['6xl']};
+    padding-top: ${({ theme }) => theme.spacing['2xl']};
+  }
   
 `
 
@@ -84,17 +89,20 @@ const NewsSectionWrapper = styled.section`
 // 2. Wrapper para Servidores
 const ServersSectionWrapper = styled.section`
   width: 100%;
-  height: 90vh;
+  min-height: 90vh;
   position: relative;
-  padding-top: ${({ theme }) => theme.spacing['8xl']};
-  padding-bottom: ${({ theme }) => theme.spacing['8xl']};
-
+  align-content: center;
   background-image: 
   linear-gradient(to bottom, rgba(0, 0, 0, 10) 0%, transparent 100%), // Topo
     linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 30%),    // Baixo
     url(${serversBg});
   background-size: cover;
   background-position: center;
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    padding-bottom: ${({ theme }) => theme.spacing['6xl']};
+    padding-top: ${({ theme }) => theme.spacing['2xl']};
+  }
+  
 `
 
 const SectionTitle = styled.h2`
@@ -302,8 +310,7 @@ export const Home: React.FC = () => {
 
       {/* SEÇÃO 3: RANKINGS */}
       <HomeRankingsSection />
-
-
+      
       {/* SEÇÃO 2: SERVIDORES */}
       <ServersSectionWrapper>
         <ContentContainer>

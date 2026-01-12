@@ -24,15 +24,17 @@ const ContentContainer = styled.div`
 const RankingsSectionWrapper = styled.section`
   width: 100%;
   position: relative;
-  height: 100vh;
-  padding-top: ${({ theme }) => theme.spacing['6xl']};
-  padding-bottom: ${({ theme }) => theme.spacing['8xl']};
+  min-height: 100vh;
+    align-content: center;
   background-image:
     linear-gradient(to bottom, rgba(0, 0, 0, 10) 0%, transparent 18%),
     linear-gradient(to top, rgba(0, 0, 0, 10) 0%, transparent 50%),
     url(${rankingBg});
   background-position: center;
   background-size: cover;
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    
+    padding-top: ${({ theme }) => theme.spacing['2xl']};
 `
 
 const SectionTitle = styled.h2`
