@@ -1,18 +1,13 @@
-import { useState, useEffect, useRef } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import styled from 'styled-components'
-import logo from '../../../assets/icons/logo.ico'
+import { useState, useEffect, useRef } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import styled from 'styled-components';
+import logo from '../../../assets/icons/logo.png';
 
 const HeaderContainer = styled.header`
-  background: linear-gradient(
-    135deg,
-    ${({ theme }) => theme.colors.darker} 0%,
-    ${({ theme }) => theme.colors.dark} 100%
-  );
-  border-bottom: 2px solid ${({ theme }) => theme.colors.gold};
-  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
-  position: sticky;
-  top: 0;
+  
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gold};
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.lg};
+ 
   z-index: 100;
   box-shadow: ${({ theme }) => theme.shadows.md};
   width: 100%;
@@ -21,14 +16,14 @@ const HeaderContainer = styled.header`
   @media (max-width: 414px) {
     padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   }
-`
+`;
 
 const HeaderContent = styled.div`
-  max-width: 1440px;
+  max-width: auto;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: left;
   gap: ${({ theme }) => theme.spacing.md};
   flex-wrap: nowrap;
   width: 100%;
@@ -43,59 +38,26 @@ const HeaderContent = styled.div`
   @media (max-width: 414px) {
     gap: ${({ theme }) => theme.spacing.xs};
   }
-`
+`;
 
 const Logo = styled(Link)`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
-
-  white-space: nowrap;
-  flex-shrink: 1;
-  min-width: 0;
-
-  font-family: ${({ theme }) => theme.fonts.epic};
-  font-size: ${({ theme }) => theme.fontSizes.xl};
-  font-weight: 200;
-  color: ${({ theme }) => theme.colors.gold};
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  transition: ${({ theme }) => theme.transitions.normal};
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
-    font-size: ${({ theme }) => theme.fontSizes.lg};
-    letter-spacing: 1px;
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    font-size: ${({ theme }) => theme.fontSizes.md};
-    letter-spacing: 0.5px;
-    gap: ${({ theme }) => theme.spacing.xs};
-  }
-
-  @media (max-width: 414px) {
-    font-size: ${({ theme }) => theme.fontSizes.md};
-    letter-spacing: 0.5px;
-    gap: ${({ theme }) => theme.spacing.xs};
-  }
-
+ 
   &:hover {
     text-shadow: ${({ theme }) => theme.shadows.gold};
     transform: scale(1.03);
   }
-`
+
+`;
 
 const LogoIcon = styled.img`
-  width: 28px;
-  height: 28px;
-  object-fit: contain;
-
+    max-width: 100%;
+    height: auto;
+    max-width: 140px; 
   @media (max-width: 414px) {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
   }
-`
+`;
 
 const Nav = styled.nav`
   display: flex;
@@ -114,7 +76,7 @@ const Nav = styled.nav`
   @media (min-width: ${({ theme }) => theme.breakpoints.intermediate}) {
     display: flex;
   }
-`
+`;
 
 const NavLink = styled(Link)<{ isActive?: boolean }>`
   color: ${({ theme, isActive }) => (isActive ? theme.colors.gold : theme.colors.white)};
@@ -152,7 +114,7 @@ const NavLink = styled(Link)<{ isActive?: boolean }>`
       width: 80%;
     }
   }
-`
+`;
 
 const MobileMenuButton = styled.button`
   display: none;
@@ -182,7 +144,7 @@ const MobileMenuButton = styled.button`
     min-width: 36px;
     min-height: 36px;
   }
-`
+`;
 
 const MobileNav = styled.nav<{ isOpen: boolean }>`
   display: none;
@@ -209,7 +171,7 @@ const MobileNav = styled.nav<{ isOpen: boolean }>`
   @media (min-width: calc(${({ theme }) => theme.breakpoints.intermediate} + 1px)) {
     display: none;
   }
-`
+`;
 
 const navigationItems = [
   { path: '/', label: 'Início' },
@@ -220,45 +182,50 @@ const navigationItems = [
   { path: '/doacoes', label: 'Doações' },
   { path: '/login', label: 'Login' },
   { path: '/registro', label: 'Registrar' },
-]
+];
 
 export const Header: React.FC = () => {
-  const location = useLocation()
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const headerRef = useRef<HTMLElement | null>(null)
+  const location = useLocation();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const headerRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const setHeaderHeight = () => {
-      const height = headerRef.current?.offsetHeight ?? 0
-      document.documentElement.style.setProperty('--header-height', `${height}px`)
-    }
+      const height = headerRef.current?.offsetHeight ?? 0;
+      document.documentElement.style.setProperty('--header-height', `${height}px`);
+    };
 
-    setHeaderHeight()
-    window.addEventListener('resize', setHeaderHeight)
-    return () => window.removeEventListener('resize', setHeaderHeight)
-  }, [])
+    setHeaderHeight();
+    window.addEventListener('resize', setHeaderHeight);
+    return () => window.removeEventListener('resize', setHeaderHeight);
+  }, []);
 
   return (
     <HeaderContainer ref={headerRef as any}>
       <HeaderContent>
         <Logo to="/">
           <LogoIcon src={logo} alt="Old World Last Chaos" />
-          OLD WORLD LAST CHAOS
         </Logo>
 
         <Nav>
-          {navigationItems.map(item => (
-            <NavLink key={item.path} to={item.path} isActive={location.pathname === item.path}>
+          {navigationItems.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              isActive={location.pathname === item.path}
+            >
               {item.label}
             </NavLink>
           ))}
         </Nav>
 
-        <MobileMenuButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>☰</MobileMenuButton>
+        <MobileMenuButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          ☰
+        </MobileMenuButton>
       </HeaderContent>
 
       <MobileNav isOpen={mobileMenuOpen}>
-        {navigationItems.map(item => (
+        {navigationItems.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
@@ -270,5 +237,5 @@ export const Header: React.FC = () => {
         ))}
       </MobileNav>
     </HeaderContainer>
-  )
-}
+  );
+};

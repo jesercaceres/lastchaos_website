@@ -70,7 +70,6 @@ padding-top: ${({ theme }) => theme.spacing.xl};
   width: 100%;
   min-height: 100vh;
   position: relative;
-  /* Espaçamento generoso para mostrar o background */
   align-content: center;
   background-image:
   url(${newsBg});
