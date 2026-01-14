@@ -86,7 +86,7 @@ export const RankingPage: React.FC = () => {
   return (
     <RankingContainer>
       <Title>Ranking de Jogadores</Title>
-
+    
       <ControlsRow>
         <span>Exibir:</span>
         <Select value={limit} onChange={e => setLimit(Number(e.target.value) as 50 | 100)}>

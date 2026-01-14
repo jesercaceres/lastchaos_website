@@ -22,7 +22,7 @@ const gridColumnStyles = `
   & > *:nth-child(2) {
     justify-self: start;
     text-align: left;
-    padding-left: 16px; 
+    padding-left: 12px; 
     width: 100%;
   }
 
@@ -36,9 +36,10 @@ const gridColumnStyles = `
 
 const ContainerCard = styled(Card)`
   padding: 0;
-  background: rgba(11, 12, 16, 0.9);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(212, 175, 55, 0.15);
+  background: rgba(11, 12, 16, 0.95); /* Levemente mais opaco para legibilidade */
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Sombra de profundidade */
   overflow: hidden;
 `
 
@@ -63,11 +64,11 @@ const Section = styled.section`
   }
 
   &:not(:first-child) {
-    border-left: 1px solid rgba(212, 175, 55, 0.12);
+    border-left: 1px solid rgba(212, 175, 55, 0.15);
     
     @media (max-width: 1100px) {
       border-left: none;
-      border-top: 1px solid rgba(212, 175, 55, 0.12);
+      border-top: 1px solid rgba(212, 175, 55, 0.15);
     }
   }
 `
@@ -76,8 +77,9 @@ const Title = styled.h3`
   font-family: ${({ theme }) => theme.fonts.epic};
   color: ${({ theme }) => theme.colors.gold};
   margin: 0;
-  font-size: ${({ theme }) => theme.fontSizes['2xl']}; /* Mantido para destaque */
+  font-size: ${({ theme }) => theme.fontSizes['2xl']};
   letter-spacing: 1px;
+  line-height: 1; /* Garante alinhamento vertical com ícones */
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     font-size: ${({ theme }) => theme.fontSizes.xl};
@@ -91,7 +93,7 @@ const TitleRow = styled.div`
   gap: ${({ theme }) => theme.spacing.sm};
   flex-wrap: wrap;
   margin-bottom: ${({ theme }) => theme.spacing.md};
-  min-height: 42px;
+  min-height: 48px; /* Altura mínima garantida para alinhar as colunas visualmente */
 `
 
 // --- HEADERS ---
@@ -99,11 +101,11 @@ const TitleRow = styled.div`
 const TableHeaderBase = styled.div`
   padding: ${({ theme }) => theme.spacing.sm} 0;
   color: ${({ theme }) => theme.colors.gray};
-  font-size: ${({ theme }) => theme.fontSizes.xs}; /* 0.75rem - Bem discreto */
+  font-size: ${({ theme }) => theme.fontSizes.xs};
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
   display: grid;
   ${gridColumnStyles}
 `
@@ -128,14 +130,15 @@ const TableHeaderGuilds = styled(TableHeaderBase)`
 // --- ROWS ---
 
 const RowBase = styled.div`
-  padding: ${({ theme }) => theme.spacing.sm} 0; /* Padding vertical levemente reduzido */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  padding: 10px 0; /* Padding fixo para consistência */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Borda mais sutil */
   display: grid;
-  transition: background 0.2s;
+  transition: all 0.2s ease;
   ${gridColumnStyles}
 
   &:hover {
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(212, 175, 55, 0.05); /* Hover dourado sutil */
+    transform: translateX(4px); /* Micro-interação de movimento */
   }
   
   &:last-child {
@@ -163,37 +166,44 @@ const RowGuilds = styled(RowBase)`
 // --- COMPONENTES INTERNOS ---
 
 const PositionBadge = styled.div<{ $position: number }>`
-  width: 32px; /* Reduzido de 36px */
+  width: 32px;
   height: 32px;
   border-radius: ${({ theme }) => theme.borderRadius.full};
   display: grid;
   place-items: center;
   font-weight: 800;
-  font-size: 0.85rem; /* Reduzido de 0.9rem */
+  font-size: 0.85rem;
   font-family: ${({ theme }) => theme.fonts.epic};
-  color: ${({ theme, $position }) => ($position <= 3 ? theme.colors.dark : theme.colors.white)};
+  color: ${({ theme, $position }) => ($position <= 3 ? '#1a1a1a' : theme.colors.white)};
   
+  /* Gradientes mais ricos para os top 3 */
   background: ${({ $position }) => {
     if ($position === 1) return `linear-gradient(135deg, #FFD700 0%, #FDB931 100%)`
-    if ($position === 2) return `linear-gradient(135deg, #E0E0E0 0%, #BDBDBD 100%)`
-    if ($position === 3) return `linear-gradient(135deg, #CD7F32 0%, #A0522D 100%)`
-    return 'rgba(255, 255, 255, 0.05)'
+    if ($position === 2) return `linear-gradient(135deg, #E0E0E0 0%, #9E9E9E 100%)`
+    if ($position === 3) return `linear-gradient(135deg, #CD7F32 0%, #8B4513 100%)`
+    return 'rgba(255, 255, 255, 0.08)'
   }};
   
   box-shadow: ${({ $position }) => 
-    $position <= 3 ? '0 2px 10px rgba(0,0,0,0.3)' : 'none'};
+    $position <= 3 ? '0 0 10px rgba(0,0,0,0.5), inset 0 0 5px rgba(255,255,255,0.3)' : 'none'};
+  
   border: 1px solid ${({ $position }) => 
     $position <= 3 ? 'transparent' : 'rgba(255, 255, 255, 0.1)'};
 `
 
 const Nickname = styled.div`
   color: ${({ theme }) => theme.colors.white};
-  font-weight: 600; /* Peso reduzido de 700 para 600 para ficar mais leve */
+  font-weight: 600;
   font-family: ${({ theme }) => theme.fonts.body};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 0.9rem; /* Reduzido de 1.05rem para enquadrar melhor */
+  font-size: 0.9rem;
+  transition: color 0.2s;
+  
+  ${RowBase}:hover & {
+    color: ${({ theme }) => theme.colors.gold};
+  }
 `
 
 // Wrappers simples para manter compatibilidade se usar no Header
@@ -203,13 +213,13 @@ const HeaderCellRight = styled.div``
 const RightCell = styled.div`
   color: ${({ theme }) => theme.colors.lightGray};
   font-weight: 700;
-  font-size: 0.85rem; /* Levemente menor */
+  font-size: 0.85rem;
 `
 
 const MutedRightCell = styled.div`
   color: ${({ theme }) => theme.colors.gray};
   font-weight: 600;
-  font-size: 0.85rem; /* Levemente menor */
+  font-size: 0.85rem;
 `
 
 const Block = styled.div`
@@ -234,12 +244,19 @@ const CastleRow = styled.div`
   padding: ${({ theme }) => theme.spacing.md} 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   &:last-child { border-bottom: none; }
+  
+  /* Efeito hover para as linhas do castelo */
+  transition: transform 0.2s ease;
+  &:hover {
+    transform: translateX(4px);
+    border-bottom-color: rgba(212, 175, 55, 0.2);
+  }
 `
 
 const CastleName = styled.div`
   font-family: ${({ theme }) => theme.fonts.epic};
   color: ${({ theme }) => theme.colors.gold};
-  font-size: ${({ theme }) => theme.fontSizes.md}; /* Reduzido de lg para md */
+  font-size: ${({ theme }) => theme.fontSizes.md};
   text-transform: uppercase;
   letter-spacing: 1px;
 `
@@ -247,12 +264,12 @@ const CastleName = styled.div`
 const GuildName = styled.div`
   color: ${({ theme }) => theme.colors.lightGray};
   font-weight: 600;
-  text-align: right;
+  text-align: left;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 60%;
-  font-size: 0.9rem; /* Reduzido de 1rem */
+  font-size: 0.9rem; 
 `
 
 export const PlayersRankAndGuildChampionsStyles = {

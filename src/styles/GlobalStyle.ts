@@ -106,6 +106,7 @@ export const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     display: block;
   }
 
+
   /* --- Animações --- */
   
   @keyframes fadeIn {

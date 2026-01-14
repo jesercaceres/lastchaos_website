@@ -4,8 +4,42 @@ import styled from 'styled-components'
 import { PlayersRankAndGuildChampionsStyles, ButtonLink } from '../../../shared/components/ui'
 import { mockCastleOwners, mockGuildRating } from '../../../mocks'
 import { mockPlayerRating } from '../mocks/playerRating'
-
+import castleIcon from '../../../assets/icons/castle-icon.png'
+import leaderGuild from '../../../assets/icons/leaderGuild.png'
 import rankingBg from '../../../assets/images/ranking-bg.png'
+
+// --- ESTILOS VISUAIS E ICONOGRAFIA ---
+
+const SectionIcon = styled.img`
+  height: 36px; /* Tamanho equilibrado para não brigar com o H3 */
+  width: auto;
+  object-fit: contain;
+  margin-left: 12px;
+  vertical-align: middle;
+  display: inline-block;
+  
+  /* Drop Shadow Dourado para integrar o ícone branco ao tema */
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.3));
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  &:hover {
+    transform: scale(1.15) rotate(5deg);
+    filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.6));
+  }
+
+  /* Responsividade fluida */
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    height: 28px;
+    margin-left: 8px;
+  }
+`
+
+// Wrapper para agrupar Título + Ícone garantindo centro ótico
+const TitleGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`
 
 const ContentContainer = styled.div`
   max-width: 1440px;
@@ -65,39 +99,33 @@ export const HomeRankingsSection: React.FC = () => {
           <PlayersRankAndGuildChampionsStyles.ContainerCard>
             <PlayersRankAndGuildChampionsStyles.Columns>
               
-              {/* --- PLAYER RATING --- */}
+              {/* --- COLUNA 1: PLAYER RATING --- */}
               <PlayersRankAndGuildChampionsStyles.Section>
                 <PlayersRankAndGuildChampionsStyles.TitleRow>
-                  <PlayersRankAndGuildChampionsStyles.Title>
-                    Player Rating
-                  </PlayersRankAndGuildChampionsStyles.Title>
+                  {/* Título alinhado à esquerda */}
+                  <TitleGroup>
+                    <PlayersRankAndGuildChampionsStyles.Title>
+                      Player Rating
+                    </PlayersRankAndGuildChampionsStyles.Title>
+                  </TitleGroup>
                   <ButtonLink variant="secondary" size="small" to="/ranking">
-                    Ver ranking
+                    Ver Ranking
                   </ButtonLink>
                 </PlayersRankAndGuildChampionsStyles.TitleRow>
 
                 <PlayersRankAndGuildChampionsStyles.Block>
                   <PlayersRankAndGuildChampionsStyles.TableHeaderPlayers>
-                    {/* Coluna 1: Centralizado pelo CSS */}
-                    <div>N°</div>
-                    
-                    {/* Coluna 2: Alinhado a esquerda + Padding pelo CSS */}
-                    <div>NICKNAME</div>
-                    
-                    {/* Coluna 3: Alinhado a direita pelo CSS */}
-                    <div>RACE</div>
-                    
-                    {/* Coluna 4: Alinhado a direita pelo CSS */}
-                    <div>LEVEL</div>
+                    <div style={{textAlign: 'center'}}>N°</div>
+                    <div style={{paddingLeft: '12px'}}>NICKNAME</div>
+                    <div style={{textAlign: 'center'}}>RACE</div>
+                    <div style={{textAlign: 'center'}}>LVL</div>
                   </PlayersRankAndGuildChampionsStyles.TableHeaderPlayers>
 
                   {mockPlayerRating.map(player => (
                     <PlayersRankAndGuildChampionsStyles.RowPlayers
                       key={`${player.position}-${player.nickname}`}
                     >
-                      <PlayersRankAndGuildChampionsStyles.PositionBadge
-                        $position={player.position}
-                      >
+                      <PlayersRankAndGuildChampionsStyles.PositionBadge $position={player.position}>
                         {player.position}
                       </PlayersRankAndGuildChampionsStyles.PositionBadge>
                       
@@ -117,29 +145,30 @@ export const HomeRankingsSection: React.FC = () => {
                 </PlayersRankAndGuildChampionsStyles.Block>
               </PlayersRankAndGuildChampionsStyles.Section>
 
-              {/* --- GUILD RATING --- */}
+              {/* --- COLUNA 2: GUILD RATING --- */}
               <PlayersRankAndGuildChampionsStyles.Section>
-                <PlayersRankAndGuildChampionsStyles.Title>
-                  Guild Rating
-                </PlayersRankAndGuildChampionsStyles.Title>
+                {/* Justify Center para centralizar o bloco Título+Ícone pois não tem botão */}
+                <PlayersRankAndGuildChampionsStyles.TitleRow style={{ justifyContent: 'center' }}>
+                  <TitleGroup>
+                    <PlayersRankAndGuildChampionsStyles.Title>
+                      Guild Rating
+                    </PlayersRankAndGuildChampionsStyles.Title>
+                    <SectionIcon src={leaderGuild} alt="Guild Icon" />
+                  </TitleGroup>
+                </PlayersRankAndGuildChampionsStyles.TitleRow>
 
                 <PlayersRankAndGuildChampionsStyles.Block>
                   <PlayersRankAndGuildChampionsStyles.TableHeaderGuilds>
-                    {/* Coluna 1 */}
-                    <div>N°</div>
-                    {/* Coluna 2 */}
-                    <div>NAME</div>
-                    {/* Coluna 3 */}
-                    <div>MEMBERS</div>
+                    <div style={{textAlign: 'center'}}>N°</div>
+                    <div style={{paddingLeft: '12px'}}>NAME</div>
+                    <div style={{textAlign: 'center'}}>MEM</div>
                   </PlayersRankAndGuildChampionsStyles.TableHeaderGuilds>
 
                   {mockGuildRating.map(guild => (
                     <PlayersRankAndGuildChampionsStyles.RowGuilds
                       key={`${guild.position}-${guild.name}`}
                     >
-                      <PlayersRankAndGuildChampionsStyles.PositionBadge
-                        $position={guild.position}
-                      >
+                      <PlayersRankAndGuildChampionsStyles.PositionBadge $position={guild.position}>
                         {guild.position}
                       </PlayersRankAndGuildChampionsStyles.PositionBadge>
                       
@@ -155,17 +184,22 @@ export const HomeRankingsSection: React.FC = () => {
                 </PlayersRankAndGuildChampionsStyles.Block>
               </PlayersRankAndGuildChampionsStyles.Section>
 
-              {/* --- CASTLE OWNERS --- */}
+              {/* --- COLUNA 3: CASTLE OWNERS --- */}
               <PlayersRankAndGuildChampionsStyles.Section>
-                <PlayersRankAndGuildChampionsStyles.Title>
-                  Castle Owners
-                </PlayersRankAndGuildChampionsStyles.Title>
+                <PlayersRankAndGuildChampionsStyles.TitleRow style={{ justifyContent: 'center' }}>
+                  <TitleGroup>
+                    <PlayersRankAndGuildChampionsStyles.Title>
+                      Castle Owners
+                    </PlayersRankAndGuildChampionsStyles.Title>
+                    <SectionIcon src={castleIcon} alt="Castle Icon" />
+                  </TitleGroup>
+                </PlayersRankAndGuildChampionsStyles.TitleRow>
 
                 <PlayersRankAndGuildChampionsStyles.CastleList>
                   {mockCastleOwners.map(owner => (
                     <PlayersRankAndGuildChampionsStyles.CastleRow key={owner.castle}>
                       <PlayersRankAndGuildChampionsStyles.CastleName>
-                        Castle in {owner.castle}
+                        {owner.castle}
                       </PlayersRankAndGuildChampionsStyles.CastleName>
                       <PlayersRankAndGuildChampionsStyles.GuildName title={owner.guildNickname}>
                         {owner.guildNickname}
