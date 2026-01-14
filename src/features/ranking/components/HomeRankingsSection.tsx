@@ -25,16 +25,17 @@ const RankingsSectionWrapper = styled.section`
   width: 100%;
   position: relative;
   min-height: 100vh;
-    align-content: center;
+  align-content: center;
   background-image:
     linear-gradient(to bottom, rgba(0, 0, 0, 10) 0%, transparent 18%),
     linear-gradient(to top, rgba(0, 0, 0, 10) 0%, transparent 50%),
     url(${rankingBg});
   background-position: center;
   background-size: cover;
+  
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    
     padding-top: ${({ theme }) => theme.spacing['2xl']};
+  }
 `
 
 const SectionTitle = styled.h2`
@@ -63,6 +64,8 @@ export const HomeRankingsSection: React.FC = () => {
         <RankedAndGuildsGrid>
           <PlayersRankAndGuildChampionsStyles.ContainerCard>
             <PlayersRankAndGuildChampionsStyles.Columns>
+              
+              {/* --- PLAYER RATING --- */}
               <PlayersRankAndGuildChampionsStyles.Section>
                 <PlayersRankAndGuildChampionsStyles.TitleRow>
                   <PlayersRankAndGuildChampionsStyles.Title>
@@ -75,16 +78,17 @@ export const HomeRankingsSection: React.FC = () => {
 
                 <PlayersRankAndGuildChampionsStyles.Block>
                   <PlayersRankAndGuildChampionsStyles.TableHeaderPlayers>
-                    <PlayersRankAndGuildChampionsStyles.HeaderCellCenter>
-                      N°
-                    </PlayersRankAndGuildChampionsStyles.HeaderCellCenter>
-                    <div>Nickname</div>
-                    <PlayersRankAndGuildChampionsStyles.HeaderCellRight>
-                      Race
-                    </PlayersRankAndGuildChampionsStyles.HeaderCellRight>
-                    <PlayersRankAndGuildChampionsStyles.HeaderCellRight>
-                      Level
-                    </PlayersRankAndGuildChampionsStyles.HeaderCellRight>
+                    {/* Coluna 1: Centralizado pelo CSS */}
+                    <div>N°</div>
+                    
+                    {/* Coluna 2: Alinhado a esquerda + Padding pelo CSS */}
+                    <div>NICKNAME</div>
+                    
+                    {/* Coluna 3: Alinhado a direita pelo CSS */}
+                    <div>RACE</div>
+                    
+                    {/* Coluna 4: Alinhado a direita pelo CSS */}
+                    <div>LEVEL</div>
                   </PlayersRankAndGuildChampionsStyles.TableHeaderPlayers>
 
                   {mockPlayerRating.map(player => (
@@ -96,12 +100,15 @@ export const HomeRankingsSection: React.FC = () => {
                       >
                         {player.position}
                       </PlayersRankAndGuildChampionsStyles.PositionBadge>
+                      
                       <PlayersRankAndGuildChampionsStyles.Nickname title={player.nickname}>
                         {player.nickname}
                       </PlayersRankAndGuildChampionsStyles.Nickname>
+                      
                       <PlayersRankAndGuildChampionsStyles.MutedRightCell>
                         {player.race}
                       </PlayersRankAndGuildChampionsStyles.MutedRightCell>
+                      
                       <PlayersRankAndGuildChampionsStyles.RightCell>
                         {player.level}
                       </PlayersRankAndGuildChampionsStyles.RightCell>
@@ -110,6 +117,7 @@ export const HomeRankingsSection: React.FC = () => {
                 </PlayersRankAndGuildChampionsStyles.Block>
               </PlayersRankAndGuildChampionsStyles.Section>
 
+              {/* --- GUILD RATING --- */}
               <PlayersRankAndGuildChampionsStyles.Section>
                 <PlayersRankAndGuildChampionsStyles.Title>
                   Guild Rating
@@ -117,13 +125,12 @@ export const HomeRankingsSection: React.FC = () => {
 
                 <PlayersRankAndGuildChampionsStyles.Block>
                   <PlayersRankAndGuildChampionsStyles.TableHeaderGuilds>
-                    <PlayersRankAndGuildChampionsStyles.HeaderCellCenter>
-                      N°
-                    </PlayersRankAndGuildChampionsStyles.HeaderCellCenter>
-                    <div>Name</div>
-                    <PlayersRankAndGuildChampionsStyles.HeaderCellRight>
-                      Members
-                    </PlayersRankAndGuildChampionsStyles.HeaderCellRight>
+                    {/* Coluna 1 */}
+                    <div>N°</div>
+                    {/* Coluna 2 */}
+                    <div>NAME</div>
+                    {/* Coluna 3 */}
+                    <div>MEMBERS</div>
                   </PlayersRankAndGuildChampionsStyles.TableHeaderGuilds>
 
                   {mockGuildRating.map(guild => (
@@ -135,9 +142,11 @@ export const HomeRankingsSection: React.FC = () => {
                       >
                         {guild.position}
                       </PlayersRankAndGuildChampionsStyles.PositionBadge>
+                      
                       <PlayersRankAndGuildChampionsStyles.Nickname title={guild.name}>
                         {guild.name}
                       </PlayersRankAndGuildChampionsStyles.Nickname>
+                      
                       <PlayersRankAndGuildChampionsStyles.RightCell>
                         {guild.members}
                       </PlayersRankAndGuildChampionsStyles.RightCell>
@@ -146,6 +155,7 @@ export const HomeRankingsSection: React.FC = () => {
                 </PlayersRankAndGuildChampionsStyles.Block>
               </PlayersRankAndGuildChampionsStyles.Section>
 
+              {/* --- CASTLE OWNERS --- */}
               <PlayersRankAndGuildChampionsStyles.Section>
                 <PlayersRankAndGuildChampionsStyles.Title>
                   Castle Owners
@@ -164,6 +174,7 @@ export const HomeRankingsSection: React.FC = () => {
                   ))}
                 </PlayersRankAndGuildChampionsStyles.CastleList>
               </PlayersRankAndGuildChampionsStyles.Section>
+              
             </PlayersRankAndGuildChampionsStyles.Columns>
           </PlayersRankAndGuildChampionsStyles.ContainerCard>
         </RankedAndGuildsGrid>

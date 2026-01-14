@@ -1,24 +1,62 @@
 import styled from 'styled-components'
 import { Card } from './Card'
 
+// --- 1. DEFINIÇÃO DAS COLUNAS ---
+const PLAYER_GRID_TEMPLATE = '50px 1fr 100px 70px'
+const PLAYER_GRID_TEMPLATE_MOBILE = '40px 1fr 0px 50px' 
+
+const GUILD_GRID_TEMPLATE = '50px 1fr 80px'
+const GUILD_GRID_TEMPLATE_MOBILE = '40px 1fr 60px'
+
+// --- 2. ESTILOS DE ALINHAMENTO (Grid Child Styles) ---
+const gridColumnStyles = `
+  align-items: center;
+  
+  /* Coluna 1 (Rank): Centralizada */
+  & > *:nth-child(1) {
+    justify-self: center;
+    text-align: center;
+  }
+
+  /* Coluna 2 (Nickname/Name): Esquerda com GAP (Padding) */
+  & > *:nth-child(2) {
+    justify-self: start;
+    text-align: left;
+    padding-left: 16px; 
+    width: 100%;
+  }
+
+  /* Colunas 3 e 4 (Race, Level, Members): CENTRALIZADAS */
+  & > *:nth-child(3),
+  & > *:nth-child(4) {
+    justify-self: center;
+    text-align: center;
+  }
+`
+
 const ContainerCard = styled(Card)`
   padding: 0;
-  background: rgba(11, 12, 16, 0.8);
+  background: rgba(11, 12, 16, 0.9);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(212, 175, 55, 0.15);
+  overflow: hidden;
 `
 
 const Columns = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+  @media (max-width: 1100px) {
     grid-template-columns: 1fr;
   }
 `
 
 const Section = styled.section`
   padding: ${({ theme }) => theme.spacing.lg};
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     padding: ${({ theme }) => theme.spacing.md};
@@ -26,10 +64,8 @@ const Section = styled.section`
 
   &:not(:first-child) {
     border-left: 1px solid rgba(212, 175, 55, 0.12);
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    &:not(:first-child) {
+    
+    @media (max-width: 1100px) {
       border-left: none;
       border-top: 1px solid rgba(212, 175, 55, 0.12);
     }
@@ -40,7 +76,8 @@ const Title = styled.h3`
   font-family: ${({ theme }) => theme.fonts.epic};
   color: ${({ theme }) => theme.colors.gold};
   margin: 0;
-  font-size: ${({ theme }) => theme.fontSizes['2xl']};
+  font-size: ${({ theme }) => theme.fontSizes['2xl']}; /* Mantido para destaque */
+  letter-spacing: 1px;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     font-size: ${({ theme }) => theme.fontSizes.xl};
@@ -53,146 +90,140 @@ const TitleRow = styled.div`
   justify-content: space-between;
   gap: ${({ theme }) => theme.spacing.sm};
   flex-wrap: wrap;
-  margin-bottom: ${({ theme }) => theme.spacing.sm};
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+  min-height: 42px;
 `
 
-const HeaderCellRight = styled.div`
-  text-align: right;
-`
+// --- HEADERS ---
 
-const HeaderCellCenter = styled.div`
-  text-align: center;
-`
-
-const TableHeaderPlayers = styled.div`
-  display: grid;
-  grid-template-columns: 64px 1fr 110px 80px;
-  gap: ${({ theme }) => theme.spacing.sm};
+const TableHeaderBase = styled.div`
   padding: ${({ theme }) => theme.spacing.sm} 0;
   color: ${({ theme }) => theme.colors.gray};
-  font-size: ${({ theme }) => theme.fontSizes.xs};
+  font-size: ${({ theme }) => theme.fontSizes.xs}; /* 0.75rem - Bem discreto */
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
   border-bottom: 1px solid rgba(212, 175, 55, 0.15);
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    grid-template-columns: 40px 1fr 0px 60px;
-
-    & > div:nth-child(3) {
-      display: none;
-    }
-  }
-`
-
-const TableHeaderGuilds = styled.div`
   display: grid;
-  grid-template-columns: 64px 1fr 90px;
-  gap: ${({ theme }) => theme.spacing.sm};
-  padding: ${({ theme }) => theme.spacing.sm} 0;
-  color: ${({ theme }) => theme.colors.gray};
-  font-size: ${({ theme }) => theme.fontSizes.xs};
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+  ${gridColumnStyles}
+`
+
+const TableHeaderPlayers = styled(TableHeaderBase)`
+  grid-template-columns: ${PLAYER_GRID_TEMPLATE};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    grid-template-columns: 40px 1fr 70px;
+    grid-template-columns: ${PLAYER_GRID_TEMPLATE_MOBILE};
+    & > *:nth-child(3) { display: none; }
   }
 `
 
-const RowPlayers = styled.div`
+const TableHeaderGuilds = styled(TableHeaderBase)`
+  grid-template-columns: ${GUILD_GRID_TEMPLATE};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    grid-template-columns: ${GUILD_GRID_TEMPLATE_MOBILE};
+  }
+`
+
+// --- ROWS ---
+
+const RowBase = styled.div`
+  padding: ${({ theme }) => theme.spacing.sm} 0; /* Padding vertical levemente reduzido */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
   display: grid;
-  grid-template-columns: 64px 1fr 110px 80px;
-  gap: ${({ theme }) => theme.spacing.sm};
-  align-items: center;
-  padding: ${({ theme }) => theme.spacing.sm} 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: background 0.2s;
+  ${gridColumnStyles}
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    grid-template-columns: 40px 1fr 0px 60px;
-
-    & > div:nth-child(3) {
-      display: none;
-    }
+  &:hover {
+    background: rgba(255, 255, 255, 0.02);
+  }
+  
+  &:last-child {
+    border-bottom: none;
   }
 `
 
-const RowGuilds = styled.div`
-  display: grid;
-  grid-template-columns: 64px 1fr 90px;
-  gap: ${({ theme }) => theme.spacing.sm};
-  align-items: center;
-  padding: ${({ theme }) => theme.spacing.sm} 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+const RowPlayers = styled(RowBase)`
+  grid-template-columns: ${PLAYER_GRID_TEMPLATE};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    grid-template-columns: 40px 1fr 70px;
+    grid-template-columns: ${PLAYER_GRID_TEMPLATE_MOBILE};
+    & > *:nth-child(3) { display: none; }
   }
 `
+
+const RowGuilds = styled(RowBase)`
+  grid-template-columns: ${GUILD_GRID_TEMPLATE};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    grid-template-columns: ${GUILD_GRID_TEMPLATE_MOBILE};
+  }
+`
+
+// --- COMPONENTES INTERNOS ---
 
 const PositionBadge = styled.div<{ $position: number }>`
-  width: 42px;
-  height: 42px;
-  justify-self: center;
+  width: 32px; /* Reduzido de 36px */
+  height: 32px;
   border-radius: ${({ theme }) => theme.borderRadius.full};
   display: grid;
   place-items: center;
   font-weight: 800;
+  font-size: 0.85rem; /* Reduzido de 0.9rem */
   font-family: ${({ theme }) => theme.fonts.epic};
-  color: ${({ theme, $position }) => ($position === 1 ? theme.colors.dark : theme.colors.white)};
-  background: ${({ theme, $position }) => {
-    if ($position === 1)
-      return `linear-gradient(135deg, ${theme.colors.gold} 0%, ${theme.colors.lightGold} 100%)`
-    if ($position === 2)
-      return `linear-gradient(135deg, ${theme.colors.gray} 0%, ${theme.colors.lightGray} 100%)`
-    if ($position === 3)
-      return `linear-gradient(135deg, ${theme.colors.brown} 0%, ${theme.colors.lightBrown} 100%)`
-    return theme.colors.gray
+  color: ${({ theme, $position }) => ($position <= 3 ? theme.colors.dark : theme.colors.white)};
+  
+  background: ${({ $position }) => {
+    if ($position === 1) return `linear-gradient(135deg, #FFD700 0%, #FDB931 100%)`
+    if ($position === 2) return `linear-gradient(135deg, #E0E0E0 0%, #BDBDBD 100%)`
+    if ($position === 3) return `linear-gradient(135deg, #CD7F32 0%, #A0522D 100%)`
+    return 'rgba(255, 255, 255, 0.05)'
   }};
-  border: 1px solid rgba(255, 255, 255, 0.12);
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    width: 32px;
-    height: 32px;
-    font-size: 0.8rem;
-  }
+  
+  box-shadow: ${({ $position }) => 
+    $position <= 3 ? '0 2px 10px rgba(0,0,0,0.3)' : 'none'};
+  border: 1px solid ${({ $position }) => 
+    $position <= 3 ? 'transparent' : 'rgba(255, 255, 255, 0.1)'};
 `
 
 const Nickname = styled.div`
-  color: ${({ theme }) => theme.colors.lightGray};
-  font-weight: 700;
+  color: ${({ theme }) => theme.colors.white};
+  font-weight: 600; /* Peso reduzido de 700 para 600 para ficar mais leve */
+  font-family: ${({ theme }) => theme.fonts.body};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  min-width: 0;
+  font-size: 0.9rem; /* Reduzido de 1.05rem para enquadrar melhor */
 `
+
+// Wrappers simples para manter compatibilidade se usar no Header
+const HeaderCellCenter = styled.div``
+const HeaderCellRight = styled.div``
 
 const RightCell = styled.div`
   color: ${({ theme }) => theme.colors.lightGray};
-  font-weight: 800;
-  text-align: right;
+  font-weight: 700;
+  font-size: 0.85rem; /* Levemente menor */
 `
 
 const MutedRightCell = styled.div`
   color: ${({ theme }) => theme.colors.gray};
-  font-weight: 800;
-  text-align: right;
+  font-weight: 600;
+  font-size: 0.85rem; /* Levemente menor */
 `
 
 const Block = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.md};
-  margin-top: ${({ theme }) => theme.spacing.md};
+  width: 100%;
 `
 
+// --- Castle Section ---
 const CastleList = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
-  margin-top: ${({ theme }) => theme.spacing.md};
+  margin-top: ${({ theme }) => theme.spacing.sm};
 `
 
 const CastleRow = styled.div`
@@ -200,28 +231,28 @@ const CastleRow = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: ${({ theme }) => theme.spacing.md};
-  padding: ${({ theme }) => theme.spacing.sm} 0;
+  padding: ${({ theme }) => theme.spacing.md} 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  &:last-child { border-bottom: none; }
 `
 
 const CastleName = styled.div`
   font-family: ${({ theme }) => theme.fonts.epic};
-  color: ${({ theme }) => theme.colors.lightGray};
-  font-size: ${({ theme }) => theme.fontSizes.lg};
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    font-size: ${({ theme }) => theme.fontSizes.md};
-  }
+  color: ${({ theme }) => theme.colors.gold};
+  font-size: ${({ theme }) => theme.fontSizes.md}; /* Reduzido de lg para md */
+  text-transform: uppercase;
+  letter-spacing: 1px;
 `
 
 const GuildName = styled.div`
-  color: ${({ theme }) => theme.colors.gray};
-  font-weight: 700;
+  color: ${({ theme }) => theme.colors.lightGray};
+  font-weight: 600;
   text-align: right;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 60%;
+  font-size: 0.9rem; /* Reduzido de 1rem */
 `
 
 export const PlayersRankAndGuildChampionsStyles = {
@@ -230,8 +261,8 @@ export const PlayersRankAndGuildChampionsStyles = {
   Section,
   Title,
   TitleRow,
-  HeaderCellRight,
   HeaderCellCenter,
+  HeaderCellRight,
   TableHeaderPlayers,
   TableHeaderGuilds,
   RowPlayers,
