@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import { ButtonLink } from '../shared/components/ui/ButtonLink'
 import { Card } from '../shared/components/ui/Card'
+import { Modal } from '../shared/components/ui/Modal'
 import { SectionDivider } from '../shared/components/ui/SectionDivider'
 import { mockNews, mockServers } from '../mocks'
 import { HomeRankingsSection } from '../features/ranking/components/HomeRankingsSection'
-import heroImage from '../assets/images/oldWorld-lc.png'
+import { News } from '../types'
 
+import heroImage from '../assets/images/oldWorld-lc.png'
 import newsBg from '../assets/images/news-bg.png'
 import serversBg from '../assets/images/server-bg.png'
 
@@ -66,13 +68,12 @@ const ButtonsOverlay = styled.div`
 
 // 1. Wrapper para Notícias
 const NewsSectionWrapper = styled.section`
-padding-top: ${({ theme }) => theme.spacing.xl};
+  padding-top: ${({ theme }) => theme.spacing.xl};
   width: 100%;
   min-height: 100vh;
   position: relative;
   align-content: center;
-  background-image:
-  url(${newsBg});
+  background-image: url(${newsBg});
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
@@ -81,9 +82,7 @@ padding-top: ${({ theme }) => theme.spacing.xl};
     padding-bottom: ${({ theme }) => theme.spacing['6xl']};
     padding-top: ${({ theme }) => theme.spacing['2xl']};
   }
-  
 `
-
 
 // 2. Wrapper para Servidores
 const ServersSectionWrapper = styled.section`
@@ -92,7 +91,7 @@ const ServersSectionWrapper = styled.section`
   position: relative;
   align-content: center;
   background-image: 
-  linear-gradient(to bottom, rgba(0, 0, 0, 10) 0%, transparent 100%), // Topo
+    linear-gradient(to bottom, rgba(0, 0, 0, 10) 0%, transparent 100%), // Topo
     linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 30%),    // Baixo
     url(${serversBg});
   background-size: cover;
@@ -101,7 +100,6 @@ const ServersSectionWrapper = styled.section`
     padding-bottom: ${({ theme }) => theme.spacing['6xl']};
     padding-top: ${({ theme }) => theme.spacing['2xl']};
   }
-  
 `
 
 const SectionTitle = styled.h2`
@@ -149,6 +147,7 @@ const TransparentCard = styled(Card)`
   backdrop-filter: blur(8px);
   border: 1px solid rgba(212, 175, 55, 0.15);
   transition: all 0.3s ease;
+  cursor: pointer;
 
   &:hover {
     transform: translateY(-5px);
@@ -197,6 +196,31 @@ const NewsCategory = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.xs};
   font-weight: 600;
   text-transform: uppercase;
+`
+
+// --- ESTILOS DO MODAL ---
+const ModalImage = styled.img`
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+`
+
+const ModalMeta = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+  color: ${({ theme }) => theme.colors.gray};
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+`
+
+const ModalText = styled.div`
+  color: ${({ theme }) => theme.colors.lightGray};
+  line-height: 1.8;
+  font-size: ${({ theme }) => theme.fontSizes.md};
+  white-space: pre-wrap;
 `
 
 // Estilos internos do card de servidor
@@ -267,8 +291,18 @@ const ProgressBarFill = styled.div<{ $percent: number }>`
 
 // --- COMPONENTE HOME ---
 export const Home: React.FC = () => {
+  const [selectedNews, setSelectedNews] = useState<News | null>(null)
+  
   const featuredServers = mockServers.slice(0, 3)
   const featuredNews = mockNews.slice(0, 3)
+
+  const handleOpenNews = (news: News) => {
+    setSelectedNews(news)
+  }
+
+  const handleCloseNews = () => {
+    setSelectedNews(null)
+  }
 
   return (
     <>
@@ -293,11 +327,19 @@ export const Home: React.FC = () => {
           <SectionTitle>Últimas Notícias</SectionTitle>
           <NewsGrid>
             {featuredNews.map(news => (
-              <TransparentCard key={news.id} hoverable>
+              <TransparentCard 
+                key={news.id} 
+                hoverable 
+                onClick={() => handleOpenNews(news)}
+              >
                 {news.image && <NewsImage src={news.image} alt={news.title} />}
                 <NewsCategory>{news.category}</NewsCategory>
                 <NewsTitle>{news.title}</NewsTitle>
-                <NewsContent>{news.content}</NewsContent>
+                <NewsContent>
+                  {news.content.length > 100 
+                    ? `${news.content.substring(0, 100)}...` 
+                    : news.content}
+                </NewsContent>
                 <NewsDate>{new Date(news.date).toLocaleDateString('pt-BR')}</NewsDate>
               </TransparentCard>
             ))}
@@ -355,6 +397,28 @@ export const Home: React.FC = () => {
       </ServersSectionWrapper>
 
       <SectionDivider />
+
+      {/* MODAL DE NOTÍCIAS */}
+      <Modal 
+        isOpen={!!selectedNews} 
+        onClose={handleCloseNews} 
+        title={selectedNews?.title}
+      >
+        {selectedNews && (
+          <>
+            {selectedNews.image && (
+              <ModalImage src={selectedNews.image} alt={selectedNews.title} />
+            )}
+            <ModalMeta>
+              <NewsCategory>{selectedNews.category}</NewsCategory>
+              <NewsDate>{new Date(selectedNews.date).toLocaleDateString('pt-BR')}</NewsDate>
+            </ModalMeta>
+            <ModalText>
+              {selectedNews.content}
+            </ModalText>
+          </>
+        )}
+      </Modal>
     </>
   )
 }
