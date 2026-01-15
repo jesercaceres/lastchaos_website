@@ -2,23 +2,27 @@ import styled from 'styled-components'
 import { Card } from './Card'
 
 // --- 1. DEFINIÇÃO DAS COLUNAS ---
+// Padrão (Desktop grande)
 const PLAYER_GRID_TEMPLATE = '50px 1fr 100px 70px'
-const PLAYER_GRID_TEMPLATE_MOBILE = '40px 1fr 0px 50px' 
-
 const GUILD_GRID_TEMPLATE = '50px 1fr 80px'
+
+// Notebook (1200px - 1400px) - Colunas mais compactas
+const PLAYER_GRID_TEMPLATE_NOTEBOOK = '35px 1fr 70px 45px' 
+const GUILD_GRID_TEMPLATE_NOTEBOOK = '35px 1fr 60px'
+
+// Mobile
+const PLAYER_GRID_TEMPLATE_MOBILE = '40px 1fr 0px 50px' 
 const GUILD_GRID_TEMPLATE_MOBILE = '40px 1fr 60px'
 
-// --- 2. ESTILOS DE ALINHAMENTO (Grid Child Styles) ---
+// --- 2. ESTILOS DE ALINHAMENTO ---
 const gridColumnStyles = `
   align-items: center;
   
-  /* Coluna 1 (Rank): Centralizada */
   & > *:nth-child(1) {
     justify-self: center;
     text-align: center;
   }
 
-  /* Coluna 2 (Nickname/Name): Esquerda com GAP (Padding) */
   & > *:nth-child(2) {
     justify-self: start;
     text-align: left;
@@ -26,7 +30,6 @@ const gridColumnStyles = `
     width: 100%;
   }
 
-  /* Colunas 3 e 4 (Race, Level, Members): CENTRALIZADAS */
   & > *:nth-child(3),
   & > *:nth-child(4) {
     justify-self: center;
@@ -36,10 +39,10 @@ const gridColumnStyles = `
 
 const ContainerCard = styled(Card)`
   padding: 0;
-  background: rgba(11, 12, 16, 0.95); /* Levemente mais opaco para legibilidade */
+  background: rgba(11, 12, 16, 0.95);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(212, 175, 55, 0.2);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Sombra de profundidade */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   overflow: hidden;
 `
 
@@ -48,6 +51,7 @@ const Columns = styled.div`
   grid-template-columns: repeat(3, 1fr);
   width: 100%;
 
+  /* Mantemos 3 colunas até chegar em tablet/mobile */
   @media (max-width: 1100px) {
     grid-template-columns: 1fr;
   }
@@ -58,6 +62,11 @@ const Section = styled.section`
   display: flex;
   flex-direction: column;
   min-width: 0;
+
+  /* AJUSTE 1: Reduzir padding em notebooks para ganhar espaço interno */
+  @media (max-width: 1400px) and (min-width: 1101px) {
+    padding: ${({ theme }) => theme.spacing.sm}; 
+  }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     padding: ${({ theme }) => theme.spacing.md};
@@ -79,9 +88,10 @@ const Title = styled.h3`
   margin: 0;
   font-size: ${({ theme }) => theme.fontSizes['2xl']};
   letter-spacing: 1px;
-  line-height: 1; /* Garante alinhamento vertical com ícones */
+  line-height: 1;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+  /* Ajuste de tamanho da fonte do título no notebook */
+  @media (max-width: 1400px) {
     font-size: ${({ theme }) => theme.fontSizes.xl};
   }
 `
@@ -93,7 +103,7 @@ const TitleRow = styled.div`
   gap: ${({ theme }) => theme.spacing.sm};
   flex-wrap: wrap;
   margin-bottom: ${({ theme }) => theme.spacing.md};
-  min-height: 48px; /* Altura mínima garantida para alinhar as colunas visualmente */
+  min-height: 48px;
 `
 
 // --- HEADERS ---
@@ -113,6 +123,12 @@ const TableHeaderBase = styled.div`
 const TableHeaderPlayers = styled(TableHeaderBase)`
   grid-template-columns: ${PLAYER_GRID_TEMPLATE};
 
+  /* AJUSTE 2: Usar o template compacto no notebook */
+  @media (max-width: 1400px) and (min-width: 1101px) {
+    grid-template-columns: ${PLAYER_GRID_TEMPLATE_NOTEBOOK};
+    font-size: 0.7rem; /* Fonte menor para caber */
+  }
+
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: ${PLAYER_GRID_TEMPLATE_MOBILE};
     & > *:nth-child(3) { display: none; }
@@ -122,6 +138,11 @@ const TableHeaderPlayers = styled(TableHeaderBase)`
 const TableHeaderGuilds = styled(TableHeaderBase)`
   grid-template-columns: ${GUILD_GRID_TEMPLATE};
 
+  @media (max-width: 1400px) and (min-width: 1101px) {
+    grid-template-columns: ${GUILD_GRID_TEMPLATE_NOTEBOOK};
+    font-size: 0.7rem;
+  }
+
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: ${GUILD_GRID_TEMPLATE_MOBILE};
   }
@@ -130,15 +151,15 @@ const TableHeaderGuilds = styled(TableHeaderBase)`
 // --- ROWS ---
 
 const RowBase = styled.div`
-  padding: 10px 0; /* Padding fixo para consistência */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Borda mais sutil */
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   display: grid;
   transition: all 0.2s ease;
   ${gridColumnStyles}
 
   &:hover {
-    background: rgba(212, 175, 55, 0.05); /* Hover dourado sutil */
-    transform: translateX(4px); /* Micro-interação de movimento */
+    background: rgba(212, 175, 55, 0.05);
+    transform: translateX(4px);
   }
   
   &:last-child {
@@ -149,6 +170,12 @@ const RowBase = styled.div`
 const RowPlayers = styled(RowBase)`
   grid-template-columns: ${PLAYER_GRID_TEMPLATE};
 
+  /* AJUSTE 3: Aplicar o mesmo grid e fonte nas linhas */
+  @media (max-width: 1400px) and (min-width: 1101px) {
+    grid-template-columns: ${PLAYER_GRID_TEMPLATE_NOTEBOOK};
+    font-size: 0.8rem;
+  }
+
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: ${PLAYER_GRID_TEMPLATE_MOBILE};
     & > *:nth-child(3) { display: none; }
@@ -157,6 +184,11 @@ const RowPlayers = styled(RowBase)`
 
 const RowGuilds = styled(RowBase)`
   grid-template-columns: ${GUILD_GRID_TEMPLATE};
+
+  @media (max-width: 1400px) and (min-width: 1101px) {
+    grid-template-columns: ${GUILD_GRID_TEMPLATE_NOTEBOOK};
+    font-size: 0.8rem;
+  }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: ${GUILD_GRID_TEMPLATE_MOBILE};
@@ -176,7 +208,6 @@ const PositionBadge = styled.div<{ $position: number }>`
   font-family: ${({ theme }) => theme.fonts.epic};
   color: ${({ theme, $position }) => ($position <= 3 ? '#1a1a1a' : theme.colors.white)};
   
-  /* Gradientes mais ricos para os top 3 */
   background: ${({ $position }) => {
     if ($position === 1) return `linear-gradient(135deg, #FFD700 0%, #FDB931 100%)`
     if ($position === 2) return `linear-gradient(135deg, #E0E0E0 0%, #9E9E9E 100%)`
@@ -189,6 +220,13 @@ const PositionBadge = styled.div<{ $position: number }>`
   
   border: 1px solid ${({ $position }) => 
     $position <= 3 ? 'transparent' : 'rgba(255, 255, 255, 0.1)'};
+
+  /* Ajuste para notebook: Badge um pouco menor */
+  @media (max-width: 1400px) {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+  }
 `
 
 const Nickname = styled.div`
@@ -201,12 +239,16 @@ const Nickname = styled.div`
   font-size: 0.9rem;
   transition: color 0.2s;
   
+  /* Ajuste de fonte no notebook */
+  @media (max-width: 1400px) {
+    font-size: 0.8rem;
+  }
+
   ${RowBase}:hover & {
     color: ${({ theme }) => theme.colors.gold};
   }
 `
 
-// Wrappers simples para manter compatibilidade se usar no Header
 const HeaderCellCenter = styled.div``
 const HeaderCellRight = styled.div``
 
@@ -245,7 +287,6 @@ const CastleRow = styled.div`
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   &:last-child { border-bottom: none; }
   
-  /* Efeito hover para as linhas do castelo */
   transition: transform 0.2s ease;
   &:hover {
     transform: translateX(4px);
@@ -259,6 +300,10 @@ const CastleName = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.md};
   text-transform: uppercase;
   letter-spacing: 1px;
+
+  @media (max-width: 1400px) {
+    font-size: 0.9rem;
+  }
 `
 
 const GuildName = styled.div`
@@ -269,7 +314,11 @@ const GuildName = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 60%;
-  font-size: 0.9rem; 
+  font-size: 0.9rem;
+  
+  @media (max-width: 1400px) {
+    font-size: 0.8rem;
+  } 
 `
 
 export const PlayersRankAndGuildChampionsStyles = {
