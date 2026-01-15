@@ -59,6 +59,7 @@ const StyledButton = styled.button<Omit<ButtonProps, 'as'>>`
             transform: translateY(-2px);
           }
         `
+        
       default:
         return `
           background: linear-gradient(135deg, ${theme.colors.gold} 0%, ${theme.colors.darkGold} 100%);

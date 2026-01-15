@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { ButtonProps } from '../../types'
+import { ButtonProps } from '../../types' 
 
 const StyledButton = styled.button<Omit<ButtonProps, 'as'>>`
   font-family: ${({ theme }) => theme.fonts.epic};
@@ -16,6 +16,11 @@ const StyledButton = styled.button<Omit<ButtonProps, 'as'>>`
   /* Tamanhos */
   ${({ size }) => {
     switch (size) {
+      case 'xs': 
+        return `
+          padding: 0.35rem 0.75rem;
+          font-size: 0.75rem;
+        `
       case 'small':
         return `
           padding: 0.5rem 1rem;

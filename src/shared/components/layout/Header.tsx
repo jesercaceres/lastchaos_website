@@ -2,16 +2,20 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../../assets/icons/logo.png';
+import { ButtonLink } from '../ui/ButtonLink';
+
+// ... (estilos HeaderContainer, HeaderContent, Logo, LogoIcon, Nav, NavLink) ...
 
 const HeaderContainer = styled.header`
-  
   border-bottom: 1px solid ${({ theme }) => theme.colors.gold};
   padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.lg};
- 
-  z-index: 100;
+  z-index: 1000;
   box-shadow: ${({ theme }) => theme.shadows.md};
   width: 100%;
   box-sizing: border-box;
+  background: rgba(11, 12, 16, 0.95);
+  backdrop-filter: blur(10px);
+  position: relative;
 
   @media (max-width: 414px) {
     padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
@@ -23,7 +27,7 @@ const HeaderContent = styled.div`
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  align-items: left;
+  align-items: center;
   gap: ${({ theme }) => theme.spacing.md};
   flex-wrap: nowrap;
   width: 100%;
@@ -41,21 +45,26 @@ const HeaderContent = styled.div`
 `;
 
 const Logo = styled(Link)`
- 
+  display: flex;
+  align-items: center;
+  z-index: 1001;
+  
   &:hover {
     text-shadow: ${({ theme }) => theme.shadows.gold};
     transform: scale(1.03);
   }
-
 `;
 
 const LogoIcon = styled.img`
-    max-width: 100%;
-    height: auto;
-    max-width: 140px; 
+  max-width: 140px; 
+  height: auto;
+  object-fit: contain;
+  display: block;
+
   @media (max-width: 414px) {
-    width: 28px;
-    height: 28px;
+    max-width: 110px;
+    width: 100%;
+    height: auto;
   }
 `;
 
@@ -64,9 +73,12 @@ const Nav = styled.nav`
   gap: ${({ theme }) => theme.spacing.md};
   flex-wrap: nowrap;
   align-items: center;
+  margin-right: auto;
+  margin-left: ${({ theme }) => theme.spacing.lg};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
     gap: ${({ theme }) => theme.spacing.sm};
+    margin-left: ${({ theme }) => theme.spacing.md};
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.intermediate}) {
@@ -116,22 +128,42 @@ const NavLink = styled(Link)<{ isActive?: boolean }>`
   }
 `;
 
+const AuthButtonsContainer = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing.sm};
+  align-items: center;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.intermediate}) {
+    display: none;
+  }
+`;
+
 const MobileMenuButton = styled.button`
   display: none;
   background: transparent;
-  border: 2px solid ${({ theme }) => theme.colors.gold};
+  border: 1px solid ${({ theme }) => theme.colors.gold};
   color: ${({ theme }) => theme.colors.gold};
-  padding: ${({ theme }) => theme.spacing.xs};
+  padding: 4px 6px; 
   border-radius: ${({ theme }) => theme.borderRadius.md};
   cursor: pointer;
   flex-shrink: 0;
   margin-left: ${({ theme }) => theme.spacing.sm};
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   width: auto;
   height: auto;
+  transition: all 0.2s ease;
+  z-index: 1002;
+  position: relative;
+
+  &:active {
+    background: rgba(212, 175, 55, 0.1);
+    transform: scale(0.95);
+  }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.intermediate}) {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   @media (min-width: calc(${({ theme }) => theme.breakpoints.intermediate} + 1px)) {
@@ -139,10 +171,9 @@ const MobileMenuButton = styled.button`
   }
 
   @media (max-width: 414px) {
-    padding: ${({ theme }) => theme.spacing.xs};
     margin-left: ${({ theme }) => theme.spacing.xs};
-    min-width: 36px;
-    min-height: 36px;
+    font-size: 1rem;
+    padding: 3px 6px;
   }
 `;
 
@@ -163,14 +194,23 @@ const MobileNav = styled.nav<{ isOpen: boolean }>`
       ${({ theme }) => theme.colors.dark} 100%
     );
     padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
-    gap: ${({ theme }) => theme.spacing.xs};
+    gap: ${({ theme }) => theme.spacing.md};
     box-shadow: ${({ theme }) => theme.shadows.md};
-    border-bottom: 2px solid ${({ theme }) => theme.colors.gold};
+    border-bottom: 1px solid ${({ theme }) => theme.colors.gold};
+    z-index: 999;
   }
 
   @media (min-width: calc(${({ theme }) => theme.breakpoints.intermediate} + 1px)) {
     display: none;
   }
+`;
+
+// Estilo específico para o divisor no menu mobile
+const MobileDivider = styled.div`
+  height: 1px;
+  background: rgba(212, 175, 55, 0.2);
+  margin: ${({ theme }) => theme.spacing.xs} 0;
+  width: 100%;
 `;
 
 const navigationItems = [
@@ -180,8 +220,6 @@ const navigationItems = [
   { path: '/comunidade', label: 'Comunidade' },
   { path: '/regras', label: 'Regras' },
   { path: '/doacoes', label: 'Doações' },
-  { path: '/login', label: 'Login' },
-  { path: '/registro', label: 'Registrar' },
 ];
 
 export const Header: React.FC = () => {
@@ -200,10 +238,30 @@ export const Header: React.FC = () => {
     return () => window.removeEventListener('resize', setHeaderHeight);
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (headerRef.current && !headerRef.current.contains(event.target as Node)) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    if (mobileMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [mobileMenuOpen]);
+
+  const toggleMenu = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
   return (
     <HeaderContainer ref={headerRef as any}>
       <HeaderContent>
-        <Logo to="/">
+        <Logo to="/" onClick={() => setMobileMenuOpen(false)}>
           <LogoIcon src={logo} alt="Old World Last Chaos" />
         </Logo>
 
@@ -219,8 +277,29 @@ export const Header: React.FC = () => {
           ))}
         </Nav>
 
-        <MobileMenuButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-          ☰
+        <AuthButtonsContainer>
+          <ButtonLink 
+            to="/login" 
+            variant="primary" 
+            size="xs"
+          >
+            Login
+          </ButtonLink>
+          <ButtonLink 
+            to="/registro" 
+            variant="secondary" 
+            size="xs"
+          >
+            Registrar
+          </ButtonLink>
+        </AuthButtonsContainer>
+
+        <MobileMenuButton 
+          onClick={toggleMenu}
+          aria-label={mobileMenuOpen ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={mobileMenuOpen}
+        >
+          {mobileMenuOpen ? '✕' : '☰'}
         </MobileMenuButton>
       </HeaderContent>
 
@@ -235,6 +314,26 @@ export const Header: React.FC = () => {
             {item.label}
           </NavLink>
         ))}
+
+        {/* Divisor para separar itens de navegação das ações de conta */}
+        <MobileDivider />
+
+        {/* Links de Auth como texto simples no mobile */}
+        <NavLink
+          to="/login"
+          isActive={location.pathname === '/login'}
+          onClick={() => setMobileMenuOpen(false)}
+        >
+          Login
+        </NavLink>
+        <NavLink
+          to="/registro"
+          isActive={location.pathname === '/registro'}
+          onClick={() => setMobileMenuOpen(false)}
+          style={{ color: '#D4AF37', fontWeight: 600 }} 
+        >
+          Registrar-se
+        </NavLink>
       </MobileNav>
     </HeaderContainer>
   );

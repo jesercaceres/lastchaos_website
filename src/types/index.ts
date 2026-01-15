@@ -59,7 +59,7 @@ export interface ButtonProps {
   children: React.ReactNode
   onClick?: () => void
   variant?: 'primary' | 'secondary' | 'danger'
-  size?: 'small' | 'medium' | 'large'
+  size?: 'xs' | 'small' | 'medium' | 'large' 
   disabled?: boolean
   type?: 'button' | 'submit' | 'reset'
   fullWidth?: boolean

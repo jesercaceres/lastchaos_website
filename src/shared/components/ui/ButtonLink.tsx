@@ -17,6 +17,11 @@ const StyledButtonLink = styled(Link)<Omit<ButtonProps, 'as'>>`
 
 	${({ size }) => {
 		switch (size) {
+      case 'xs': // Novo tamanho
+				return `
+					padding: 0.35rem 0.75rem;
+					font-size: 0.75rem;
+				`
 			case 'small':
 				return `
 					padding: 0.5rem 1rem;
@@ -99,4 +104,3 @@ export const ButtonLink: React.FC<ButtonLinkProps> = ({
 		</StyledButtonLink>
 	)
 }
-

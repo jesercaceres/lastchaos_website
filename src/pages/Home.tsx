@@ -28,7 +28,6 @@ const ContentContainer = styled.div`
   }
 `
 
-// --- HERO SECTION ---
 const HeroSection = styled.section`
   width: 100%;
   height: 100vh;
@@ -64,38 +63,46 @@ const ButtonsOverlay = styled.div`
   justify-content: center;
 `
 
-// --- WRAPPERS DE FUNDO (Full Width) ---
+// --- WRAPPERS DE FUNDO (Padronizados) ---
 
-// 1. Wrapper para Notícias
-const NewsSectionWrapper = styled.section`
-  padding-top: ${({ theme }) => theme.spacing.xl};
+
+const sectionBaseStyles = `
   width: 100%;
   min-height: 100vh;
   position: relative;
-  align-content: center;
-  background-image: url(${newsBg});
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background-size: cover;
-  background-attachment: fixed;
   background-position: center;
+`
+
+// 1. Wrapper para Notícias
+const NewsSectionWrapper = styled.section`
+  ${sectionBaseStyles}
+  /* Padding top explícito para afastar do Divider */
+  padding-top: ${({ theme }) => theme.spacing.xl};
+  background-image: url(${newsBg});
+  background-attachment: fixed;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     padding-bottom: ${({ theme }) => theme.spacing['6xl']};
     padding-top: ${({ theme }) => theme.spacing['2xl']};
+    background-attachment: scroll;
   }
 `
 
 // 2. Wrapper para Servidores
 const ServersSectionWrapper = styled.section`
-  width: 100%;
-  min-height: 90vh;
-  position: relative;
-  align-content: center;
+  ${sectionBaseStyles}
+  /* Padding top IGUAL ao de notícias para consistência visual */
+  padding-top: ${({ theme }) => theme.spacing.xl};
+  
   background-image: 
     linear-gradient(to bottom, rgba(0, 0, 0, 10) 0%, transparent 100%), // Topo
     linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 30%),    // Baixo
     url(${serversBg});
-  background-size: cover;
-  background-position: center;
+
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     padding-bottom: ${({ theme }) => theme.spacing['6xl']};
     padding-top: ${({ theme }) => theme.spacing['2xl']};
@@ -309,7 +316,7 @@ export const Home: React.FC = () => {
       <HeroSection role="img" aria-label="Old World Last Chaos">
         <ButtonsOverlay>
           <HeroButtons>
-            <ButtonLink size="large" to="/download">
+            <ButtonLink size="large"  to="/download">
               Baixar Jogo
             </ButtonLink>
             <ButtonLink size="large" variant="secondary" to="/registro">
@@ -352,6 +359,8 @@ export const Home: React.FC = () => {
       {/* SEÇÃO 3: RANKINGS */}
       <HomeRankingsSection />
       
+     
+
       {/* SEÇÃO 2: SERVIDORES */}
       <ServersSectionWrapper>
         <ContentContainer>

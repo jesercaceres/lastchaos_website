@@ -2,9 +2,7 @@ import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import { Server } from '../types'
 import { Card, ButtonLink } from './ui'
-// Se você não tiver o componente ServerStatusBadge, pode remover a importação e usar a bolinha nova abaixo
 
-// --- 1. Novos Estilos e Animações ---
 
 const pulse = keyframes`
   0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
@@ -59,7 +57,7 @@ const ServerType = styled.span`
   }
 `
 
-// Badges de Rates (Visual Upgrade)
+// Badges de Rates 
 const RatesContainer = styled.div`
   display: flex;
   gap: 8px;
@@ -110,7 +108,6 @@ interface ServerCardProps {
   server: Server
 }
 
-// --- 2. O Componente Refatorado ---
 
 export const ServerCard: React.FC<ServerCardProps> = ({ server }) => {
   // Lógica da barra de progresso
@@ -130,7 +127,7 @@ export const ServerCard: React.FC<ServerCardProps> = ({ server }) => {
           Tipo: <strong>{server.type}</strong>
         </ServerType>
 
-        {/* Mock de Rates para visual (depois podemos adicionar no types.ts) */}
+        {/* Mock de Rates para visual */}
         <RatesContainer>
           <RateBadge>XP 5x</RateBadge>
           <RateBadge>DROP 3x</RateBadge>

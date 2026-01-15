@@ -147,7 +147,7 @@ export const HomeRankingsSection: React.FC = () => {
 
               {/* --- COLUNA 2: GUILD RATING --- */}
               <PlayersRankAndGuildChampionsStyles.Section>
-                {/* Justify Center para centralizar o bloco Título+Ícone pois não tem botão */}
+                
                 <PlayersRankAndGuildChampionsStyles.TitleRow style={{ justifyContent: 'center' }}>
                   <TitleGroup>
                     <PlayersRankAndGuildChampionsStyles.Title>
