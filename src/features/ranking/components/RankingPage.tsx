@@ -24,7 +24,7 @@ const RankingContainer = styled.div`
 
 const Title = styled.h1`
   font-family: ${({ theme }) => theme.fonts.epic};
-  font-size: ${({ theme }) => theme.fontSizes['4xl']};;
+  font-size: ${({ theme }) => theme.fontSizes['4xl']};
   color: ${({ theme }) => theme.colors.gold};
   text-align: center;
   margin-bottom: ${({ theme }) => theme.spacing.xl};
@@ -86,7 +86,7 @@ export const RankingPage: React.FC = () => {
   return (
     <RankingContainer>
       <Title>Ranking de Jogadores</Title>
-    
+
       <ControlsRow>
         <span>Exibir:</span>
         <Select value={limit} onChange={e => setLimit(Number(e.target.value) as 50 | 100)}>

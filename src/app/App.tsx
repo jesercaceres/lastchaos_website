@@ -6,7 +6,7 @@ import { theme } from '../styles/theme'
 export const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyle />
+      <GlobalStyle theme={theme} />
       <AppRoutes />
     </ThemeProvider>
   )

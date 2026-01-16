@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import styled from 'styled-components';
-import logo from '../../../assets/icons/logo.png';
-import { ButtonLink } from '../ui/ButtonLink';
+import { useState, useEffect, useRef } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import styled from 'styled-components'
+import logo from '../../../assets/icons/logo.png'
+import { ButtonLink } from '../ui/ButtonLink'
 
 // ... (estilos HeaderContainer, HeaderContent, Logo, LogoIcon, Nav, NavLink) ...
 
@@ -20,7 +20,7 @@ const HeaderContainer = styled.header`
   @media (max-width: 414px) {
     padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   }
-`;
+`
 
 const HeaderContent = styled.div`
   max-width: auto;
@@ -42,21 +42,21 @@ const HeaderContent = styled.div`
   @media (max-width: 414px) {
     gap: ${({ theme }) => theme.spacing.xs};
   }
-`;
+`
 
 const Logo = styled(Link)`
   display: flex;
   align-items: center;
   z-index: 1001;
-  
+
   &:hover {
     text-shadow: ${({ theme }) => theme.shadows.gold};
     transform: scale(1.03);
   }
-`;
+`
 
 const LogoIcon = styled.img`
-  max-width: 140px; 
+  max-width: 140px;
   height: auto;
   object-fit: contain;
   display: block;
@@ -66,7 +66,7 @@ const LogoIcon = styled.img`
     width: 100%;
     height: auto;
   }
-`;
+`
 
 const Nav = styled.nav`
   display: flex;
@@ -88,7 +88,7 @@ const Nav = styled.nav`
   @media (min-width: ${({ theme }) => theme.breakpoints.intermediate}) {
     display: flex;
   }
-`;
+`
 
 const NavLink = styled(Link)<{ isActive?: boolean }>`
   color: ${({ theme, isActive }) => (isActive ? theme.colors.gold : theme.colors.white)};
@@ -126,7 +126,7 @@ const NavLink = styled(Link)<{ isActive?: boolean }>`
       width: 80%;
     }
   }
-`;
+`
 
 const AuthButtonsContainer = styled.div`
   display: flex;
@@ -136,14 +136,14 @@ const AuthButtonsContainer = styled.div`
   @media (max-width: ${({ theme }) => theme.breakpoints.intermediate}) {
     display: none;
   }
-`;
+`
 
 const MobileMenuButton = styled.button`
   display: none;
   background: transparent;
   border: 1px solid ${({ theme }) => theme.colors.gold};
   color: ${({ theme }) => theme.colors.gold};
-  padding: 4px 6px; 
+  padding: 4px 6px;
   border-radius: ${({ theme }) => theme.borderRadius.md};
   cursor: pointer;
   flex-shrink: 0;
@@ -175,7 +175,7 @@ const MobileMenuButton = styled.button`
     font-size: 1rem;
     padding: 3px 6px;
   }
-`;
+`
 
 const MobileNav = styled.nav<{ isOpen: boolean }>`
   display: none;
@@ -203,7 +203,7 @@ const MobileNav = styled.nav<{ isOpen: boolean }>`
   @media (min-width: calc(${({ theme }) => theme.breakpoints.intermediate} + 1px)) {
     display: none;
   }
-`;
+`
 
 // Estilo específico para o divisor no menu mobile
 const MobileDivider = styled.div`
@@ -211,7 +211,7 @@ const MobileDivider = styled.div`
   background: rgba(212, 175, 55, 0.2);
   margin: ${({ theme }) => theme.spacing.xs} 0;
   width: 100%;
-`;
+`
 
 const navigationItems = [
   { path: '/', label: 'Início' },
@@ -220,43 +220,43 @@ const navigationItems = [
   { path: '/comunidade', label: 'Comunidade' },
   { path: '/regras', label: 'Regras' },
   { path: '/doacoes', label: 'Doações' },
-];
+]
 
 export const Header: React.FC = () => {
-  const location = useLocation();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const headerRef = useRef<HTMLElement | null>(null);
+  const location = useLocation()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const headerRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
     const setHeaderHeight = () => {
-      const height = headerRef.current?.offsetHeight ?? 0;
-      document.documentElement.style.setProperty('--header-height', `${height}px`);
-    };
+      const height = headerRef.current?.offsetHeight ?? 0
+      document.documentElement.style.setProperty('--header-height', `${height}px`)
+    }
 
-    setHeaderHeight();
-    window.addEventListener('resize', setHeaderHeight);
-    return () => window.removeEventListener('resize', setHeaderHeight);
-  }, []);
+    setHeaderHeight()
+    window.addEventListener('resize', setHeaderHeight)
+    return () => window.removeEventListener('resize', setHeaderHeight)
+  }, [])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (headerRef.current && !headerRef.current.contains(event.target as Node)) {
-        setMobileMenuOpen(false);
+        setMobileMenuOpen(false)
       }
-    };
+    }
 
     if (mobileMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside)
     }
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [mobileMenuOpen]);
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [mobileMenuOpen])
 
   const toggleMenu = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
+    e.stopPropagation()
+    setMobileMenuOpen(!mobileMenuOpen)
+  }
 
   return (
     <HeaderContainer ref={headerRef as any}>
@@ -266,37 +266,25 @@ export const Header: React.FC = () => {
         </Logo>
 
         <Nav>
-          {navigationItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              isActive={location.pathname === item.path}
-            >
+          {navigationItems.map(item => (
+            <NavLink key={item.path} to={item.path} isActive={location.pathname === item.path}>
               {item.label}
             </NavLink>
           ))}
         </Nav>
 
         <AuthButtonsContainer>
-          <ButtonLink 
-            to="/login" 
-            variant="primary" 
-            size="xs"
-          >
+          <ButtonLink to="/login" variant="primary" size="xs">
             Login
           </ButtonLink>
-          <ButtonLink 
-            to="/registro" 
-            variant="secondary" 
-            size="xs"
-          >
+          <ButtonLink to="/registro" variant="secondary" size="xs">
             Registrar
           </ButtonLink>
         </AuthButtonsContainer>
 
-        <MobileMenuButton 
+        <MobileMenuButton
           onClick={toggleMenu}
-          aria-label={mobileMenuOpen ? "Fechar menu" : "Abrir menu"}
+          aria-label={mobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
           aria-expanded={mobileMenuOpen}
         >
           {mobileMenuOpen ? '✕' : '☰'}
@@ -304,7 +292,7 @@ export const Header: React.FC = () => {
       </HeaderContent>
 
       <MobileNav isOpen={mobileMenuOpen}>
-        {navigationItems.map((item) => (
+        {navigationItems.map(item => (
           <NavLink
             key={item.path}
             to={item.path}
@@ -330,11 +318,11 @@ export const Header: React.FC = () => {
           to="/registro"
           isActive={location.pathname === '/registro'}
           onClick={() => setMobileMenuOpen(false)}
-          style={{ color: '#D4AF37', fontWeight: 600 }} 
+          style={{ color: '#D4AF37', fontWeight: 600 }}
         >
           Registrar-se
         </NavLink>
       </MobileNav>
     </HeaderContainer>
-  );
-};
+  )
+}

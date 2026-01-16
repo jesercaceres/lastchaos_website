@@ -65,7 +65,6 @@ const ButtonsOverlay = styled.div`
 
 // --- WRAPPERS DE FUNDO (Padronizados) ---
 
-
 const sectionBaseStyles = `
   width: 100%;
   min-height: 100vh;
@@ -82,6 +81,7 @@ const NewsSectionWrapper = styled.section`
   ${sectionBaseStyles}
   /* Padding top explícito para afastar do Divider */
   padding-top: ${({ theme }) => theme.spacing.xl};
+  padding-bottom: ${({ theme }) => theme.spacing['5xl']};
   background-image: url(${newsBg});
   background-attachment: fixed;
 
@@ -96,11 +96,13 @@ const NewsSectionWrapper = styled.section`
 const ServersSectionWrapper = styled.section`
   ${sectionBaseStyles}
   /* Padding top IGUAL ao de notícias para consistência visual */
-  padding-top: ${({ theme }) => theme.spacing.xl};
-  
-  background-image: 
-    linear-gradient(to bottom, rgba(0, 0, 0, 10) 0%, transparent 100%), // Topo
-    linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 30%),    // Baixo
+  padding-bottom: ${({ theme }) => theme.spacing.xl};
+
+  background-image:
+    linear-gradient(to bottom, rgba(0, 0, 0, 10) 0%, transparent 100%),
+    // Topo
+    linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 30%),
+    // Baixo
     url(${serversBg});
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
@@ -299,7 +301,7 @@ const ProgressBarFill = styled.div<{ $percent: number }>`
 // --- COMPONENTE HOME ---
 export const Home: React.FC = () => {
   const [selectedNews, setSelectedNews] = useState<News | null>(null)
-  
+
   const featuredServers = mockServers.slice(0, 3)
   const featuredNews = mockNews.slice(0, 3)
 
@@ -316,7 +318,7 @@ export const Home: React.FC = () => {
       <HeroSection role="img" aria-label="Old World Last Chaos">
         <ButtonsOverlay>
           <HeroButtons>
-            <ButtonLink size="large"  to="/download">
+            <ButtonLink size="large" to="/download">
               Baixar Jogo
             </ButtonLink>
             <ButtonLink size="large" variant="secondary" to="/registro">
@@ -326,7 +328,7 @@ export const Home: React.FC = () => {
         </ButtonsOverlay>
       </HeroSection>
 
-       <SectionDivider />
+      <SectionDivider />
 
       {/* SEÇÃO 1: NOTÍCIAS */}
       <NewsSectionWrapper>
@@ -334,17 +336,13 @@ export const Home: React.FC = () => {
           <SectionTitle>Últimas Notícias</SectionTitle>
           <NewsGrid>
             {featuredNews.map(news => (
-              <TransparentCard 
-                key={news.id} 
-                hoverable 
-                onClick={() => handleOpenNews(news)}
-              >
+              <TransparentCard key={news.id} hoverable onClick={() => handleOpenNews(news)}>
                 {news.image && <NewsImage src={news.image} alt={news.title} />}
                 <NewsCategory>{news.category}</NewsCategory>
                 <NewsTitle>{news.title}</NewsTitle>
                 <NewsContent>
-                  {news.content.length > 100 
-                    ? `${news.content.substring(0, 100)}...` 
+                  {news.content.length > 100
+                    ? `${news.content.substring(0, 100)}...`
                     : news.content}
                 </NewsContent>
                 <NewsDate>{new Date(news.date).toLocaleDateString('pt-BR')}</NewsDate>
@@ -358,8 +356,9 @@ export const Home: React.FC = () => {
 
       {/* SEÇÃO 3: RANKINGS */}
       <HomeRankingsSection />
+
       
-     
+      <SectionDivider />
 
       {/* SEÇÃO 2: SERVIDORES */}
       <ServersSectionWrapper>
@@ -405,26 +404,17 @@ export const Home: React.FC = () => {
         </ContentContainer>
       </ServersSectionWrapper>
 
-      <SectionDivider />
 
       {/* MODAL DE NOTÍCIAS */}
-      <Modal 
-        isOpen={!!selectedNews} 
-        onClose={handleCloseNews} 
-        title={selectedNews?.title}
-      >
+      <Modal isOpen={!!selectedNews} onClose={handleCloseNews} title={selectedNews?.title}>
         {selectedNews && (
           <>
-            {selectedNews.image && (
-              <ModalImage src={selectedNews.image} alt={selectedNews.title} />
-            )}
+            {selectedNews.image && <ModalImage src={selectedNews.image} alt={selectedNews.title} />}
             <ModalMeta>
               <NewsCategory>{selectedNews.category}</NewsCategory>
               <NewsDate>{new Date(selectedNews.date).toLocaleDateString('pt-BR')}</NewsDate>
             </ModalMeta>
-            <ModalText>
-              {selectedNews.content}
-            </ModalText>
+            <ModalText>{selectedNews.content}</ModalText>
           </>
         )}
       </Modal>

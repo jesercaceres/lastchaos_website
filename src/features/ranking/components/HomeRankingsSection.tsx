@@ -17,7 +17,7 @@ const SectionIcon = styled.img`
   margin-left: 12px;
   vertical-align: middle;
   display: inline-block;
-  
+
   /* Drop Shadow Dourado para integrar o ícone branco ao tema */
   filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.3));
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -62,11 +62,10 @@ const RankingsSectionWrapper = styled.section`
   align-content: center;
   background-image:
     linear-gradient(to bottom, rgba(0, 0, 0, 10) 0%, transparent 18%),
-    linear-gradient(to top, rgba(0, 0, 0, 10) 0%, transparent 50%),
-    url(${rankingBg});
+    linear-gradient(to top, rgba(0, 0, 0, 10) 0%, transparent 50%), url(${rankingBg});
   background-position: center;
   background-size: cover;
-  
+
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     padding-top: ${({ theme }) => theme.spacing['2xl']};
   }
@@ -98,7 +97,6 @@ export const HomeRankingsSection: React.FC = () => {
         <RankedAndGuildsGrid>
           <PlayersRankAndGuildChampionsStyles.ContainerCard>
             <PlayersRankAndGuildChampionsStyles.Columns>
-              
               {/* --- COLUNA 1: PLAYER RATING --- */}
               <PlayersRankAndGuildChampionsStyles.Section>
                 <PlayersRankAndGuildChampionsStyles.TitleRow>
@@ -115,10 +113,10 @@ export const HomeRankingsSection: React.FC = () => {
 
                 <PlayersRankAndGuildChampionsStyles.Block>
                   <PlayersRankAndGuildChampionsStyles.TableHeaderPlayers>
-                    <div style={{textAlign: 'center'}}>N°</div>
-                    <div style={{paddingLeft: '12px'}}>NICKNAME</div>
-                    <div style={{textAlign: 'center'}}>RACE</div>
-                    <div style={{textAlign: 'center'}}>LVL</div>
+                    <div style={{ textAlign: 'center' }}>N°</div>
+                    <div style={{ paddingLeft: '12px' }}>NICKNAME</div>
+                    <div style={{ textAlign: 'center' }}>RACE</div>
+                    <div style={{ textAlign: 'center' }}>LVL</div>
                   </PlayersRankAndGuildChampionsStyles.TableHeaderPlayers>
 
                   {mockPlayerRating.map(player => (
@@ -128,15 +126,15 @@ export const HomeRankingsSection: React.FC = () => {
                       <PlayersRankAndGuildChampionsStyles.PositionBadge $position={player.position}>
                         {player.position}
                       </PlayersRankAndGuildChampionsStyles.PositionBadge>
-                      
+
                       <PlayersRankAndGuildChampionsStyles.Nickname title={player.nickname}>
                         {player.nickname}
                       </PlayersRankAndGuildChampionsStyles.Nickname>
-                      
+
                       <PlayersRankAndGuildChampionsStyles.MutedRightCell>
                         {player.race}
                       </PlayersRankAndGuildChampionsStyles.MutedRightCell>
-                      
+
                       <PlayersRankAndGuildChampionsStyles.RightCell>
                         {player.level}
                       </PlayersRankAndGuildChampionsStyles.RightCell>
@@ -147,7 +145,6 @@ export const HomeRankingsSection: React.FC = () => {
 
               {/* --- COLUNA 2: GUILD RATING --- */}
               <PlayersRankAndGuildChampionsStyles.Section>
-                
                 <PlayersRankAndGuildChampionsStyles.TitleRow style={{ justifyContent: 'center' }}>
                   <TitleGroup>
                     <PlayersRankAndGuildChampionsStyles.Title>
@@ -159,9 +156,9 @@ export const HomeRankingsSection: React.FC = () => {
 
                 <PlayersRankAndGuildChampionsStyles.Block>
                   <PlayersRankAndGuildChampionsStyles.TableHeaderGuilds>
-                    <div style={{textAlign: 'center'}}>N°</div>
-                    <div style={{paddingLeft: '12px'}}>NAME</div>
-                    <div style={{textAlign: 'center'}}>MEM</div>
+                    <div style={{ textAlign: 'center' }}>N°</div>
+                    <div style={{ paddingLeft: '12px' }}>NAME</div>
+                    <div style={{ textAlign: 'center' }}>MEM</div>
                   </PlayersRankAndGuildChampionsStyles.TableHeaderGuilds>
 
                   {mockGuildRating.map(guild => (
@@ -171,11 +168,11 @@ export const HomeRankingsSection: React.FC = () => {
                       <PlayersRankAndGuildChampionsStyles.PositionBadge $position={guild.position}>
                         {guild.position}
                       </PlayersRankAndGuildChampionsStyles.PositionBadge>
-                      
+
                       <PlayersRankAndGuildChampionsStyles.Nickname title={guild.name}>
                         {guild.name}
                       </PlayersRankAndGuildChampionsStyles.Nickname>
-                      
+
                       <PlayersRankAndGuildChampionsStyles.RightCell>
                         {guild.members}
                       </PlayersRankAndGuildChampionsStyles.RightCell>
@@ -208,7 +205,6 @@ export const HomeRankingsSection: React.FC = () => {
                   ))}
                 </PlayersRankAndGuildChampionsStyles.CastleList>
               </PlayersRankAndGuildChampionsStyles.Section>
-              
             </PlayersRankAndGuildChampionsStyles.Columns>
           </PlayersRankAndGuildChampionsStyles.ContainerCard>
         </RankedAndGuildsGrid>

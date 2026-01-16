@@ -3,7 +3,6 @@ import styled, { keyframes } from 'styled-components'
 import { Server } from '../types'
 import { Card, ButtonLink } from './ui'
 
-
 const pulse = keyframes`
   0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
   70% { box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
@@ -57,7 +56,7 @@ const ServerType = styled.span`
   }
 `
 
-// Badges de Rates 
+// Badges de Rates
 const RatesContainer = styled.div`
   display: flex;
   gap: 8px;
@@ -107,7 +106,6 @@ const ProgressBarFill = styled.div<{ $percent: number }>`
 interface ServerCardProps {
   server: Server
 }
-
 
 export const ServerCard: React.FC<ServerCardProps> = ({ server }) => {
   // Lógica da barra de progresso

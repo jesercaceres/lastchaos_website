@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const FooterContainer = styled.footer`
   width: 100%;
@@ -6,7 +6,7 @@ const FooterContainer = styled.footer`
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     padding: ${({ theme }) => theme.spacing.md};
   }
-`;
+`
 
 const Copyright = styled.div`
   max-width: auto;
@@ -18,14 +18,14 @@ const Copyright = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.sm};
   width: 100%;
   box-sizing: border-box;
-`;
+`
 
 export const Footer: React.FC = () => {
-  const currentYear = new Date().getFullYear();
+  const currentYear = new Date().getFullYear()
 
   return (
     <FooterContainer>
       <Copyright>© {currentYear} Jéser Cáceres Marcelino. Todos os direitos reservados.</Copyright>
     </FooterContainer>
-  );
-};
+  )
+}

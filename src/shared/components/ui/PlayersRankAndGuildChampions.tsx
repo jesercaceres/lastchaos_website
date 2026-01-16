@@ -7,11 +7,11 @@ const PLAYER_GRID_TEMPLATE = '50px 1fr 100px 70px'
 const GUILD_GRID_TEMPLATE = '50px 1fr 80px'
 
 // Notebook (1200px - 1400px) - Colunas mais compactas
-const PLAYER_GRID_TEMPLATE_NOTEBOOK = '35px 1fr 70px 45px' 
+const PLAYER_GRID_TEMPLATE_NOTEBOOK = '35px 1fr 70px 45px'
 const GUILD_GRID_TEMPLATE_NOTEBOOK = '35px 1fr 60px'
 
 // Mobile
-const PLAYER_GRID_TEMPLATE_MOBILE = '40px 1fr 0px 50px' 
+const PLAYER_GRID_TEMPLATE_MOBILE = '40px 1fr 0px 50px'
 const GUILD_GRID_TEMPLATE_MOBILE = '40px 1fr 60px'
 
 // --- 2. ESTILOS DE ALINHAMENTO ---
@@ -42,7 +42,7 @@ const ContainerCard = styled(Card)`
   background: rgba(11, 12, 16, 0.95);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(212, 175, 55, 0.2);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   overflow: hidden;
 `
 
@@ -65,7 +65,7 @@ const Section = styled.section`
 
   /* AJUSTE 1: Reduzir padding em notebooks para ganhar espaço interno */
   @media (max-width: 1400px) and (min-width: 1101px) {
-    padding: ${({ theme }) => theme.spacing.sm}; 
+    padding: ${({ theme }) => theme.spacing.sm};
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
@@ -74,7 +74,7 @@ const Section = styled.section`
 
   &:not(:first-child) {
     border-left: 1px solid rgba(212, 175, 55, 0.15);
-    
+
     @media (max-width: 1100px) {
       border-left: none;
       border-top: 1px solid rgba(212, 175, 55, 0.15);
@@ -131,7 +131,9 @@ const TableHeaderPlayers = styled(TableHeaderBase)`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: ${PLAYER_GRID_TEMPLATE_MOBILE};
-    & > *:nth-child(3) { display: none; }
+    & > *:nth-child(3) {
+      display: none;
+    }
   }
 `
 
@@ -161,7 +163,7 @@ const RowBase = styled.div`
     background: rgba(212, 175, 55, 0.05);
     transform: translateX(4px);
   }
-  
+
   &:last-child {
     border-bottom: none;
   }
@@ -178,7 +180,9 @@ const RowPlayers = styled(RowBase)`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: ${PLAYER_GRID_TEMPLATE_MOBILE};
-    & > *:nth-child(3) { display: none; }
+    & > *:nth-child(3) {
+      display: none;
+    }
   }
 `
 
@@ -207,19 +211,19 @@ const PositionBadge = styled.div<{ $position: number }>`
   font-size: 0.85rem;
   font-family: ${({ theme }) => theme.fonts.epic};
   color: ${({ theme, $position }) => ($position <= 3 ? '#1a1a1a' : theme.colors.white)};
-  
+
   background: ${({ $position }) => {
     if ($position === 1) return `linear-gradient(135deg, #FFD700 0%, #FDB931 100%)`
     if ($position === 2) return `linear-gradient(135deg, #E0E0E0 0%, #9E9E9E 100%)`
     if ($position === 3) return `linear-gradient(135deg, #CD7F32 0%, #8B4513 100%)`
     return 'rgba(255, 255, 255, 0.08)'
   }};
-  
-  box-shadow: ${({ $position }) => 
+
+  box-shadow: ${({ $position }) =>
     $position <= 3 ? '0 0 10px rgba(0,0,0,0.5), inset 0 0 5px rgba(255,255,255,0.3)' : 'none'};
-  
-  border: 1px solid ${({ $position }) => 
-    $position <= 3 ? 'transparent' : 'rgba(255, 255, 255, 0.1)'};
+
+  border: 1px solid
+    ${({ $position }) => ($position <= 3 ? 'transparent' : 'rgba(255, 255, 255, 0.1)')};
 
   /* Ajuste para notebook: Badge um pouco menor */
   @media (max-width: 1400px) {
@@ -238,7 +242,7 @@ const Nickname = styled.div`
   text-overflow: ellipsis;
   font-size: 0.9rem;
   transition: color 0.2s;
-  
+
   /* Ajuste de fonte no notebook */
   @media (max-width: 1400px) {
     font-size: 0.8rem;
@@ -285,8 +289,10 @@ const CastleRow = styled.div`
   gap: ${({ theme }) => theme.spacing.md};
   padding: ${({ theme }) => theme.spacing.md} 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  &:last-child { border-bottom: none; }
-  
+  &:last-child {
+    border-bottom: none;
+  }
+
   transition: transform 0.2s ease;
   &:hover {
     transform: translateX(4px);
@@ -315,10 +321,10 @@ const GuildName = styled.div`
   text-overflow: ellipsis;
   max-width: 60%;
   font-size: 0.9rem;
-  
+
   @media (max-width: 1400px) {
     font-size: 0.8rem;
-  } 
+  }
 `
 
 export const PlayersRankAndGuildChampionsStyles = {
