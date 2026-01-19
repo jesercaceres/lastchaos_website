@@ -3,36 +3,73 @@ import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { Button, Input } from '../components/ui'
 import { RegisterFormData } from '../types'
+import registerBgImage from '../assets/images/register-bg.png'
+
+const CopyrightText = styled.p`
+  position: absolute;
+  bottom: 0.1rem;
+  color: ${({ theme }) => theme.colors.gray};
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  opacity: 0.7;
+  text-align: center;
+  width: 100%;
+  pointer-events: none; 
+
+   @media (max-height: 800px), (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    position: relative;
+    bottom: auto;
+    margin-top: 2rem; /* Espaço entre o card e o texto */
+    padding-bottom: 0.5rem; /* Margem de segurança no fundo */
+  }
+  
+   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.fontSizes.xs};
+  }
+`
 
 const RegistroContainer = styled.div`
-  max-width: 500px;
-  margin: ${({ theme }) => theme.spacing['2xl']} auto;
-  padding: ${({ theme }) => theme.spacing.xl};
+  min-height: 100dvh; 
   width: 100%;
-  box-sizing: border-box;
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+  align-items: center;
+  
+  padding: ${({ theme }) => theme.spacing.md};
 
-  /* Ajuste de altura para viewports altas (forms centram melhor, limitar espaço) */
-  @media (min-height: 690px) {
-    min-height: clamp(500px, calc(100dvh - var(--header-height, 72px)), 760px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  background-image: url(${registerBgImage});
+  background-size: cover;
+  background-position: center;
+  
+  /* MOBILE*/
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    /* No mobile, não centralizamos verticalmente de forma rígida.
+       Damos um padding no topo para fugir do Header e deixamos rolar se precisar. */
+    justify-content: flex-start; 
     padding: ${({ theme }) => theme.spacing.md};
-    margin: ${({ theme }) => theme.spacing.lg} auto;
+    
+    /* Empurra o card para baixo o suficiente para não bater no Header fixo */
+    padding-top: calc(var(--header-height, 70px) + 2rem);
+    
+    height: auto; /* Permite que a altura cresça se o teclado abrir */
   }
 `
 
 const RegistroCard = styled.div`
-  background: linear-gradient(
+  max-width: 500px; // Largura mantida
+  width: 100%;
+  background: linear-gradient(  
     135deg,
     ${({ theme }) => theme.colors.dark} 0%,
     ${({ theme }) => theme.colors.darker} 100%
   );
   border: 2px solid ${({ theme }) => theme.colors.gold};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
-  padding: ${({ theme }) => theme.spacing.xl};
+  
+  /* --- ALTERAÇÃO PRINCIPAL --- */
+  /* Reduzimos o padding vertical (topo/base) para 'md' e mantivemos o horizontal em 'xl' */
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
+  
   box-shadow: ${({ theme }) => theme.shadows.xl};
 `
 
@@ -41,18 +78,24 @@ const Title = styled.h1`
   font-size: ${({ theme }) => theme.fontSizes['4xl']};
   color: ${({ theme }) => theme.colors.gold};
   text-align: center;
-  margin-bottom: ${({ theme }) => theme.spacing.lg};
+  /* --- ALTERAÇÃO OPCIONAL --- */
+  /* Reduzida a margem inferior de 'lg' para 'md' para compactar mais */
+  margin-bottom: ${({ theme }) => theme.spacing.md};
 `
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.md};
+  /* --- ALTERAÇÃO OPCIONAL --- */
+  /* Reduzido o espaço entre os inputs de 'md' para 'sm' */
+  gap: ${({ theme }) => theme.spacing.sm};
 `
 
 const LinksContainer = styled.div`
   text-align: center;
-  margin-top: ${({ theme }) => theme.spacing.md};
+  /* --- ALTERAÇÃO OPCIONAL --- */
+  /* Reduzida a margem superior de 'md' para 'sm' */
+  margin-top: ${({ theme }) => theme.spacing.sm};
 `
 
 const StyledLink = styled(Link)`
@@ -218,6 +261,9 @@ export const Registro: React.FC = () => {
           <StyledLink to="/login">Já possui uma conta? Faça login</StyledLink>
         </LinksContainer>
       </RegistroCard>
+        <CopyrightText>
+        © {new Date().getFullYear()} Old World Last Chaos. Todos os direitos reservados.
+      </CopyrightText>
     </RegistroContainer>
   )
 }
