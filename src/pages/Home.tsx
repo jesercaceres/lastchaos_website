@@ -15,7 +15,7 @@ import serversBg from '../assets/images/server-bg.png'
 
 // --- CONTAINER DE CONTEÚDO (Centraliza o conteúdo sobre os backgrounds) ---
 const ContentContainer = styled.div`
-  max-width: 1440px;
+  max-width: ${({ theme }) => theme.breakpoints.wide};
   margin: 0 auto;
   padding: ${({ theme }) => theme.spacing.xl};
   width: 100%;
@@ -39,8 +39,8 @@ const HeroSection = styled.section`
     linear-gradient(to top, rgba(0, 0, 0, 10) 0%, transparent 30%), url(${heroImage});
   background-position: center top;
   background-size: cover;
-  padding-bottom: 24vh;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  padding-bottom: ${({ theme }) => theme.spacing['6xl']};
+  box-shadow: ${({ theme }) => theme.shadows.lg};
   z-index: 10;
 `
 
@@ -96,6 +96,7 @@ const NewsSectionWrapper = styled.section`
 const ServersSectionWrapper = styled.section`
   ${sectionBaseStyles}
   /* Padding top IGUAL ao de notícias para consistência visual */
+  padding-top: ${({ theme }) => theme.spacing.xl};
   padding-bottom: ${({ theme }) => theme.spacing.xl};
 
   background-image:
@@ -116,7 +117,7 @@ const SectionTitle = styled.h2`
   font-size: ${({ theme }) => theme.fontSizes['4xl']};
   color: ${({ theme }) => theme.colors.gold};
   text-align: center;
-  margin-bottom: ${({ theme }) => `calc(${theme.spacing.xl} + 0.5rem)`};
+  margin-bottom: ${({ theme }) => `calc(${theme.spacing.xl} + ${theme.spacing.xs})`};
   text-shadow: 0 4px 15px rgba(0, 0, 0, 1);
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
@@ -155,7 +156,7 @@ const TransparentCard = styled(Card)`
   background: rgba(11, 12, 16, 0.8);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(212, 175, 55, 0.15);
-  transition: all 0.3s ease;
+  transition: all ${({ theme }) => theme.transitions.normal};
   cursor: pointer;
 
   &:hover {
@@ -167,7 +168,7 @@ const TransparentCard = styled(Card)`
 
 const NewsImage = styled.img`
   width: 100%;
-  height: 200px;
+  height: ${({ theme }) => theme.spacing['6xl']};
   object-fit: cover;
   border-radius: ${({ theme }) => theme.borderRadius.md};
 `
@@ -198,7 +199,7 @@ const NewsCategory = styled.span`
   margin-top: ${({ theme }) => theme.spacing.sm};
   margin-bottom: ${({ theme }) => theme.spacing.xs};
   display: inline-block;
-  padding: 0.25rem 0.75rem;
+  padding: ${({ theme }) => `calc(${theme.spacing.xs} / 2) ${theme.spacing.sm}`};
   background: ${({ theme }) => theme.colors.brown};
   color: ${({ theme }) => theme.colors.white};
   border-radius: ${({ theme }) => theme.borderRadius.full};
@@ -210,7 +211,7 @@ const NewsCategory = styled.span`
 // --- ESTILOS DO MODAL ---
 const ModalImage = styled.img`
   width: 100%;
-  max-height: 300px;
+  max-height: ${({ theme }) => `calc(${theme.spacing['7xl']} + ${theme.spacing['2xl']})`};
   object-fit: cover;
   border-radius: ${({ theme }) => theme.borderRadius.md};
   margin-bottom: ${({ theme }) => theme.spacing.md};
@@ -236,14 +237,14 @@ const ModalText = styled.div`
 const ServerHeader = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
 `
 const StatusDot = styled.span<{ $online?: boolean }>`
-  height: 10px;
-  width: 10px;
+  height: ${({ theme }) => theme.spacing.xs};
+  width: ${({ theme }) => theme.spacing.xs};
   background-color: ${({ $online }) => ($online ? '#2ecc71' : '#e74c3c')};
   border-radius: 50%;
-  margin-right: 12px;
+  margin-right: ${({ theme }) => theme.spacing.sm};
   display: inline-block;
   animation: ripple 2s infinite;
 `
@@ -257,45 +258,46 @@ const ServerTitle = styled.h3`
 `
 const ServerMeta = styled.p`
   color: ${({ theme }) => theme.colors.gray};
-  font-size: 0.875rem;
-  margin-bottom: 0.5rem;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
   strong {
-    color: white;
+    color: ${({ theme }) => theme.colors.white};
   }
 `
 const RatesContainer = styled.div`
   display: flex;
-  gap: 8px;
-  margin-bottom: 1rem;
+  gap: ${({ theme }) => theme.spacing.xs};
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
 `
 const RateBadge = styled.span`
   background: rgba(255, 215, 0, 0.1);
   color: ${({ theme }) => theme.colors.gold};
   border: 1px solid ${({ theme }) => theme.colors.gold};
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 0.7rem;
+  padding: ${({ theme }) => `calc(${theme.spacing.xs} / 4) ${theme.spacing.xs}`};
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  font-size: ${({ theme }) => theme.fontSizes.xs};
   font-weight: 700;
 `
 const ServerStats = styled.p`
   color: ${({ theme }) => theme.colors.gray};
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
   display: flex;
   justify-content: space-between;
 `
 const ProgressBarContainer = styled.div`
   width: 100%;
-  height: 6px;
+  height: ${({ theme }) => theme.spacing.xs};
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-  margin-top: 8px;
-  margin-bottom: 1rem;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  margin-top: ${({ theme }) => theme.spacing.xs};
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
   overflow: hidden;
 `
 const ProgressBarFill = styled.div<{ $percent: number }>`
   height: 100%;
   width: ${({ $percent }) => $percent}%;
-  background: linear-gradient(90deg, #d4af37, #f1c40f);
+  background: ${({ theme }) =>
+    `linear-gradient(90deg, ${theme.colors.gold}, ${theme.colors.lightGold})`};
 `
 
 // --- COMPONENTE HOME ---
@@ -354,13 +356,13 @@ export const Home: React.FC = () => {
 
       <SectionDivider />
 
-      {/* SEÇÃO 3: RANKINGS */}
+      {/* SEÇÃO 2: RANKINGS */}
       <HomeRankingsSection />
 
       
       <SectionDivider />
 
-      {/* SEÇÃO 2: SERVIDORES */}
+      {/* SEÇÃO 3: SERVIDORES */}
       <ServersSectionWrapper>
         <ContentContainer>
           <SectionTitle>Servidores em Destaque</SectionTitle>

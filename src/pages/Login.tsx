@@ -15,16 +15,15 @@ const CopyrightText = styled.p`
   width: 100%;
   pointer-events: none; 
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-   font-size: ${({ theme }) => theme.fontSizes.xs};
+   @media (max-height: 800px), (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     position: relative;
     bottom: auto;
-    margin-top: 2rem;
-    padding-bottom: 1rem;
+    margin-top: 2rem; /* Espaço entre o card e o texto */
+    padding-bottom: 0.5rem; /* Margem de segurança no fundo */
   }
-
-  @media (max-height: 600px) and (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    display: none;
+  
+   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.fontSizes.xs};
   }
 `
 
@@ -63,7 +62,7 @@ const LoginContainer = styled.div`
   }
 `
 const LoginCard = styled.div`
-  max-width: 600px; 
+  max-width: 550px; 
   width: 100%;
   
   background: linear-gradient(
