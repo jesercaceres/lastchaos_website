@@ -359,7 +359,6 @@ export const Home: React.FC = () => {
       {/* SEÇÃO 2: RANKINGS */}
       <HomeRankingsSection />
 
-      
       <SectionDivider />
 
       {/* SEÇÃO 3: SERVIDORES */}
@@ -405,7 +404,6 @@ export const Home: React.FC = () => {
           </ServersGrid>
         </ContentContainer>
       </ServersSectionWrapper>
-
 
       {/* MODAL DE NOTÍCIAS */}
       <Modal isOpen={!!selectedNews} onClose={handleCloseNews} title={selectedNews?.title}>

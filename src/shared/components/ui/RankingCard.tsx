@@ -2,7 +2,8 @@ import styled from 'styled-components'
 import { CardProps } from '../../../types'
 
 const StyledCard = styled.div<{ hoverable?: boolean }>`
-  opacity: 0.9;
+margin-bottom: ${({ theme }) => theme.spacing.xxl};
+  opacity: 0.95;
   background: linear-gradient(
     135deg,
     ${({ theme }) => theme.colors.dark} 0%,
@@ -25,7 +26,7 @@ const StyledCard = styled.div<{ hoverable?: boolean }>`
   `}
 `
 
-export const Card: React.FC<CardProps> = ({ children, onClick, hoverable = false }) => {
+export const RankingCard: React.FC<CardProps> = ({ children, onClick, hoverable = false }) => {
   return (
     <StyledCard onClick={onClick} hoverable={hoverable}>
       {children}

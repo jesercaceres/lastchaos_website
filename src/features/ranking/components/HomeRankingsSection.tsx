@@ -49,7 +49,6 @@ const ContentContainer = styled.div`
   box-sizing: border-box;
   position: relative;
   z-index: 2;
-
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     padding: ${({ theme }) => theme.spacing.md};
   }
@@ -61,8 +60,8 @@ const RankingsSectionWrapper = styled.section`
   min-height: 100vh;
   align-content: center;
   background-image:
-    linear-gradient(to bottom, rgba(0, 0, 0, 10) 0%, transparent 18%),
-    linear-gradient(to top, rgba(0, 0, 0, 10) 0%, transparent 50%), url(${rankingBg});
+    linear-gradient(to bottom, rgba(0, 0, 0, 10) 0%, transparent 30%),
+    linear-gradient(to top, rgba(0, 0, 0, 10) 0%, transparent 20%), url(${rankingBg});
   background-position: center;
   background-size: cover;
 
@@ -73,6 +72,7 @@ const RankingsSectionWrapper = styled.section`
 
 const SectionTitle = styled.h2`
   font-family: ${({ theme }) => theme.fonts.epic};
+  padding-bottom: ${({ theme }) => theme.spacing.xl};
   font-size: ${({ theme }) => theme.fontSizes['4xl']};
   color: ${({ theme }) => theme.colors.gold};
   text-align: center;

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Card } from './Card'
+import { RankingCard } from './RankingCard'
 
 // --- 1. DEFINIÇÃO DAS COLUNAS ---
 // Padrão (Desktop grande)
@@ -37,13 +37,14 @@ const gridColumnStyles = `
   }
 `
 
-const ContainerCard = styled(Card)`
+const ContainerCard = styled(RankingCard)`
   padding: 0;
   background: rgba(11, 12, 16, 0.95);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(212, 175, 55, 0.2);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   overflow: hidden;
+  opacity: 0.5;
 `
 
 const Columns = styled.div`

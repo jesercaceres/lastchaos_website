@@ -3,14 +3,12 @@ import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
 import { Header, Footer } from '../components/layout'
 import { Home, Login, Registro, Download, Comunidade, Regras, Doacoes, Ranking } from '../pages'
 
-
 const MainLayout = () => (
   <>
     <Outlet /> {/* Onde a página (Home, Ranking) será renderizada */}
     <Footer />
   </>
 )
-
 
 const AuthLayout = () => (
   <>
@@ -23,7 +21,7 @@ export const AppRoutes: React.FC = () => {
     <BrowserRouter>
       {/* O Header fica fora de tudo para aparecer em TODAS as páginas (Igual ao Albion) */}
       <Header />
-      
+
       <Routes>
         {/* Rotas que usam o Layout Padrão (COM Footer) */}
         <Route element={<MainLayout />}>
