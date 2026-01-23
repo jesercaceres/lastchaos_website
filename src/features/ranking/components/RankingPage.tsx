@@ -3,22 +3,31 @@ import styled from 'styled-components'
 
 import { PlayersRankAndGuildChampionsStyles } from '../../../shared/components/ui'
 import { mockPlayerRating } from '../mocks/playerRating'
+import rankingPageBg from '../../../assets/images/rankingPage-bg.png';
 
 const RankingContainer = styled.div`
-  max-width: 1200px;
-  margin: ${({ theme }) => theme.spacing['2xl']} auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: ${({ theme }) => theme.spacing.xl};
-  width: 100%;
-  box-sizing: border-box;
-
+  padding-top: ${({ theme }) => theme.spacing.xl};
+  max-width: auto;
+  
+ background-image:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 13%, transparent 70%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.9) 2%, transparent 10%),
+    url(${rankingPageBg});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     padding: ${({ theme }) => theme.spacing.md};
-    margin: ${({ theme }) => theme.spacing.lg} auto;
+    
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    padding: ${({ theme }) => theme.spacing.sm};
-    margin: ${({ theme }) => theme.spacing.md} auto;
+    padding-top: ${({ theme }) => theme.spacing.xl};
   }
 `
 
@@ -37,6 +46,7 @@ const ControlsRow = styled.div`
   gap: ${({ theme }) => theme.spacing.md};
   margin-bottom: ${({ theme }) => theme.spacing.xl};
   color: ${({ theme }) => theme.colors.lightGray};
+  font-size: ${({ theme }) => theme.fontSizes.xs};
 `
 
 const Select = styled.select`
@@ -46,10 +56,16 @@ const Select = styled.select`
   border-radius: ${({ theme }) => theme.borderRadius.md};
   padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.sm}`};
   outline: none;
+  font-size: ${({ theme }) => theme.fontSizes.xs};
 
   &:focus {
     border-color: rgba(212, 175, 55, 0.45);
   }
+`
+
+const CardContainer = styled.div`
+  width: 100%;
+  max-width: 700px;
 `
 
 type PlayerRatingItem = (typeof mockPlayerRating)[number]
@@ -95,6 +111,7 @@ export const RankingPage: React.FC = () => {
         </Select>
       </ControlsRow>
 
+      <CardContainer>
       <PlayersRankAndGuildChampionsStyles.ContainerCard>
         <PlayersRankAndGuildChampionsStyles.Section>
           <PlayersRankAndGuildChampionsStyles.Title>
@@ -138,6 +155,7 @@ export const RankingPage: React.FC = () => {
           </PlayersRankAndGuildChampionsStyles.Block>
         </PlayersRankAndGuildChampionsStyles.Section>
       </PlayersRankAndGuildChampionsStyles.ContainerCard>
+      </CardContainer>
     </RankingContainer>
   )
 }

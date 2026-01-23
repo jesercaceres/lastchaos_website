@@ -64,6 +64,7 @@ const RankingsSectionWrapper = styled.section`
     linear-gradient(to top, rgba(0, 0, 0, 10) 0%, transparent 20%), url(${rankingBg});
   background-position: center;
   background-size: cover;
+  background-repeat: no-repeat;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     padding-top: ${({ theme }) => theme.spacing['2xl']};
