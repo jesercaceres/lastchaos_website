@@ -1,10 +1,21 @@
 import styled from 'styled-components'
 import { mockDonationPackages } from '../mocks'
-import { Button, Card } from '../components/ui'
+import { Button, CardDonation } from '../components/ui'
+import donateBg from '../assets/images/donation-bg2.png'
+
+const BackgroundContainer = styled.div`
+  background-image:
+  
+  url(${donateBg});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+`
 
 const DoacoesContainer = styled.div`
+  margin: 0 auto;
   max-width: 1200px;
-  margin: ${({ theme }) => theme.spacing['2xl']} auto;
   padding: ${({ theme }) => theme.spacing.xl};
   width: 100%;
   box-sizing: border-box;
@@ -61,7 +72,7 @@ const PackagesGrid = styled.div`
   }
 `
 
-const PackageCard = styled(Card)<{ isPopular?: boolean }>`
+const PackageCard = styled(CardDonation)<{ isPopular?: boolean }>`
   position: relative;
   padding: ${({ theme }) => theme.spacing.xl};
   display: flex;
@@ -180,6 +191,7 @@ export const Doacoes: React.FC = () => {
   }
 
   return (
+    <BackgroundContainer>
     <DoacoesContainer>
       <Title>Doações</Title>
       <Description>
@@ -228,5 +240,6 @@ export const Doacoes: React.FC = () => {
         </p>
       </InfoBox>
     </DoacoesContainer>
+    </BackgroundContainer>
   )
 }

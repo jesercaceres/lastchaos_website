@@ -47,23 +47,5 @@ export const mockDonationPackages: DonationPackage[] = [
       'Pet Exclusivo',
     ],
   },
-  {
-    id: '4',
-    name: 'Pacote Épico',
-    description: 'Domine o reino',
-    price: 149.9,
-    currency: 'BRL',
-    benefits: [
-      '5.000 Moedas de Ouro',
-      'Pocão de Experiência x200',
-      'Armadura Épica +7',
-      'Arma Lendária +7',
-      'Montaria Épica',
-      'Título Épico',
-      'Acesso VIP por 60 dias',
-      'Pet Lendário',
-      'Casa Personalizada',
-      'Bônus de Experiência 50%',
-    ],
-  },
+ 
 ]

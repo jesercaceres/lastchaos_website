@@ -61,6 +61,7 @@ const Description = styled.p`
 // AJUSTE 1: Reduzido o minmax de 300px para 280px para caber melhor em telas menores
 const CommunitiesGrid = styled.div`
   display: grid;
+  padding-top: ${({ theme }) => theme.spacing.xl};
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: ${({ theme }) => theme.spacing.xs}; /* Gap reduzido de xl para lg */
 

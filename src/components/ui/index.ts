@@ -8,3 +8,5 @@ export {
   SectionDivider,
   PlayersRankAndGuildChampionsStyles,
 } from '../../shared/components/ui'
+
+export { CardDonation } from './CardDonation'
