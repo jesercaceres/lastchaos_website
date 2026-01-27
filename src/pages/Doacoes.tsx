@@ -1,18 +1,23 @@
 import styled from 'styled-components'
 import { mockDonationPackages } from '../mocks'
 import { Button, CardDonation } from '../components/ui'
-import donateBg from '../assets/images/donation-bg2.png'
+import donateBg from '../assets/images/donate-bg.png'
 
 const BackgroundContainer = styled.div`
   background-image:
-  
+  linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 7%, transparent 15%), 
+  linear-gradient(to top, rgba(0, 0, 0, 0.9) 7%, transparent 30%),
   url(${donateBg});
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-
+  background-attachment: fixed; /* Adicione isso para fixar a imagem */
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: ${({ theme }) => theme.colors.dark};
 `
-
 const DoacoesContainer = styled.div`
   margin: 0 auto;
   max-width: 1200px;
@@ -20,18 +25,13 @@ const DoacoesContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
 
-  /* Ajuste de altura para viewports altas (limitar espaço vertical excessivo) */
-  @media (min-height: 690px) {
-    min-height: clamp(500px, calc(100dvh - var(--header-height, 72px)), 760px);
-  }
+  /* Padding superior para não ficar colado ou escondido sob o Header */
+  padding-top: calc(var(--header-height, 72px) + 2rem);
+  padding-bottom: ${({ theme }) => theme.spacing['2xl']};
+
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     padding: ${({ theme }) => theme.spacing.md};
-    margin: ${({ theme }) => theme.spacing.lg} auto;
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    padding: ${({ theme }) => theme.spacing.sm};
-    margin: ${({ theme }) => theme.spacing.md} auto;
+    padding-top: calc(var(--header-height, 72px) + 1rem);
   }
 `
 
@@ -45,7 +45,7 @@ const Title = styled.h1`
 
 const Description = styled.p`
   text-align: center;
-  color: ${({ theme }) => theme.colors.lightGray};
+  color: ${({ theme }) => theme.colors.white};
   font-size: ${({ theme }) => theme.fontSizes.lg};
   margin-bottom: ${({ theme }) => theme.spacing['2xl']};
   max-width: 800px;
@@ -85,13 +85,25 @@ const PackageCard = styled(CardDonation)<{ isPopular?: boolean }>`
     `
     box-shadow: ${theme.shadows.gold};
     transform: scale(1.05);
+
+    &:hover {
+      transform: scale(1.05) translateY(-4px);
+    }
     
     @media (max-width: ${theme.breakpoints.large}) {
       transform: scale(1.02);
+
+      &:hover {
+        transform: scale(1.02) translateY(-4px);
+      }
     }
     
     @media (max-width: ${theme.breakpoints.tablet}) {
       transform: scale(1);
+
+      &:hover {
+        transform: translateY(-4px);
+      }
     }
   `}
 `
@@ -201,7 +213,7 @@ export const Doacoes: React.FC = () => {
 
       <PackagesGrid>
         {mockDonationPackages.map(pkg => (
-          <PackageCard key={pkg.id} isPopular={pkg.popular}>
+          <PackageCard key={pkg.id} isPopular={pkg.popular} hoverable>
             {pkg.popular && <PopularBadge>Mais Popular</PopularBadge>}
             <PackageName>{pkg.name}</PackageName>
             <PackageDescription>{pkg.description}</PackageDescription>
