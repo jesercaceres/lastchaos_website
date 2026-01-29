@@ -3,46 +3,53 @@ import { DonationPackage } from '../types'
 export const mockDonationPackages: DonationPackage[] = [
   {
     id: '1',
-    name: 'Starter Pack',
-    description: 'Perfeito para começar sua jornada no farm de SP!',
-    price: 19.9,
+    name: 'Basic Package',
+    description: 'Ideal para começar no servidor e apoiar o projeto.',
+    disclaimer: '',
+    price: 20.0,
     currency: 'BRL',
     benefits: [
-      '500 SPB',
-      'Poção de SP x50',
-      'Attack boost x20', 
-      'Algum item adicional',
+      '1000 Cash'
+      
     ],
   },
   {
     id: '2',
     name: 'Essential Pack',
-    description: 'Para jogadores que buscam poder',
-    price: 49.9,
+    description: 'Ótimo equilíbrio entre custo e benefício, com bônus adicional na doação.',
+    disclaimer: 'Bônus fixo (não acumulativo)',
+    price: 50.0,
     currency: 'BRL',
     benefits: [
-      '1.500 XPB',
-      '1.500 SPB',
-      'Estrela do poder x30',
-      'Suco do sábio x5',
-      'Poção de SP x15',
-      'Título Exclusivo'
+      '2.500 Cash',
+      ' + Bonus 5%',
     ],
     popular: true,
   },
   {
     id: '3',
     name: 'Legendary Pack',
-    description: 'A experiência definitiva',
-    price: 99.9,
+    description: 'Pensado para quem quer maximizar vantagens e apoiar fortemente o servidor.',
+    disclaimer: 'Bônus fixo (não acumulativo)',
+    price: 100.0,
     currency: 'BRL',
     benefits: [
-      '1500 XPB',
-      'Estrela do poder x50',
-      'Suco do sábio x10',
-      'Montaria Lendária',
-      'Título Lendário'
+      '10.000 Cash',
+      '+ Bonus 20%',
     ],
   },
+
+    {
+    id: '4',
+    name: 'Divine Package',
+    description: 'Pensado para quem quer maximizar vantagens e apoiar fortemente o servidor.',
+    disclaimer: 'Bônus fixo (não acumulativo)',
+    price: 200.0,
+    currency: 'BRL',
+    benefits: [
+      '10.000 Cash',
+      '+ Bonus 20%',
+    ],
+  }
  
 ]

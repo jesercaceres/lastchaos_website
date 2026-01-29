@@ -35,6 +35,7 @@ export interface DonationPackage {
   id: string
   name: string
   description: string
+  disclaimer: string
   price: number
   currency: string
   benefits: string[]
