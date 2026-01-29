@@ -14,30 +14,26 @@ const ComunidadeContainer = styled.div`
   max-width: auto;
   padding: ${({ theme }) => theme.spacing.xl};
   width: 100%;
-  
+
   /* Ajuste de altura para viewports altas */
   @media (min-height: 690px) {
     min-height: clamp(500px, calc(100dvh - var(--header-height, 72px)), 760px);
   }
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     padding: ${({ theme }) => theme.spacing.md};
-    margin: ${({ theme }) => theme.spacing.lg} auto;
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     padding: ${({ theme }) => theme.spacing.sm};
-    margin: ${({ theme }) => theme.spacing.md} auto;
   }
-   background-image:
+
+  background-image:
     linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 0%, transparent 45%),
-    linear-gradient(to top, rgba(0, 0, 0, 0.9) 0.5%, transparent 20%), 
-    url(${communityBg});
+    linear-gradient(to top, rgba(0, 0, 0, 0.9) 0.5%, transparent 20%), url(${communityBg});
   background-size: cover;
-  
+
   background-repeat: no-repeat;
-  background-position-xP: center;
-    
-   
+  background-position-xp: center;
 `
 
 const Title = styled.h1`
@@ -45,7 +41,7 @@ const Title = styled.h1`
   font-size: ${({ theme }) => theme.fontSizes['4xl']};
   color: ${({ theme }) => theme.colors.gold};
   text-align: center;
-  margin-bottom: ${({ theme }) => theme.spacing.xl};
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
 `
 
 const Description = styled.p`
@@ -58,12 +54,13 @@ const Description = styled.p`
   font-weight: 400;
 `
 
-// AJUSTE 1: Reduzido o minmax de 300px para 280px para caber melhor em telas menores
 const CommunitiesGrid = styled.div`
   display: grid;
-  padding-top: ${({ theme }) => theme.spacing.xl};
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: ${({ theme }) => theme.spacing.xs}; /* Gap reduzido de xl para lg */
+  padding: ${({ theme }) => theme.spacing.xl} 0;
+  justify-content: center;
+
+  gap: ${({ theme }) => theme.spacing.lg};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;
@@ -77,62 +74,56 @@ const StyledCommunityCard = styled(CommunityCard)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.md};
-  min-height: auto; /* Removida altura mínima fixa grande */
-  height: 100%; /* Força o card a ocupar toda a altura da coluna do Grid */
+  gap: ${({ theme }) => theme.spacing.sm};
   max-width: 500px; /* Limita a largura máxima do card */
+  height: 330px; 
   margin: 0 auto;
   opacity: 0.83;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    height: auto; 
+  }
 `
 
-// AJUSTE 3: Ícone reduzido de 150px para 100px
 const CommunityIcon = styled.div`
-  font-size: 3rem;
-  margin-bottom: ${({ theme }) => theme.spacing.sm};
+  font-size: 4rem;
+  object-fit: contain;
   
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100px; 
+  height: 100px;
   width: 100px;
 `
 
-// AJUSTE 4: Fonte reduzida de 2xl para xl
 const CommunityTitle = styled.h2`
   font-family: ${({ theme }) => theme.fonts.epic};
   color: ${({ theme }) => theme.colors.gold};
-  font-size: ${({ theme }) => theme.fontSizes.xl};
-  margin: 0;
+  font-size: ${({ theme }) => theme.fontSizes.md};
+  margin:0;
 `
 
 const CommunityDescription = styled.p`
-  padding-top: ${({ theme }) => theme.spacing.sm};
   color: ${({ theme }) => theme.colors.lightGray};
-  font-size: ${({ theme }) => theme.fontSizes.sm}; /* Fonte levemente reduzida */
-  line-height: 1.6;
-  flex-grow: 1; /* Faz o texto empurrar o botão para baixo */
+  font-size: ${({ theme }) => theme.fontSizes.xs}; /* Fonte levemente reduzida */
+  
 `
 
 const CommunityButton = styled.a`
-  display: flex;
-  justify-content: center;
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
-  margin-top: auto; /* Garante que o botão fique no rodapé do card */
+  padding: ${({ theme }) => theme.spacing.sm};
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+
   background: linear-gradient(
     135deg,
     ${({ theme }) => theme.colors.gold} 0%,
     ${({ theme }) => theme.colors.darkGold} 100%
   );
   color: ${({ theme }) => theme.colors.dark};
-  text-decoration: none;
   border-radius: ${({ theme }) => theme.borderRadius.md};
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
   transition: ${({ theme }) => theme.transitions.normal};
-  
+
   &:hover {
-    background: linear-gradient(  
+    background: linear-gradient(
       135deg,
       ${({ theme }) => theme.colors.lightGold} 0%,
       ${({ theme }) => theme.colors.gold} 100%
@@ -160,7 +151,7 @@ const communities = [
       'Acesse nosso fórum oficial para discussões, guias, tutoriais e muito mais. Compartilhe suas experiências com a comunidade.',
     link: '#',
     linkText: 'Acessar Fórum',
-  }
+  },
 ]
 
 export const Comunidade: React.FC = () => {
