@@ -1,16 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { ButtonLink, Card, SectionDivider } from '../components/ui'
+import { ButtonLink } from '../shared/components/ui/ButtonLink'
+import { Card } from '../shared/components/ui/Card'
+import { Modal } from '../shared/components/ui/Modal'
+import { SectionDivider } from '../shared/components/ui/SectionDivider'
 import { mockNews, mockServers } from '../mocks'
-import heroImage from '../assets/images/oldWorld-lc.png'
+import { HomeRankingsSection } from '../features/ranking/components/HomeRankingsSection'
+import { News } from '../types'
 
+import heroImage from '../assets/images/oldWorld-lc.png'
 import newsBg from '../assets/images/news-bg.png'
-import serversBg from '../assets/images/servers-bg.png'
+import serversBg from '../assets/images/server-bg.png'
 
 // --- CONTAINER DE CONTEÚDO (Centraliza o conteúdo sobre os backgrounds) ---
 const ContentContainer = styled.div`
-  max-width: 1440px;
+  max-width: ${({ theme }) => theme.breakpoints.wide};
   margin: 0 auto;
   padding: ${({ theme }) => theme.spacing.xl};
   width: 100%;
@@ -23,7 +28,6 @@ const ContentContainer = styled.div`
   }
 `
 
-// --- HERO SECTION ---
 const HeroSection = styled.section`
   width: 100%;
   height: 100vh;
@@ -32,11 +36,11 @@ const HeroSection = styled.section`
   flex-direction: column;
   justify-content: flex-end;
   background-image:
-    linear-gradient(to top, rgba(0, 0, 0, 1) 0%, transparent 50%), url(${heroImage});
+    linear-gradient(to top, rgba(0, 0, 0, 10) 0%, transparent 30%), url(${heroImage});
   background-position: center top;
   background-size: cover;
-  padding-bottom: 24vh;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  padding-bottom: ${({ theme }) => theme.spacing['6xl']};
+  box-shadow: ${({ theme }) => theme.shadows.lg};
   z-index: 10;
 `
 
@@ -59,40 +63,53 @@ const ButtonsOverlay = styled.div`
   justify-content: center;
 `
 
-// --- WRAPPERS DE FUNDO (Full Width) ---
+// --- WRAPPERS DE FUNDO (Padronizados) ---
+
+const sectionBaseStyles = `
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+`
 
 // 1. Wrapper para Notícias
 const NewsSectionWrapper = styled.section`
-  width: 100%;
-  position: relative;
-  /* Espaçamento generoso para mostrar o background */
-  padding-top: ${({ theme }) => theme.spacing['3xl']};
-  padding-bottom: ${({ theme }) => theme.spacing['7xl']};
-
-  background-image: 
-    /* Gradiente fade-to-black nas bordas */
-    linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.5) 30%, rgba(0, 0, 0, 0.7) 100%),
-    url(${newsBg});
-
-  background-size: cover;
-  background-position: center;
+  ${sectionBaseStyles}
+  /* Padding top explícito para afastar do Divider */
+  padding-top: ${({ theme }) => theme.spacing.xl};
+  padding-bottom: ${({ theme }) => theme.spacing['5xl']};
+  background-image: url(${newsBg});
   background-attachment: fixed;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    padding-bottom: ${({ theme }) => theme.spacing['6xl']};
+    padding-top: ${({ theme }) => theme.spacing['2xl']};
+    background-attachment: scroll;
+  }
 `
 
 // 2. Wrapper para Servidores
 const ServersSectionWrapper = styled.section`
-  width: 100%;
-  position: relative;
-  padding-top: ${({ theme }) => theme.spacing['5xl']};
-  padding-bottom: ${({ theme }) => theme.spacing['8xl']};
+  ${sectionBaseStyles}
+  /* Padding top IGUAL ao de notícias para consistência visual */
+  padding-top: ${({ theme }) => theme.spacing.xl};
+  padding-bottom: ${({ theme }) => theme.spacing.xl};
 
-  background-image: 
-    /* Gradiente fade-to-black nas bordas */
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 50%, #000 100%),
+  background-image:
+    linear-gradient(to bottom, rgba(0, 0, 0, 10) 0%, transparent 100%),
+    // Topo
+    linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 30%),
+    // Baixo
     url(${serversBg});
 
-  background-size: cover;
-  background-position: center;
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    padding-bottom: ${({ theme }) => theme.spacing['6xl']};
+    padding-top: ${({ theme }) => theme.spacing['2xl']};
+  }
 `
 
 const SectionTitle = styled.h2`
@@ -100,7 +117,7 @@ const SectionTitle = styled.h2`
   font-size: ${({ theme }) => theme.fontSizes['4xl']};
   color: ${({ theme }) => theme.colors.gold};
   text-align: center;
-  margin-bottom: ${({ theme }) => `calc(${theme.spacing.xl} + 0.5rem)`};
+  margin-bottom: ${({ theme }) => `calc(${theme.spacing.xl} + ${theme.spacing.xs})`};
   text-shadow: 0 4px 15px rgba(0, 0, 0, 1);
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
@@ -139,7 +156,8 @@ const TransparentCard = styled(Card)`
   background: rgba(11, 12, 16, 0.8);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(212, 175, 55, 0.15);
-  transition: all 0.3s ease;
+  transition: all ${({ theme }) => theme.transitions.normal};
+  cursor: pointer;
 
   &:hover {
     transform: translateY(-5px);
@@ -150,7 +168,7 @@ const TransparentCard = styled(Card)`
 
 const NewsImage = styled.img`
   width: 100%;
-  height: 200px;
+  height: ${({ theme }) => theme.spacing['6xl']};
   object-fit: cover;
   border-radius: ${({ theme }) => theme.borderRadius.md};
 `
@@ -178,10 +196,10 @@ const NewsDate = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.xs};
 `
 const NewsCategory = styled.span`
-margin-top: ${({ theme }) => theme.spacing.sm};
+  margin-top: ${({ theme }) => theme.spacing.sm};
   margin-bottom: ${({ theme }) => theme.spacing.xs};
   display: inline-block;
-  padding: 0.25rem 0.75rem;
+  padding: ${({ theme }) => `calc(${theme.spacing.xs} / 2) ${theme.spacing.sm}`};
   background: ${({ theme }) => theme.colors.brown};
   color: ${({ theme }) => theme.colors.white};
   border-radius: ${({ theme }) => theme.borderRadius.full};
@@ -190,19 +208,45 @@ margin-top: ${({ theme }) => theme.spacing.sm};
   text-transform: uppercase;
 `
 
+// --- ESTILOS DO MODAL ---
+const ModalImage = styled.img`
+  width: 100%;
+  max-height: ${({ theme }) => `calc(${theme.spacing['7xl']} + ${theme.spacing['2xl']})`};
+  object-fit: cover;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+`
+
+const ModalMeta = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+  color: ${({ theme }) => theme.colors.gray};
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+`
+
+const ModalText = styled.div`
+  color: ${({ theme }) => theme.colors.lightGray};
+  line-height: 1.8;
+  font-size: ${({ theme }) => theme.fontSizes.md};
+  white-space: pre-wrap;
+`
+
 // Estilos internos do card de servidor
 const ServerHeader = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
 `
 const StatusDot = styled.span<{ $online?: boolean }>`
-  height: 10px;
-  width: 10px;
+  height: ${({ theme }) => theme.spacing.xs};
+  width: ${({ theme }) => theme.spacing.xs};
   background-color: ${({ $online }) => ($online ? '#2ecc71' : '#e74c3c')};
   border-radius: 50%;
-  margin-right: 12px;
+  margin-right: ${({ theme }) => theme.spacing.sm};
   display: inline-block;
+  animation: ripple 2s infinite;
 `
 const ServerTitle = styled.h3`
   font-family: ${({ theme }) => theme.fonts.epic};
@@ -214,51 +258,62 @@ const ServerTitle = styled.h3`
 `
 const ServerMeta = styled.p`
   color: ${({ theme }) => theme.colors.gray};
-  font-size: 0.875rem;
-  margin-bottom: 0.5rem;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
   strong {
-    color: white;
+    color: ${({ theme }) => theme.colors.white};
   }
 `
 const RatesContainer = styled.div`
   display: flex;
-  gap: 8px;
-  margin-bottom: 1rem;
+  gap: ${({ theme }) => theme.spacing.xs};
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
 `
 const RateBadge = styled.span`
   background: rgba(255, 215, 0, 0.1);
   color: ${({ theme }) => theme.colors.gold};
   border: 1px solid ${({ theme }) => theme.colors.gold};
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 0.7rem;
+  padding: ${({ theme }) => `calc(${theme.spacing.xs} / 4) ${theme.spacing.xs}`};
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  font-size: ${({ theme }) => theme.fontSizes.xs};
   font-weight: 700;
 `
 const ServerStats = styled.p`
   color: ${({ theme }) => theme.colors.gray};
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
   display: flex;
   justify-content: space-between;
 `
 const ProgressBarContainer = styled.div`
   width: 100%;
-  height: 6px;
+  height: ${({ theme }) => theme.spacing.xs};
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-  margin-top: 8px;
-  margin-bottom: 1rem;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  margin-top: ${({ theme }) => theme.spacing.xs};
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
   overflow: hidden;
 `
 const ProgressBarFill = styled.div<{ $percent: number }>`
   height: 100%;
   width: ${({ $percent }) => $percent}%;
-  background: linear-gradient(90deg, #d4af37, #f1c40f);
+  background: ${({ theme }) =>
+    `linear-gradient(90deg, ${theme.colors.gold}, ${theme.colors.lightGold})`};
 `
 
 // --- COMPONENTE HOME ---
 export const Home: React.FC = () => {
+  const [selectedNews, setSelectedNews] = useState<News | null>(null)
+
   const featuredServers = mockServers.slice(0, 3)
   const featuredNews = mockNews.slice(0, 3)
+
+  const handleOpenNews = (news: News) => {
+    setSelectedNews(news)
+  }
+
+  const handleCloseNews = () => {
+    setSelectedNews(null)
+  }
 
   return (
     <>
@@ -275,17 +330,23 @@ export const Home: React.FC = () => {
         </ButtonsOverlay>
       </HeroSection>
 
+      <SectionDivider />
+
       {/* SEÇÃO 1: NOTÍCIAS */}
       <NewsSectionWrapper>
         <ContentContainer>
           <SectionTitle>Últimas Notícias</SectionTitle>
           <NewsGrid>
             {featuredNews.map(news => (
-              <TransparentCard key={news.id} hoverable>
+              <TransparentCard key={news.id} hoverable onClick={() => handleOpenNews(news)}>
                 {news.image && <NewsImage src={news.image} alt={news.title} />}
                 <NewsCategory>{news.category}</NewsCategory>
                 <NewsTitle>{news.title}</NewsTitle>
-                <NewsContent>{news.content}</NewsContent>
+                <NewsContent>
+                  {news.content.length > 100
+                    ? `${news.content.substring(0, 100)}...`
+                    : news.content}
+                </NewsContent>
                 <NewsDate>{new Date(news.date).toLocaleDateString('pt-BR')}</NewsDate>
               </TransparentCard>
             ))}
@@ -293,11 +354,14 @@ export const Home: React.FC = () => {
         </ContentContainer>
       </NewsSectionWrapper>
 
-      {/* DIVISOR ESTILO LOST ARK */}
-      {/* Insira este componente exatamente aqui, entre os wrappers */}
       <SectionDivider />
 
-      {/* SEÇÃO 2: SERVIDORES */}
+      {/* SEÇÃO 2: RANKINGS */}
+      <HomeRankingsSection />
+
+      <SectionDivider />
+
+      {/* SEÇÃO 3: SERVIDORES */}
       <ServersSectionWrapper>
         <ContentContainer>
           <SectionTitle>Servidores em Destaque</SectionTitle>
@@ -340,6 +404,20 @@ export const Home: React.FC = () => {
           </ServersGrid>
         </ContentContainer>
       </ServersSectionWrapper>
+
+      {/* MODAL DE NOTÍCIAS */}
+      <Modal isOpen={!!selectedNews} onClose={handleCloseNews} title={selectedNews?.title}>
+        {selectedNews && (
+          <>
+            {selectedNews.image && <ModalImage src={selectedNews.image} alt={selectedNews.title} />}
+            <ModalMeta>
+              <NewsCategory>{selectedNews.category}</NewsCategory>
+              <NewsDate>{new Date(selectedNews.date).toLocaleDateString('pt-BR')}</NewsDate>
+            </ModalMeta>
+            <ModalText>{selectedNews.content}</ModalText>
+          </>
+        )}
+      </Modal>
     </>
   )
 }

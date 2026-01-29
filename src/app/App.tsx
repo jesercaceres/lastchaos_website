@@ -1,15 +1,13 @@
 import { ThemeProvider } from 'styled-components'
 import { AppRoutes } from './routes'
-import { GlobalStyle } from './styles/GlobalStyle'
-import { theme } from './styles/theme'
+import { GlobalStyle } from '../styles/GlobalStyle'
+import { theme } from '../styles/theme'
 
-function App() {
+export const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyle />
+      <GlobalStyle theme={theme} />
       <AppRoutes />
     </ThemeProvider>
   )
 }
-
-export default App

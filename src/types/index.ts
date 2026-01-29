@@ -35,6 +35,7 @@ export interface DonationPackage {
   id: string
   name: string
   description: string
+  disclaimer: string
   price: number
   currency: string
   benefits: string[]
@@ -59,7 +60,7 @@ export interface ButtonProps {
   children: React.ReactNode
   onClick?: () => void
   variant?: 'primary' | 'secondary' | 'danger'
-  size?: 'small' | 'medium' | 'large'
+  size?: 'xs' | 'small' | 'medium' | 'large'
   disabled?: boolean
   type?: 'button' | 'submit' | 'reset'
   fullWidth?: boolean
@@ -87,4 +88,25 @@ export interface ModalProps {
   onClose: () => void
   children: React.ReactNode
   title?: string
+}
+
+// Ranking - Player Rating
+export interface PlayerRatingEntry {
+  position: number
+  nickname: string
+  race: string
+  level: number
+}
+
+// Ranking - Castle Owners
+export interface CastleOwnerEntry {
+  castle: 'Dratan' | 'Merac'
+  guildNickname: string
+}
+
+// Ranking - Guild Rating
+export interface GuildRatingEntry {
+  position: number
+  name: string
+  members: number
 }

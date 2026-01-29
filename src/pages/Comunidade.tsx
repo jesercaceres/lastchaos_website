@@ -1,14 +1,21 @@
+import React from 'react'
 import styled from 'styled-components'
-import { Card } from '../components/ui'
+import { CommunityCard } from '../components/ui/CommunityCard'
+import whatsappIcon from '../assets/icons/whatsapp-icon.png'
+import communityBg from '../assets/images/community-bg.png'
+
+const WhatsappIcon = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+`
 
 const ComunidadeContainer = styled.div`
-  max-width: 1200px;
-  margin: ${({ theme }) => theme.spacing['2xl']} auto;
+  max-width: auto;
   padding: ${({ theme }) => theme.spacing.xl};
   width: 100%;
-  box-sizing: border-box;
-
-  /* Ajuste de altura para viewports altas (limitar espaço vertical excessivo) */
+  
+  /* Ajuste de altura para viewports altas */
   @media (min-height: 690px) {
     min-height: clamp(500px, calc(100dvh - var(--header-height, 72px)), 760px);
   }
@@ -21,6 +28,16 @@ const ComunidadeContainer = styled.div`
     padding: ${({ theme }) => theme.spacing.sm};
     margin: ${({ theme }) => theme.spacing.md} auto;
   }
+   background-image:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 0%, transparent 45%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.9) 0.5%, transparent 20%), 
+    url(${communityBg});
+  background-size: cover;
+  
+  background-repeat: no-repeat;
+  background-position-xP: center;
+    
+   
 `
 
 const Title = styled.h1`
@@ -33,56 +50,74 @@ const Title = styled.h1`
 
 const Description = styled.p`
   text-align: center;
-  color: ${({ theme }) => theme.colors.lightGray};
-  font-size: ${({ theme }) => theme.fontSizes.lg};
-  margin-bottom: ${({ theme }) => theme.spacing['2xl']};
+  color: ${({ theme }) => theme.colors.white};
+  font-size: ${({ theme }) => theme.fontSizes.md};
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  font-weight: 400;
 `
 
+// AJUSTE 1: Reduzido o minmax de 300px para 280px para caber melhor em telas menores
 const CommunitiesGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: ${({ theme }) => theme.spacing.xl};
+  padding-top: ${({ theme }) => theme.spacing.xl};
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: ${({ theme }) => theme.spacing.xs}; /* Gap reduzido de xl para lg */
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;
   }
 `
 
-const CommunityCard = styled(Card)`
+// AJUSTE 2: Padding reduzido de xl para lg
+const StyledCommunityCard = styled(CommunityCard)`
   text-align: center;
-  padding: ${({ theme }) => theme.spacing.xl};
+  padding: ${({ theme }) => theme.spacing.md};
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.md};
-  min-height: 300px;
+  min-height: auto; /* Removida altura mínima fixa grande */
+  height: 100%; /* Força o card a ocupar toda a altura da coluna do Grid */
+  max-width: 500px; /* Limita a largura máxima do card */
+  margin: 0 auto;
+  opacity: 0.83;
 `
 
+// AJUSTE 3: Ícone reduzido de 150px para 100px
 const CommunityIcon = styled.div`
-  font-size: 4rem;
-  margin-bottom: ${({ theme }) => theme.spacing.md};
+  font-size: 3rem;
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px; 
+  width: 100px;
 `
 
+// AJUSTE 4: Fonte reduzida de 2xl para xl
 const CommunityTitle = styled.h2`
   font-family: ${({ theme }) => theme.fonts.epic};
   color: ${({ theme }) => theme.colors.gold};
-  font-size: ${({ theme }) => theme.fontSizes['2xl']};
+  font-size: ${({ theme }) => theme.fontSizes.xl};
   margin: 0;
 `
 
 const CommunityDescription = styled.p`
+  padding-top: ${({ theme }) => theme.spacing.sm};
   color: ${({ theme }) => theme.colors.lightGray};
-  font-size: ${({ theme }) => theme.fontSizes.md};
+  font-size: ${({ theme }) => theme.fontSizes.sm}; /* Fonte levemente reduzida */
   line-height: 1.6;
-  flex-grow: 1;
+  flex-grow: 1; /* Faz o texto empurrar o botão para baixo */
 `
 
 const CommunityButton = styled.a`
-  display: inline-block;
+  display: flex;
+  justify-content: center;
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
+  margin-top: auto; /* Garante que o botão fique no rodapé do card */
   background: linear-gradient(
     135deg,
     ${({ theme }) => theme.colors.gold} 0%,
@@ -95,10 +130,9 @@ const CommunityButton = styled.a`
   text-transform: uppercase;
   letter-spacing: 1px;
   transition: ${({ theme }) => theme.transitions.normal};
-  margin-top: ${({ theme }) => theme.spacing.md};
-
+  
   &:hover {
-    background: linear-gradient(
+    background: linear-gradient(  
       135deg,
       ${({ theme }) => theme.colors.lightGold} 0%,
       ${({ theme }) => theme.colors.gold} 100%
@@ -111,31 +145,22 @@ const CommunityButton = styled.a`
 const communities = [
   {
     id: '1',
-    name: 'Discord',
-    icon: '💬',
+    name: 'Whatsapp',
+    icon: <WhatsappIcon src={whatsappIcon} alt="Whatsapp" />,
     description:
-      'Junte-se à nossa comunidade no Discord! Converse com outros jogadores, participe de eventos e receba atualizações em tempo real.',
-    link: 'https://discord.gg',
-    linkText: 'Entrar no Discord',
+      'Junte-se à nossa comunidade no Whatsapp! Converse com outros jogadores, participe de eventos e receba atualizações em tempo real.',
+    link: 'https://chat.whatsapp.com',
+    linkText: 'Entrar no Whatsapp',
   },
   {
     id: '2',
-    name: 'Telegram',
-    icon: '✈️',
-    description:
-      'Participe do nosso canal no Telegram para receber notícias, dicas e informações sobre o jogo diretamente no seu celular.',
-    link: 'https://t.me',
-    linkText: 'Entrar no Telegram',
-  },
-  {
-    id: '3',
     name: 'Fórum',
     icon: '📋',
     description:
       'Acesse nosso fórum oficial para discussões, guias, tutoriais e muito mais. Compartilhe suas experiências com a comunidade.',
     link: '#',
     linkText: 'Acessar Fórum',
-  },
+  }
 ]
 
 export const Comunidade: React.FC = () => {
@@ -148,14 +173,14 @@ export const Comunidade: React.FC = () => {
       </Description>
       <CommunitiesGrid>
         {communities.map(community => (
-          <CommunityCard key={community.id} hoverable>
+          <StyledCommunityCard key={community.id} hoverable>
             <CommunityIcon>{community.icon}</CommunityIcon>
             <CommunityTitle>{community.name}</CommunityTitle>
             <CommunityDescription>{community.description}</CommunityDescription>
             <CommunityButton href={community.link} target="_blank" rel="noopener noreferrer">
               {community.linkText}
             </CommunityButton>
-          </CommunityCard>
+          </StyledCommunityCard>
         ))}
       </CommunitiesGrid>
     </ComunidadeContainer>
