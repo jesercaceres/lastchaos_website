@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { CardProps } from '../../types' 
+import { CardProps } from '../../../types' 
 
 const StyledCard = styled.div<{ hoverable?: boolean }>`
   display: flex;

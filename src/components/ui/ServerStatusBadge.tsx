@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { ServerStatus } from '../types'
-import { Badge } from './ui'
+import { ServerStatus } from '../../types'
+import { Badge } from '../ui'
 
 const StatusIndicator = styled.span`
   display: inline-block;

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
-import { Server } from '../types'
-import { Card, ButtonLink } from './ui'
+import { Server } from '../../types'
+import { Card, ButtonLink } from '../ui'
 
 const pulse = keyframes`
   0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }

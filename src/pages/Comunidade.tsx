@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { CommunityCard } from '../components/ui/CommunityCard'
+import { CommunityCard } from '../features/community/components/CommunityCard'
 import whatsappIcon from '../assets/icons/whatsapp-icon.png'
 import communityBg from '../assets/images/community-bg.png'
 
