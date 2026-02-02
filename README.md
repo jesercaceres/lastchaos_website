@@ -1,6 +1,6 @@
-# 🎮 Last Chaos - Site Institucional
+# 🎮 Old World Last Chaos - Site Oficial
 
-Site institucional para o MMORPG Last Chaos desenvolvido com React, TypeScript, Vite e Styled Components.
+Site para o MMORPG Last Chaos desenvolvido com React, TypeScript, Vite e Styled Components.
 
 ## 🚀 Tecnologias
 
@@ -39,17 +39,92 @@ npm run dev
 
 ```
 src/
-├── assets/          # Imagens, ícones, etc.
-├── components/      # Componentes React
-│   ├── ui/         # Componentes UI reutilizáveis
-│   └── layout/     # Componentes de layout (Header, Footer)
-├── pages/          # Páginas da aplicação
-├── routes/         # Configuração de rotas
-├── styles/         # Estilos globais e tema
-├── types/          # Definições de tipos TypeScript
-├── mocks/          # Dados mockados
-├── App.tsx         # Componente raiz
-└── main.tsx        # Entry point
+
+├── main.tsx
+├── vite-env.d.ts
+├── app/
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── routes.tsx
+├── assets/
+│   ├── icons/
+│   └── images/
+├── components/
+│   ├── ServerCard.tsx
+│   ├── ServerStatusBadge.tsx
+│   ├── layout/
+│   │   ├── Footer.tsx
+│   │   ├── Header.tsx
+│   │   └── index.ts
+│   └── ui/
+│       ├── Badge.tsx
+│       ├── Button.tsx
+│       ├── ButtonLink.tsx
+│       ├── Card.tsx
+│       ├── CardDonation.tsx
+│       ├── CommunityCard.tsx
+│       ├── index.ts
+│       ├── Input.tsx
+│       ├── Modal.tsx
+│       ├── PlayersRankAndGuildChampions.tsx
+│       └── SectionDivider.tsx
+├── features/
+│   ├── ranking/
+│   │   ├── components/
+│   │   │   ├── HomeRankingsSection.tsx
+│   │   │   └── RankingPage.tsx
+│   │   └── mocks/
+│   │       └── playerRating.ts
+│   └── servers/
+│       ├── types.ts
+│       ├── components/
+│       │   ├── ServerCard.tsx
+│       │   └── ServerStatusBadge.tsx
+│       └── mocks/
+│           └── servers.ts
+├── mocks/
+│   ├── castleOwners.ts
+│   ├── donationPackages.ts
+│   ├── guildRating.ts
+│   ├── index.ts
+│   ├── news.ts
+│   ├── playerRating.ts
+│   └── servers.ts
+├── pages/
+│   ├── Comunidade.tsx
+│   ├── Doacoes.tsx
+│   ├── Download.tsx
+│   ├── Home.tsx
+│   ├── index.ts
+│   ├── Login.tsx
+│   ├── Ranking.tsx
+│   ├── Registro.tsx
+│   └── Regras.tsx
+├── routes/
+│   └── index.tsx
+├── shared/
+│   └── components/
+│       ├── layout/
+│       │   ├── Footer.tsx
+│       │   ├── Header.tsx
+│       │   └── index.ts
+│       └── ui/
+│           ├── Badge.tsx
+│           ├── Button.tsx
+│           ├── ButtonLink.tsx
+│           ├── Card.tsx
+│           ├── index.ts
+│           ├── Input.tsx
+│           ├── Modal.tsx
+│           ├── PlayersRankAndGuildChampions.tsx
+│           ├── RankingCard.tsx
+│           └── SectionDivider.tsx
+├── styles/
+│   ├── GlobalStyle.ts
+│   └── theme.ts
+└── types/
+    ├── index.ts
+    └── styled.d.ts
 ```
 
 ## 🎨 Páginas Disponíveis
@@ -74,18 +149,9 @@ src/
 - ✅ Dados mockados para desenvolvimento
 - ✅ Pronto para integração com backend
 
-## 📝 Observações
-
-- Não inclui backend
-- Não inclui integração real de pagamento
-- Dados são mockados (servidores, notícias, pacotes)
-
 
 ## 🔧 Próximos Passos
-
-Para integrar com um backend real:
-
-1. Substituir dados mockados por chamadas de API
+1. Substituição dados mockados por chamadas de API
 2. Implementar autenticação real
 3. Integrar gateway de pagamento (para doações)
 4. Adicionar gerenciamento de estado (Context API ou Redux)
