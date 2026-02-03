@@ -4,7 +4,7 @@ import {CardDownload} from '../features/download/components/CardDownload'
 
 
 const DownloadContainer = styled.div`
-  max-width: 100%;
+  max-width: 1200px;
   margin: ${({ theme }) => theme.spacing['2xl']} auto;
   padding: ${({ theme }) => theme.spacing.xl};
   width: 100%;
@@ -39,19 +39,23 @@ const Title = styled.h1`
 
 const DownloadSection = styled.section`
   display: grid;
-  padding: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.md} 0;
   grid-template-columns: 1fr 1fr;
   gap: ${({ theme }) => theme.spacing.xl};
   margin-bottom: ${({ theme }) => theme.spacing['2xl']};
 
   justify-items: center;
-
   margin-left: auto;
   margin-right: auto; 
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     grid-template-columns: 1fr;
   }
+    
+@media (min-width: ${({ theme }) => theme.breakpoints.wide}) {
+    margin-bottom: ${({ theme }) => theme.spacing.xs};
+  }
+
 `
 
 const DownloadButtonWrapper = styled.div`
@@ -133,6 +137,9 @@ const WarningTitle = styled.h4`
   color: ${({ theme }) => theme.colors.warning};
   margin-bottom: ${({ theme }) => theme.spacing.xs};
   font-weight: 600;
+`
+const WarningText = styled.p`
+  font-size: ${({ theme }) => theme.fontSizes.xs};
 `
 
 const RequirimentBlock = styled.div`
@@ -218,11 +225,11 @@ export const Download: React.FC = () => {
 
         <WarningBox>
           <WarningTitle>Aviso de Compatibilidade</WarningTitle>
-          <p>
+          <WarningText>
             Este jogo é compatível apenas com sistemas Windows. Para sistemas Mac ou Linux, é
             necessário utilizar emuladores ou máquinas virtuais, o que pode afetar o desempenho do
             jogo.
-          </p>
+          </WarningText>
         </WarningBox>
       
     </DownloadContainer>
