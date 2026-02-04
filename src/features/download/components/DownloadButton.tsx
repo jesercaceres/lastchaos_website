@@ -32,25 +32,22 @@ export const DownloadButton = styled(Button)`
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
 
   /* --- Estética de Ouro Polido --- */
-  border: 2.5px solid #F4E4BC;
-  background: linear-gradient(
-    180deg, 
-    #F4E4BC 0%, 
-    #D4AF37 45%, 
-    #B8941E 100%
-  );
+  border: 2.5px solid #f4e4bc;
+  background: linear-gradient(180deg, #f4e4bc 0%, #d4af37 45%, #b8941e 100%);
 
   /* --- Efeito Bloom Ativo --- */
-  ${({ disabled }) => !disabled && css`
-    animation: ${bloomGlow} 4s infinite ease-in-out;
-  `}
+  ${({ disabled }) =>
+    !disabled &&
+    css`
+      animation: ${bloomGlow} 4s infinite ease-in-out;
+    `}
 
   /* --- Interações --- */
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   &:hover:not(:disabled) {
     transform: scale(1.04) translateY(-3px);
-    box-shadow: 
+    box-shadow:
       0 0 40px rgba(212, 175, 55, 1),
       0 0 80px rgba(212, 175, 55, 0.7),
       0 0 150px rgba(255, 223, 128, 0.5);

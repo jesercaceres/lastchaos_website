@@ -5,9 +5,8 @@ import donateBg from '../assets/images/donate-bg.png'
 
 const BackgroundContainer = styled.div`
   background-image:
-  linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 7%, transparent 15%), 
-  linear-gradient(to top, rgba(0, 0, 0, 0.9) 7%, transparent 30%),
-  url(${donateBg});
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 7%, transparent 15%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.9) 7%, transparent 30%), url(${donateBg});
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -25,7 +24,7 @@ const DoacoesContainer = styled.div`
   box-sizing: border-box;
 
   /* Padding superior reduzido para subir o conteúdo */
-  padding-top: calc(var(--header-height, 72px) + 1rem); 
+  padding-top: calc(var(--header-height, 72px) + 1rem);
   padding-bottom: ${({ theme }) => theme.spacing.xl};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
@@ -34,21 +33,20 @@ const DoacoesContainer = styled.div`
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-  padding: ${({ theme }) => theme.spacing.md};
+    padding: ${({ theme }) => theme.spacing.md};
     padding-top: calc(var(--header-height, 72px) + 0.5rem);
-    
   }
 `
 
 const Title = styled.h1`
-  padding-top: ${({ theme }) => theme.spacing.md}; 
+  padding-top: ${({ theme }) => theme.spacing.md};
   font-family: ${({ theme }) => theme.fonts.epic};
-  font-size: ${({ theme }) => theme.fontSizes['3xl']}; 
+  font-size: ${({ theme }) => theme.fontSizes['3xl']};
   color: ${({ theme }) => theme.colors.gold};
   text-align: center;
-  margin-bottom: ${({ theme }) => theme.spacing.lg}; 
-  
-  @media (max-width: ${({ theme}) => theme.breakpoints.desktop}) {
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
     font-size: ${({ theme }) => theme.fontSizes['4xl']};
   }
 `
@@ -62,7 +60,7 @@ const Description = styled.p`
   margin-left: auto;
   margin-right: auto;
   opacity: 0.9;
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop }) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
     font-size: ${({ theme }) => theme.fontSizes.md};
 `
 
@@ -70,7 +68,7 @@ const PackagesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* Minmax reduzido para 240px */
   gap: ${({ theme }) => theme.spacing.md}; /* Gap reduzido de MD para SM */
-  justify-content: center; 
+  justify-content: center;
   margin-bottom: ${({ theme }) => theme.spacing.xl};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
@@ -86,10 +84,9 @@ const PackagesGrid = styled.div`
     padding: 0 ${({ theme }) => theme.spacing.xl};
     gap: ${({ theme }) => theme.spacing['2xl']};
   }
-    @media (max-width: ${({ theme }) => theme.breakpoints.desktop} ) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
     padding: 0 ${({ theme }) => theme.spacing.sm};
-    }
-    
+  }
 `
 
 const PackageCard = styled(CardDonation)<{ isPopular?: boolean }>`
@@ -117,7 +114,11 @@ const PopularBadge = styled.div`
   position: absolute;
   top: -12px;
   right: 15px;
-  background: linear-gradient(135deg, ${({ theme }) => theme.colors.gold} 0%, ${({ theme }) => theme.colors.darkGold} 100%);
+  background: linear-gradient(
+    135deg,
+    ${({ theme }) => theme.colors.gold} 0%,
+    ${({ theme }) => theme.colors.darkGold} 100%
+  );
   color: ${({ theme }) => theme.colors.dark};
   padding: 0.3rem 0.8rem; /* Padding reduzido */
   border-radius: ${({ theme }) => theme.borderRadius.full};
@@ -248,8 +249,7 @@ export const Doacoes: React.FC = () => {
             • As doações são processadas de forma segura através de nossos parceiros de pagamento.
             <br />
             • Os benefícios são entregues automaticamente após a confirmação do pagamento.
-            <br />
-            • Em caso de dúvidas, entre em contato com o suporte.
+            <br />• Em caso de dúvidas, entre em contato com o suporte.
           </p>
         </InfoBox>
       </DoacoesContainer>

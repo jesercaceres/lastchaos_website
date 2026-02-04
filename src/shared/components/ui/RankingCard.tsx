@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { CardProps } from '../../../types'
 
 const StyledCard = styled.div<{ hoverable?: boolean }>`
-margin-bottom: ${({ theme }) => theme.spacing.xxl};
+  margin-bottom: ${({ theme }) => theme.spacing.xxl};
   opacity: 0.95;
   background: linear-gradient(
     135deg,

@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { DownloadButton } from '../features/download/components/DownloadButton'
 import backgroundImagem from '../assets/images/download-bg.png'
+import { SectionDivider } from '../shared/components/ui/SectionDivider'
 
 const BackgroundContainer = styled.div`
   width: 100%;
@@ -19,7 +20,7 @@ const DownloadContainer = styled.div`
   @media (min-height: 690px) {
     min-height: clamp(500px, calc(100dvh - var(--header-height, 72px)), 760px);
   }
-    
+
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     padding: ${({ theme }) => theme.spacing.md};
     margin: ${({ theme }) => theme.spacing.lg} auto;
@@ -31,26 +32,17 @@ const DownloadContainer = styled.div`
   }
 `
 
-const Title = styled.h1`
-padding-top: ${({ theme }) => theme.spacing.lg};
-  font-family: ${({ theme }) => theme.fonts.epic};
-  font-size: ${({ theme }) => theme.fontSizes['3xl']};
-  color: ${({ theme }) => theme.colors.gold};
-  text-align: center;
-  margin-bottom: ${({ theme }) => theme.spacing['2xl']};
-`
-
 const DownloadSection = styled.section`
   min-height: 85vh; /* Aumentado para garantir espaço de manobra vertical */
   display: flex;
   flex-direction: column;
-  align-items: flex-end; 
-  justify-content: flex-start; 
-  
+  align-items: flex-end;
+  justify-content: flex-start;
+
   /* --- DESKTOP (Telas grandes) --- */
   /* Aumentamos de 50vh para 55vh para descer o botão até a linha da cintura */
-  padding-top: 55vh; 
-  padding-right: 22%; 
+  padding-top: 55vh;
+  padding-right: 22%;
 
   /* --- NOTEBOOKS / DESKTOP MÉDIO (Telas < 1310px) --- */
   @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
@@ -97,7 +89,6 @@ const RequirementList = styled.ul`
   list-style: none;
   display: flex;
   flex-direction: column;
-  
 `
 
 const RequirementItem = styled.li`
@@ -136,7 +127,7 @@ const WarningText = styled.p`
 
 const RequirimentBlock = styled.div`
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   padding: ${({ theme }) => theme.spacing.md};
   align-items: center;
 `
@@ -148,59 +139,50 @@ export const Download: React.FC = () => {
   }
 
   return (
-    
     <DownloadContainer>
       <BackgroundContainer>
-      <DownloadSection>
- 
-       <DownloadButtonWrapper>
-  <DownloadButton onClick={handleDownload}>
-    Baixar Agora
-  </DownloadButton>
-</DownloadButtonWrapper>
- 
-      </DownloadSection>
-
+        <DownloadSection>
+          <DownloadButtonWrapper>
+            <DownloadButton onClick={handleDownload}>Baixar Agora</DownloadButton>
+          </DownloadButtonWrapper>
+        </DownloadSection>
       </BackgroundContainer>
+      <SectionDivider></SectionDivider>
 
-      
-        
-        <RequirementsGrid>
-          <RequirimentBlock>
-            <RequirementCategory>Requisitos Mínimos</RequirementCategory>
-            <RequirementList>
-              <RequirementItem>Sistema Operacional: Windows 7 ou superior</RequirementItem>
-              <RequirementItem>Processador: Intel Core i3 ou equivalente</RequirementItem>
-              <RequirementItem>Memória RAM: 4 GB</RequirementItem>
-              <RequirementItem>Placa de Vídeo: DirectX 9.0c compatível</RequirementItem>
-              <RequirementItem>Espaço em Disco: 5 GB disponíveis</RequirementItem>
-              <RequirementItem>Conexão: Internet banda larga</RequirementItem>
-            </RequirementList>
-            </RequirimentBlock>
+      <RequirementsGrid>
+        <RequirimentBlock>
+          <RequirementCategory>Requisitos Mínimos</RequirementCategory>
+          <RequirementList>
+            <RequirementItem>Sistema Operacional: Windows 7 ou superior</RequirementItem>
+            <RequirementItem>Processador: Intel Core i3 ou equivalente</RequirementItem>
+            <RequirementItem>Memória RAM: 4 GB</RequirementItem>
+            <RequirementItem>Placa de Vídeo: DirectX 9.0c compatível</RequirementItem>
+            <RequirementItem>Espaço em Disco: 5 GB disponíveis</RequirementItem>
+            <RequirementItem>Conexão: Internet banda larga</RequirementItem>
+          </RequirementList>
+        </RequirimentBlock>
 
-            <RequirimentBlock>
-            <RequirementCategory>Requisitos Recomendados</RequirementCategory>
-            <RequirementList>
-              <RequirementItem>Sistema Operacional: Windows 10 ou superior</RequirementItem>
-              <RequirementItem>Processador: Intel Core i5 ou superior</RequirementItem>
-              <RequirementItem>Memória RAM: 8 GB ou mais</RequirementItem>
-              <RequirementItem>Placa de Vídeo: NVIDIA GTX 750 ou superior</RequirementItem>
-              <RequirementItem>Espaço em Disco: 10 GB disponíveis</RequirementItem>
-              <RequirementItem>Conexão: Internet banda larga estável</RequirementItem>
-            </RequirementList>
-            </RequirimentBlock>
-        </RequirementsGrid>
+        <RequirimentBlock>
+          <RequirementCategory>Requisitos Recomendados</RequirementCategory>
+          <RequirementList>
+            <RequirementItem>Sistema Operacional: Windows 10 ou superior</RequirementItem>
+            <RequirementItem>Processador: Intel Core i5 ou superior</RequirementItem>
+            <RequirementItem>Memória RAM: 8 GB ou mais</RequirementItem>
+            <RequirementItem>Placa de Vídeo: NVIDIA GTX 750 ou superior</RequirementItem>
+            <RequirementItem>Espaço em Disco: 10 GB disponíveis</RequirementItem>
+            <RequirementItem>Conexão: Internet banda larga estável</RequirementItem>
+          </RequirementList>
+        </RequirimentBlock>
+      </RequirementsGrid>
 
-        <WarningBox>
-          <WarningTitle>Aviso de Compatibilidade</WarningTitle>
-          <WarningText>
-            Este jogo é compatível apenas com sistemas Windows. Para sistemas Mac ou Linux, é
-            necessário utilizar emuladores ou máquinas virtuais, o que pode afetar o desempenho do
-            jogo.
-          </WarningText>
-        </WarningBox>
-      
-    </DownloadContainer>    
-    
+      <WarningBox>
+        <WarningTitle>Aviso de Compatibilidade</WarningTitle>
+        <WarningText>
+          Este jogo é compatível apenas com sistemas Windows. Para sistemas Mac ou Linux, é
+          necessário utilizar emuladores ou máquinas virtuais, o que pode afetar o desempenho do
+          jogo.
+        </WarningText>
+      </WarningBox>
+    </DownloadContainer>
   )
 }

@@ -43,20 +43,17 @@ const RegistroContainer = styled.div`
 
   /* MOBILE*/
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    /* No mobile, não centralizamos verticalmente de forma rígida.
-       Damos um padding no topo para fugir do Header e deixamos rolar se precisar. */
     justify-content: flex-start;
     padding: ${({ theme }) => theme.spacing.md};
 
-    /* Empurra o card para baixo o suficiente para não bater no Header fixo */
     padding-top: calc(var(--header-height, 70px) + 2rem);
 
-    height: auto; /* Permite que a altura cresça se o teclado abrir */
+    height: auto;
   }
 `
 
 const RegistroCard = styled.div`
-  max-width: 500px; // Largura mantida
+  max-width: 500px;
   width: 100%;
   background: linear-gradient(
     135deg,
@@ -75,26 +72,21 @@ const RegistroCard = styled.div`
 
 const Title = styled.h1`
   font-family: ${({ theme }) => theme.fonts.epic};
-  font-size: ${({ theme }) => theme.fontSizes['4xl']};
+  font-size: ${({ theme }) => theme.fontSizes['3xl']};
   color: ${({ theme }) => theme.colors.gold};
   text-align: center;
-  /* --- ALTERAÇÃO OPCIONAL --- */
-  /* Reduzida a margem inferior de 'lg' para 'md' para compactar mais */
-  margin-bottom: ${({ theme }) => theme.spacing.md};
 `
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  /* --- ALTERAÇÃO OPCIONAL --- */
-  /* Reduzido o espaço entre os inputs de 'md' para 'sm' */
-  gap: ${({ theme }) => theme.spacing.sm};
+  label {
+    font-size: ${({ theme }) => theme.fontSizes.xs};
+  }
 `
 
 const LinksContainer = styled.div`
   text-align: center;
-  /* --- ALTERAÇÃO OPCIONAL --- */
-  /* Reduzida a margem superior de 'md' para 'sm' */
   margin-top: ${({ theme }) => theme.spacing.sm};
 `
 

@@ -9,7 +9,7 @@ const StyledCard = styled.div<{ hoverable?: boolean }>`
 
   width: 100%;
   max-width: 600px;
-  
+
   background: linear-gradient(
     135deg,
     ${({ theme }) => theme.colors.dark} 0%,
@@ -31,11 +31,11 @@ const StyledCard = styled.div<{ hoverable?: boolean }>`
     }
   `}
 `
-export const CardDownload: React.FC<CardProps & { className?: string }> = ({ 
-  children, 
-  onClick, 
+export const CardDownload: React.FC<CardProps & { className?: string }> = ({
+  children,
+  onClick,
   hoverable = false,
-  className 
+  className,
 }) => {
   return (
     <StyledCard onClick={onClick} hoverable={hoverable} className={className}>

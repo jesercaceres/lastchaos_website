@@ -8,10 +8,7 @@ export const mockDonationPackages: DonationPackage[] = [
     disclaimer: '',
     price: 20.0,
     currency: 'BRL',
-    benefits: [
-      '1000 Cash'
-      
-    ],
+    benefits: ['1000 Cash'],
   },
   {
     id: '2',
@@ -20,10 +17,7 @@ export const mockDonationPackages: DonationPackage[] = [
     disclaimer: 'Bônus fixo (não acumulativo)',
     price: 50.0,
     currency: 'BRL',
-    benefits: [
-      '2.500 Cash',
-      ' + Bonus 5%',
-    ],
+    benefits: ['2.500 Cash', ' + Bonus 5%'],
     popular: true,
   },
   {
@@ -33,23 +27,16 @@ export const mockDonationPackages: DonationPackage[] = [
     disclaimer: 'Bônus fixo (não acumulativo)',
     price: 100.0,
     currency: 'BRL',
-    benefits: [
-      '10.000 Cash',
-      '+ Bonus 20%',
-    ],
+    benefits: ['10.000 Cash', '+ Bonus 20%'],
   },
 
-    {
+  {
     id: '4',
     name: 'Divine Package',
     description: 'Pensado para quem quer maximizar vantagens e apoiar fortemente o servidor.',
     disclaimer: 'Bônus fixo (não acumulativo)',
     price: 200.0,
     currency: 'BRL',
-    benefits: [
-      '10.000 Cash',
-      '+ Bonus 20%',
-    ],
-  }
- 
+    benefits: ['10.000 Cash', '+ Bonus 20%'],
+  },
 ]
