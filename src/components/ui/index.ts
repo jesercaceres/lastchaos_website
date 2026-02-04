@@ -9,4 +9,4 @@ export {
   PlayersRankAndGuildChampionsStyles,
 } from '../../shared/components/ui'
 
-export { CardDonation } from './CardDonation'
+export { CardDonation } from '../../features/doacoes/components/CardDonation'
