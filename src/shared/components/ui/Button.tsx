@@ -81,7 +81,8 @@ const StyledButton = styled.button<Omit<ButtonProps, 'as'>>`
   }}
 `
 
-export const Button: React.FC<ButtonProps> = ({
+
+export const Button: React.FC<ButtonProps & { className?: string }> = ({
   children,
   onClick,
   variant = 'primary',
@@ -89,6 +90,7 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   type = 'button',
   fullWidth = false,
+  className, 
 }) => {
   return (
     <StyledButton
@@ -98,6 +100,7 @@ export const Button: React.FC<ButtonProps> = ({
       disabled={disabled}
       type={type}
       fullWidth={fullWidth}
+      className={className} 
     >
       {children}
     </StyledButton>

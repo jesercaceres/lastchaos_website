@@ -1,13 +1,19 @@
 import styled from 'styled-components'
-import { Button } from '../components/ui'
-import {CardDownload} from '../features/download/components/CardDownload'
+import { DownloadButton } from '../features/download/components/DownloadButton'
+import backgroundImagem from '../assets/images/download-bg.png'
 
+const BackgroundContainer = styled.div`
+  width: 100%;
+  background-image: url(${backgroundImagem});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 89vh;
+`
 
 const DownloadContainer = styled.div`
-  max-width: 1200px;
-  margin: ${({ theme }) => theme.spacing['2xl']} auto;
-  padding: ${({ theme }) => theme.spacing.xl};
-  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
   box-sizing: border-box;
 
   @media (min-height: 690px) {
@@ -24,12 +30,9 @@ const DownloadContainer = styled.div`
     margin: ${({ theme }) => theme.spacing.md} auto;
   }
 `
-const DownloadCard = styled(CardDownload)`
-  text-align: center;
-  padding: ${({ theme }) => theme.spacing.sm}; 
-`
 
 const Title = styled.h1`
+padding-top: ${({ theme }) => theme.spacing.lg};
   font-family: ${({ theme }) => theme.fonts.epic};
   font-size: ${({ theme }) => theme.fontSizes['3xl']};
   color: ${({ theme }) => theme.colors.gold};
@@ -38,63 +41,42 @@ const Title = styled.h1`
 `
 
 const DownloadSection = styled.section`
-  display: grid;
-  padding: ${({ theme }) => theme.spacing.md} 0;
-  grid-template-columns: 1fr 1fr;
-  gap: ${({ theme }) => theme.spacing.xl};
-  margin-bottom: ${({ theme }) => theme.spacing['2xl']};
+  min-height: 80vh; /* Ocupa quase toda a altura da imagem de fundo */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; 
+  justify-content: flex-start; 
+  
+  /* Este padding controla a altura vertical do botão. 
+     Aumente para descer, diminua para subir. */
+  padding-top: 50vh; 
+  padding-right: 20%; 
 
-  justify-items: center;
-  margin-left: auto;
-  margin-right: auto; 
+  @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
+    padding-right: 12%;
+    padding-top: 45vh;
+  }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    grid-template-columns: 1fr;
+    align-items: center;
+    padding-right: 0;
+    padding-top: 30vh;
   }
-    
-@media (min-width: ${({ theme }) => theme.breakpoints.wide}) {
-    margin-bottom: ${({ theme }) => theme.spacing.xs};
-  }
-
 `
 
 const DownloadButtonWrapper = styled.div`
-  max-width: 250px;
-  align-self: center;
-  padding-top: ${({ theme }) => theme.spacing.sm};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
 `
-
-const FileInfo = styled.div`
-  text-align: left;
-  display: inline-block;
-`
-
-const DownloadInfo = styled.div`
-  text-align: left;
-  margin: 0 auto;
-  `
-
-const FileInfoTitle = styled.h3`
-  font-family: ${({ theme }) => theme.fonts.epic};
-  color: ${({ theme }) => theme.colors.gold};
-  margin-bottom: ${({ theme }) => theme.spacing.sm};
-  font-size: ${({ theme }) => theme.fontSizes.md};
-  margin-top: ${({ theme }) => theme.spacing.sm};
-`
-
-const FileInfoItem = styled.p`
-  color: ${({ theme }) => theme.colors.lightGray};
-  margin: ${({ theme }) => theme.spacing.xs} 0;
-  font-size: ${({ theme }) => theme.fontSizes.xs};
-`
-
 
 const RequirementsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: ${({ theme }) => theme.spacing.lg};
   padding: ${({ theme }) => theme.spacing.xl};
-  padding-top: ${({ theme }) => theme.spacing.sm};
+  padding-top: ${({ theme }) => theme.spacing.xl};
 `
 
 const RequirementCategory = styled.h3`
@@ -126,11 +108,14 @@ const RequirementItem = styled.li`
 
 const WarningBox = styled.div`
   background: ${({ theme }) => theme.colors.warning}22;
+  max-width: 1200px;
   border: 2px solid ${({ theme }) => theme.colors.warning};
   border-radius: ${({ theme }) => theme.borderRadius.md};
   padding: ${({ theme }) => theme.spacing.md};
-  margin-top: ${({ theme }) => theme.spacing.lg};
   color: ${({ theme }) => theme.colors.white};
+  margin: 0 auto;
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+  margin-top: ${({ theme }) => theme.spacing.lg};
 `
 
 const WarningTitle = styled.h4`
@@ -149,10 +134,6 @@ const RequirimentBlock = styled.div`
   align-items: center;
 `
 
-const InfoBlock = styled.div`
-  margin-bottom: ${({ theme }) => theme.spacing.md};
-`
-
 export const Download: React.FC = () => {
   const handleDownload = () => {
     // Simulação de download
@@ -160,40 +141,20 @@ export const Download: React.FC = () => {
   }
 
   return (
+    
     <DownloadContainer>
-      <Title>Download do Jogo</Title>
-
+      <BackgroundContainer>
       <DownloadSection>
-        <DownloadCard>
-          <FileInfoTitle>Cliente do Jogo</FileInfoTitle>
-          <DownloadInfo>
-            <FileInfoItem>
-              <strong>Tamanho:</strong> 3.11 GB
-            </FileInfoItem>
-            <FileInfoItem>
-              <strong>Plataforma:</strong> Windows
-            </FileInfoItem>
-          </DownloadInfo>
-          <DownloadButtonWrapper>
-            <Button  fullWidth onClick={handleDownload}>
-              Baixar Agora
-            </Button>
-          </DownloadButtonWrapper>
-          </DownloadCard>
-        <DownloadCard>
-        <InfoBlock>
-          <FileInfoTitle>Informações Importantes</FileInfoTitle>
-          <FileInfo>
-            <FileInfoItem>
-              • O download pode levar alguns minutos dependendo da sua conexão
-            </FileInfoItem>
-            <FileInfoItem>• Certifique-se de ter espaço suficiente no disco</FileInfoItem>
-            <FileInfoItem>• Execute o instalador como administrador</FileInfoItem>
-            <FileInfoItem>• Antivírus pode solicitar permissão durante a instalação</FileInfoItem>
-          </FileInfo>
-        </InfoBlock>
-        </DownloadCard>  
+ 
+       <DownloadButtonWrapper>
+  <DownloadButton onClick={handleDownload}>
+    Baixar Agora
+  </DownloadButton>
+</DownloadButtonWrapper>
+ 
       </DownloadSection>
+
+      </BackgroundContainer>
 
       
         
@@ -232,6 +193,7 @@ export const Download: React.FC = () => {
           </WarningText>
         </WarningBox>
       
-    </DownloadContainer>
+    </DownloadContainer>    
+    
   )
 }
