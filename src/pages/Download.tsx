@@ -41,26 +41,33 @@ padding-top: ${({ theme }) => theme.spacing.lg};
 `
 
 const DownloadSection = styled.section`
-  min-height: 80vh; /* Ocupa quase toda a altura da imagem de fundo */
+  min-height: 85vh; /* Aumentado para garantir espaço de manobra vertical */
   display: flex;
   flex-direction: column;
   align-items: flex-end; 
   justify-content: flex-start; 
   
-  /* Este padding controla a altura vertical do botão. 
-     Aumente para descer, diminua para subir. */
-  padding-top: 50vh; 
-  padding-right: 20%; 
+  /* --- DESKTOP (Telas grandes) --- */
+  /* Aumentamos de 50vh para 55vh para descer o botão até a linha da cintura */
+  padding-top: 55vh; 
+  padding-right: 22%; 
 
+  /* --- NOTEBOOKS / DESKTOP MÉDIO (Telas < 1310px) --- */
   @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
-    padding-right: 12%;
-    padding-top: 45vh;
+    padding-right: 15%;
+    padding-top: 53vh;
   }
 
+  /* --- TABLETS (Telas < 768px) --- */
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    align-items: center;
+    align-items: center; /* Centraliza no tablet para não ficar cortado */
     padding-right: 0;
-    padding-top: 30vh;
+    padding-top: 48vh;
+  }
+
+  /* --- MOBILE (Telas < 480px) --- */
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    padding-top: 42vh; /* No mobile, o fundo corta de forma diferente, então subimos levemente */
   }
 `
 
