@@ -39,56 +39,57 @@ npm run dev
 
 ```
 src/
-
-├── main.tsx
-├── vite-env.d.ts
 ├── app/
 │   ├── App.tsx
-│   ├── main.tsx
 │   └── routes.tsx
 ├── assets/
 │   ├── icons/
+│   │   ├── castle-icon.png
+│   │   ├── leaderGuild.png
+│   │   ├── logo.ico
+│   │   ├── logo.png
+│   │   └── whatsapp-icon.png
 │   └── images/
-├── components/
-│   ├── ServerCard.tsx
-│   ├── ServerStatusBadge.tsx
-│   ├── layout/
-│   │   ├── Footer.tsx
-│   │   ├── Header.tsx
-│   │   └── index.ts
-│   └── ui/
-│       ├── Badge.tsx
-│       ├── Button.tsx
-│       ├── ButtonLink.tsx
-│       ├── Card.tsx
-│       ├── CardDonation.tsx
-│       ├── CommunityCard.tsx
-│       ├── index.ts
-│       ├── Input.tsx
-│       ├── Modal.tsx
-│       ├── PlayersRankAndGuildChampions.tsx
-│       └── SectionDivider.tsx
+│       ├── community-bg.png
+│       ├── donate-bg.png
+│       ├── download-bg.png
+│       ├── login-bg2.png
+│       ├── news-bg.png
+│       ├── oldWorld-lc.png
+│       ├── ranking-bg.png
+│       ├── rankingPage-bg.png
+│       ├── register-bg.png
+│       └── server-bg.png
 ├── features/
+│   ├── community/
+│   │   └── components/
+│   │       └── CommunityCard.tsx
+│   ├── doacoes/
+│   │   ├── components/
+│   │   │   └── CardDonation.tsx
+│   │   └── mocks/
+│   │       └── donationPackages.ts
+│   ├── download/
+│   │   └── components/
+│   │       ├── CardDownload.tsx
+│   │       └── DownloadButton.tsx
 │   ├── ranking/
 │   │   ├── components/
-│   │   │   ├── HomeRankingsSection.tsx
-│   │   │   └── RankingPage.tsx
+│   │   │   └── HomeRankingsSection.tsx
 │   │   └── mocks/
 │   │       └── playerRating.ts
 │   └── servers/
-│       ├── types.ts
 │       ├── components/
 │       │   ├── ServerCard.tsx
 │       │   └── ServerStatusBadge.tsx
-│       └── mocks/
-│           └── servers.ts
+│       ├── mocks/
+│       │   └── servers.ts
+│       └── types.ts
 ├── mocks/
 │   ├── castleOwners.ts
-│   ├── donationPackages.ts
 │   ├── guildRating.ts
 │   ├── index.ts
 │   ├── news.ts
-│   ├── playerRating.ts
 │   └── servers.ts
 ├── pages/
 │   ├── Comunidade.tsx
@@ -97,11 +98,9 @@ src/
 │   ├── Home.tsx
 │   ├── index.ts
 │   ├── Login.tsx
-│   ├── Ranking.tsx
+│   ├── RankingPage.tsx
 │   ├── Registro.tsx
 │   └── Regras.tsx
-├── routes/
-│   └── index.tsx
 ├── shared/
 │   └── components/
 │       ├── layout/
@@ -122,9 +121,11 @@ src/
 ├── styles/
 │   ├── GlobalStyle.ts
 │   └── theme.ts
-└── types/
-    ├── index.ts
-    └── styled.d.ts
+├── types/
+│   ├── index.ts
+│   └── styled.d.ts
+├── main.tsx
+└── vite-env.d.ts
 ```
 
 ## 🎨 Páginas Disponíveis
