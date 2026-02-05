@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { mockDonationPackages } from '../mocks'
-import { Button, CardDonation } from '../components/ui'
+import { Button } from '../shared/components/ui'
+import { CardDonation } from '../features/doacoes/components/CardDonation'
 import donateBg from '../assets/images/donate-bg.png'
 
 const BackgroundContainer = styled.div`

@@ -33,14 +33,11 @@ const DownloadContainer = styled.div`
 `
 
 const DownloadSection = styled.section`
-  min-height: 85vh; /* Aumentado para garantir espaço de manobra vertical */
+  min-height: 85vh; 
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   justify-content: flex-start;
-
-  /* --- DESKTOP (Telas grandes) --- */
-  /* Aumentamos de 50vh para 55vh para descer o botão até a linha da cintura */
   padding-top: 55vh;
   padding-right: 22%;
 
@@ -52,14 +49,14 @@ const DownloadSection = styled.section`
 
   /* --- TABLETS (Telas < 768px) --- */
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    align-items: center; /* Centraliza no tablet para não ficar cortado */
+    align-items: center; 
     padding-right: 0;
     padding-top: 48vh;
   }
 
   /* --- MOBILE (Telas < 480px) --- */
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    padding-top: 42vh; /* No mobile, o fundo corta de forma diferente, então subimos levemente */
+    padding-top: 42vh; 
   }
 `
 

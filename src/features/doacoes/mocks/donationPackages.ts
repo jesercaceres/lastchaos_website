@@ -1,4 +1,4 @@
-import { DonationPackage } from '../types'
+import { DonationPackage } from '../../../types'
 
 export const mockDonationPackages: DonationPackage[] = [
   {
@@ -33,7 +33,7 @@ export const mockDonationPackages: DonationPackage[] = [
   {
     id: '4',
     name: 'Divine Package',
-    description: 'Pensado para quem quer maximizar vantagens e apoiar fortemente o servidor.',
+    description: 'Cansou de ser um Player e tornou-se uma divindade.',
     disclaimer: 'Bônus fixo (não acumulativo)',
     price: 200.0,
     currency: 'BRL',

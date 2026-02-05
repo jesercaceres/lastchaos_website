@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { PlayersRankAndGuildChampionsStyles } from '../../../shared/components/ui'
-import { mockPlayerRating } from '../mocks/playerRating'
-import rankingPageBg from '../../../assets/images/rankingPage-bg.png'
+import { PlayersRankAndGuildChampionsStyles } from '../shared/components/ui/PlayersRankAndGuildChampions'
+import { mockPlayerRating } from '../features/ranking/mocks/playerRating'
+import rankingPageBg from '../assets/images/rankingPage-bg.png'
 
 const RankingContainer = styled.div`
   display: flex;

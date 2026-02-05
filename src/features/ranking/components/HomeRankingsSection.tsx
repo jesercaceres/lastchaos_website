@@ -73,7 +73,6 @@ const RankingsSectionWrapper = styled.section`
 
 const SectionTitle = styled.h2`
   font-family: ${({ theme }) => theme.fonts.epic};
-  padding-bottom: ${({ theme }) => theme.spacing.xl};
   font-size: ${({ theme }) => theme.fontSizes['4xl']};
   color: ${({ theme }) => theme.colors.gold};
   text-align: center;

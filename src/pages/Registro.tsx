@@ -1,7 +1,7 @@
 import { useState, FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { Button, Input } from '../components/ui'
+import { Button, Input } from '../shared/components/ui'
 import { RegisterFormData } from '../types'
 import registerBgImage from '../assets/images/register-bg.png'
 
