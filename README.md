@@ -1,6 +1,6 @@
 # 🎮 Old World Last Chaos - Site Oficial
 
-**Portal web completo e responsivo para o MMORPG Old World Last Chaos**, oferecendo funcionalidades essenciais para jogadores, como informações de servidor, ranking, comunidade, downloads e sistema de doações.
+**Portal web completo e responsivo para o MMORPG Old World Last Chaos**, oferecendo funcionalidades essenciais para jogadores, como informações de servidor, ranking, comunidade, downloads, cadastro no game e sistema de doações.
 
 Desenvolvido com **React 18**, **TypeScript**, **Vite** e **Styled Components** para proporcionar uma experiência rápida, segura e visualmente atraente.
 
@@ -33,7 +33,7 @@ Desenvolvido com **React 18**, **TypeScript**, **Vite** e **Styled Components** 
 | **Componentes UI** | ✅ 80% completo |
 | **Páginas** | ✅ 70% completo |
 | **Design Responsivo** | ✅ Implementado |
-| **Backend API** | 🔄 Em planejamento |
+| **Backend API** | 🔄 Em Desenvolvimento |
 | **Autenticação Real** | ⏳ Próximo |
 | **Sistema de Pagamento** | ⏳ Próximo |
 
