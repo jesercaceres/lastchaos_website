@@ -360,9 +360,8 @@ Quando o projeto estiver mais maduro, abrirei para contribuições via Pull Requ
 ## 📧 Contato
 
 - **Desenvolvedor**: Jéser Cáceres Marcelino
-- **GitHub**: 
-- **Email**: 
-- **Discord**: 
+- **GitHub**: https://github.com/jesercaceres
+- **Email**: cjeser99@gmail.com
 
 ---
 
