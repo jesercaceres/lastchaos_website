@@ -1,11 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
-import { CardProps } from '../../types' 
+import { CardProps } from '../../../types'
 
 const StyledCard = styled.div<{ hoverable?: boolean }>`
   display: flex;
   flex-direction: column;
-  height: 100%; 
+  min-height: 235px;
+
+  width: 100%;
+  max-width: 600px;
+
   background: linear-gradient(
     135deg,
     ${({ theme }) => theme.colors.dark} 0%,
@@ -27,13 +31,11 @@ const StyledCard = styled.div<{ hoverable?: boolean }>`
     }
   `}
 `
-
-
-export const CommunityCard: React.FC<CardProps & { className?: string }> = ({ 
-  children, 
-  onClick, 
+export const CardDownload: React.FC<CardProps & { className?: string }> = ({
+  children,
+  onClick,
   hoverable = false,
-  className 
+  className,
 }) => {
   return (
     <StyledCard onClick={onClick} hoverable={hoverable} className={className}>

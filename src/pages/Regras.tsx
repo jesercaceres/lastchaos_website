@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Card } from '../components/ui'
+import { Card } from '../shared/components/ui'
 
 const RegrasContainer = styled.div`
   max-width: 1000px;

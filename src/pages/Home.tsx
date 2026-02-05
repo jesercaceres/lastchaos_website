@@ -13,7 +13,6 @@ import heroImage from '../assets/images/oldWorld-lc.png'
 import newsBg from '../assets/images/news-bg.png'
 import serversBg from '../assets/images/server-bg.png'
 
-// --- CONTAINER DE CONTEÚDO (Centraliza o conteúdo sobre os backgrounds) ---
 const ContentContainer = styled.div`
   max-width: ${({ theme }) => theme.breakpoints.wide};
   margin: 0 auto;

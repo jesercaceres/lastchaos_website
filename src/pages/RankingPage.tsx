@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { PlayersRankAndGuildChampionsStyles } from '../../../shared/components/ui'
-import { mockPlayerRating } from '../mocks/playerRating'
-import rankingPageBg from '../../../assets/images/rankingPage-bg.png';
+import { PlayersRankAndGuildChampionsStyles } from '../shared/components/ui/PlayersRankAndGuildChampions'
+import { mockPlayerRating } from '../features/ranking/mocks/playerRating'
+import rankingPageBg from '../assets/images/rankingPage-bg.png'
 
 const RankingContainer = styled.div`
   display: flex;
@@ -12,18 +12,16 @@ const RankingContainer = styled.div`
   padding: ${({ theme }) => theme.spacing.xl};
   padding-top: ${({ theme }) => theme.spacing.xl};
   max-width: auto;
-  
- background-image:
+
+  background-image:
     linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 13%, transparent 70%),
-    linear-gradient(to top, rgba(0, 0, 0, 0.9) 2%, transparent 10%),
-    url(${rankingPageBg});
+    linear-gradient(to top, rgba(0, 0, 0, 0.9) 2%, transparent 10%), url(${rankingPageBg});
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  
+
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     padding: ${({ theme }) => theme.spacing.md};
-    
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
@@ -112,49 +110,49 @@ export const RankingPage: React.FC = () => {
       </ControlsRow>
 
       <CardContainer>
-      <PlayersRankAndGuildChampionsStyles.ContainerCard>
-        <PlayersRankAndGuildChampionsStyles.Section>
-          <PlayersRankAndGuildChampionsStyles.Title>
-            Player Rating
-          </PlayersRankAndGuildChampionsStyles.Title>
+        <PlayersRankAndGuildChampionsStyles.ContainerCard>
+          <PlayersRankAndGuildChampionsStyles.Section>
+            <PlayersRankAndGuildChampionsStyles.Title>
+              Player Rating
+            </PlayersRankAndGuildChampionsStyles.Title>
 
-          <PlayersRankAndGuildChampionsStyles.Block>
-            <PlayersRankAndGuildChampionsStyles.TableHeaderPlayers>
-              <PlayersRankAndGuildChampionsStyles.HeaderCellCenter>
-                N°
-              </PlayersRankAndGuildChampionsStyles.HeaderCellCenter>
-              <div>Nickname</div>
-              <PlayersRankAndGuildChampionsStyles.HeaderCellRight>
-                Race
-              </PlayersRankAndGuildChampionsStyles.HeaderCellRight>
-              <PlayersRankAndGuildChampionsStyles.HeaderCellRight>
-                Level
-              </PlayersRankAndGuildChampionsStyles.HeaderCellRight>
-            </PlayersRankAndGuildChampionsStyles.TableHeaderPlayers>
+            <PlayersRankAndGuildChampionsStyles.Block>
+              <PlayersRankAndGuildChampionsStyles.TableHeaderPlayers>
+                <PlayersRankAndGuildChampionsStyles.HeaderCellCenter>
+                  N°
+                </PlayersRankAndGuildChampionsStyles.HeaderCellCenter>
+                <div>Nickname</div>
+                <PlayersRankAndGuildChampionsStyles.HeaderCellRight>
+                  Race
+                </PlayersRankAndGuildChampionsStyles.HeaderCellRight>
+                <PlayersRankAndGuildChampionsStyles.HeaderCellRight>
+                  Level
+                </PlayersRankAndGuildChampionsStyles.HeaderCellRight>
+              </PlayersRankAndGuildChampionsStyles.TableHeaderPlayers>
 
-            {players.map(player => (
-              <PlayersRankAndGuildChampionsStyles.RowPlayers
-                key={`${player.position}-${player.nickname}`}
-              >
-                <PlayersRankAndGuildChampionsStyles.PositionBadge $position={player.position}>
-                  {player.position}
-                </PlayersRankAndGuildChampionsStyles.PositionBadge>
+              {players.map(player => (
+                <PlayersRankAndGuildChampionsStyles.RowPlayers
+                  key={`${player.position}-${player.nickname}`}
+                >
+                  <PlayersRankAndGuildChampionsStyles.PositionBadge $position={player.position}>
+                    {player.position}
+                  </PlayersRankAndGuildChampionsStyles.PositionBadge>
 
-                <PlayersRankAndGuildChampionsStyles.Nickname title={player.nickname}>
-                  {player.nickname}
-                </PlayersRankAndGuildChampionsStyles.Nickname>
+                  <PlayersRankAndGuildChampionsStyles.Nickname title={player.nickname}>
+                    {player.nickname}
+                  </PlayersRankAndGuildChampionsStyles.Nickname>
 
-                <PlayersRankAndGuildChampionsStyles.MutedRightCell>
-                  {player.race}
-                </PlayersRankAndGuildChampionsStyles.MutedRightCell>
-                <PlayersRankAndGuildChampionsStyles.RightCell>
-                  {player.level}
-                </PlayersRankAndGuildChampionsStyles.RightCell>
-              </PlayersRankAndGuildChampionsStyles.RowPlayers>
-            ))}
-          </PlayersRankAndGuildChampionsStyles.Block>
-        </PlayersRankAndGuildChampionsStyles.Section>
-      </PlayersRankAndGuildChampionsStyles.ContainerCard>
+                  <PlayersRankAndGuildChampionsStyles.MutedRightCell>
+                    {player.race}
+                  </PlayersRankAndGuildChampionsStyles.MutedRightCell>
+                  <PlayersRankAndGuildChampionsStyles.RightCell>
+                    {player.level}
+                  </PlayersRankAndGuildChampionsStyles.RightCell>
+                </PlayersRankAndGuildChampionsStyles.RowPlayers>
+              ))}
+            </PlayersRankAndGuildChampionsStyles.Block>
+          </PlayersRankAndGuildChampionsStyles.Section>
+        </PlayersRankAndGuildChampionsStyles.ContainerCard>
       </CardContainer>
     </RankingContainer>
   )

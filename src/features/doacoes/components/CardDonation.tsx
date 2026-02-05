@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { CardProps } from '../../types' 
+import { CardProps } from '../../../types'
 
 const StyledCard = styled.div<{ hoverable?: boolean }>`
   position: relative;
@@ -45,12 +45,11 @@ const StyledCard = styled.div<{ hoverable?: boolean }>`
   `}
 `
 
-
-export const CardDonation: React.FC<CardProps & { className?: string }> = ({ 
-  children, 
-  onClick, 
+export const CardDonation: React.FC<CardProps & { className?: string }> = ({
+  children,
+  onClick,
   hoverable = false,
-  className 
+  className,
 }) => {
   return (
     <StyledCard onClick={onClick} hoverable={hoverable} className={className}>
