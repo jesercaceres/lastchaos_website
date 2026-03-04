@@ -1,8 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
 import { Header, Footer } from '../shared/components/layout'
-import { Home, Login, Registro, Download, Comunidade, Regras, Doacoes, Ranking } from '../pages'
-import { ForgotPassword } from '../features/forgot-password/ForgotPassword'
+import { Home, Login, Registro, Download, Comunidade, Regras, Doacoes, Ranking, ForgotPassword } from '../pages'
 
 const MainLayout = () => (
   <>
