@@ -4,7 +4,7 @@
 
 Desenvolvido com **React 18**, **TypeScript**, **Vite** e **Styled Components** para proporcionar uma experiência rápida, segura e visualmente atraente.
 
-> ⚠️ **Status**: Este projeto ainda está em **desenvolvimento contínuo**. Funcionalidades e design podem sofrer alterações. Em breve será integrado a uma API Backend para funcionalidades completas. Inteiramente desenvolvido por [Jéser Cáceres Marcelino].
+> ⚠️ **Status**: Este projeto ainda está em **desenvolvimento contínuo**. Funcionalidades e design podem sofrer alterações. Em breve será integrado a uma API Backend para funcionalidades completas. Inteiramente desenvolvido por **Jéser Cáceres Marcelino**.
 
 ---
 
@@ -360,9 +360,8 @@ Quando o projeto estiver mais maduro, abrirei para contribuições via Pull Requ
 ## 📧 Contato
 
 - **Desenvolvedor**: Jéser Cáceres Marcelino
-- **GitHub**: 
-- **Email**: 
-- **Discord**: 
+- **GitHub**: https://github.com/jesercaceres
+- **Email**: cjeser99@gmail.com
 
 ---
 
