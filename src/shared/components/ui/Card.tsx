@@ -25,9 +25,9 @@ const StyledCard = styled.div<{ hoverable?: boolean }>`
   `}
 `
 
-export const Card: React.FC<CardProps> = ({ children, onClick, hoverable = false }) => {
+export const Card: React.FC<CardProps> = ({ children, onClick, hoverable = false, className }) => {
   return (
-    <StyledCard onClick={onClick} hoverable={hoverable}>
+    <StyledCard onClick={onClick} hoverable={hoverable} className={className}>
       {children}
     </StyledCard>
   )

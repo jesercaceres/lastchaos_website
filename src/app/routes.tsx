@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
 import { Header, Footer } from '../shared/components/layout'
 import { Home, Login, Registro, Download, Comunidade, Regras, Doacoes, Ranking } from '../pages'
+import { ForgotPassword } from '../features/forgot-password/ForgotPassword'
 
 const MainLayout = () => (
   <>
@@ -27,9 +28,9 @@ export const AppRoutes: React.FC = () => {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/download" element={<Download />} />
-          <Route path="/comunidade" element={<Comunidade />} />
-          <Route path="/regras" element={<Regras />} />
-          <Route path="/doacoes" element={<Doacoes />} />
+          <Route path="/comunity" element={<Comunidade />} />
+          <Route path="/rules" element={<Regras />} />
+          <Route path="/donation" element={<Doacoes />} />
           <Route path="/ranking" element={<Ranking />} />
         </Route>
 
@@ -37,6 +38,7 @@ export const AppRoutes: React.FC = () => {
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Registro />} />
+          <Route path="/recovery" element={<ForgotPassword />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,3 +1,4 @@
+import React from 'react' // Certifique-se de que o React está importado
 import styled from 'styled-components'
 import { InputProps } from '../../../types'
 
@@ -12,6 +13,7 @@ const Label = styled.label`
   font-weight: 500;
   color: ${({ theme }) => theme.colors.lightGold};
   font-size: ${({ theme }) => theme.fontSizes.sm};
+  
 `
 
 const StyledInput = styled.input<{ hasError?: boolean }>`
@@ -50,6 +52,7 @@ const ErrorMessage = styled.span`
 `
 
 export const Input: React.FC<InputProps> = ({
+  id,                   // Receba o id aqui
   label,
   type = 'text',
   placeholder,
@@ -62,12 +65,13 @@ export const Input: React.FC<InputProps> = ({
   return (
     <InputWrapper>
       {label && (
-        <Label>
+        <Label htmlFor={id}> {/* Vincula o label ao id do input */}
           {label}
           {required && <span style={{ color: '#F44336', marginLeft: '4px' }}>*</span>}
         </Label>
       )}
       <StyledInput
+        id={id}             // Aplica o id ao elemento nativo
         type={type}
         placeholder={placeholder}
         value={value}

@@ -6,3 +6,4 @@ export { Modal } from './Modal'
 export { Badge } from './Badge'
 export { SectionDivider } from './SectionDivider'
 export { PlayersRankAndGuildChampionsStyles } from './PlayersRankAndGuildChampions'
+export { TextLink } from './TextLink';

@@ -220,7 +220,7 @@ export const Login: React.FC = () => {
 
         <LinksContainer>
           <StyledLink to="/registro">Criar uma conta</StyledLink>
-          <StyledLink to="/">Esqueci minha senha</StyledLink>
+          <StyledLink to="/recovery">Esqueci minha senha</StyledLink>
         </LinksContainer>
       </LoginCard>
       <CopyrightText>

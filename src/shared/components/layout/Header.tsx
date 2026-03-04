@@ -217,9 +217,9 @@ const navigationItems = [
   { path: '/', label: 'Início' },
   { path: '/download', label: 'Download' },
   { path: '/ranking', label: 'Ranking' },
-  { path: '/comunidade', label: 'Comunidade' },
-  { path: '/regras', label: 'Regras' },
-  { path: '/doacoes', label: 'Doações' },
+  { path: '/comunity', label: 'Comunidade' },
+  { path: '/rules', label: 'Regras' },
+  { path: '/donation', label: 'Doações' },
 ]
 
 export const Header: React.FC = () => {

@@ -67,6 +67,7 @@ export interface ButtonProps {
 }
 
 export interface InputProps {
+  id?: string
   label?: string
   type?: string
   placeholder?: string
@@ -74,10 +75,11 @@ export interface InputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   error?: string
   required?: boolean
-  disabled?: boolean
+  disabled?: boolean 
 }
 
 export interface CardProps {
+  className?: string
   children: React.ReactNode
   onClick?: () => void
   hoverable?: boolean
