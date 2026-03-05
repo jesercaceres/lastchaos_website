@@ -1,45 +1,70 @@
 import React, { useRef, useState } from 'react'
-import ReCAPTCHA from 'react-google-recaptcha' 
+import ReCAPTCHA from 'react-google-recaptcha'
 import styled from 'styled-components'
-import { Input, Button, Card, TextLink, ErrorMessage, SuccessMessage, Captcha } from '../../../shared/components/ui'
+import { Link } from 'react-router-dom'
+import { Input, Button, Card, ErrorMessage, SuccessMessage, Captcha } from '../../../shared/components/ui'
 
 const StyledCard = styled(Card)`
-  max-width: 600px;
+  max-width: 500px; /* Reduzido para notebook conforme modelo Epic Games */
   width: 100%;
   border: 2px solid ${({ theme }) => theme.colors.gold};
   margin: 0 auto;
-
-  /* Ajuste para Notebook (Breakpoint Large) */
-  @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
-    max-width: 500px;
-    margin-top: ${({ theme }) => theme.spacing.lg};
-  }
+  padding: ${({ theme }) => theme.spacing.xl};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     padding: ${({ theme }) => theme.spacing.md};
   }
 `
 
-const CardTitle = styled.h3`
+const TopNav = styled.div`
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+`
+
+const BackLink = styled(Link)`
+  color: ${({ theme }) => theme.colors.lightGray};
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: ${({ theme }) => theme.transitions.fast};
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.gold};
+  }
+`
+
+const CardTitle = styled.h2`
   font-family: ${({ theme }) => theme.fonts.epic};
-  font-size: ${({ theme }) => theme.fontSizes['2xl']};
-  color: ${({ theme }) => theme.colors.gold};
-  text-transform: uppercase;
-  margin-bottom: ${({ theme }) => theme.spacing.md};
-  text-align: center;
+  font-size: ${({ theme }) => theme.fontSizes['3xl']};
+  color: ${({ theme }) => theme.colors.white};
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
+  text-align: left; /* Alinhamento Epic Games */
 `
 
 const CardSubtitle = styled.p`
   color: ${({ theme }) => theme.colors.lightGray};
-  font-size: ${({ theme }) => theme.fontSizes.sm};
+  font-size: ${({ theme }) => theme.fontSizes.md};
   margin-bottom: ${({ theme }) => theme.spacing.xl};
   line-height: 1.6;
+  text-align: left;
 `
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.md};
+`
+
+const CaptchaWrapper = styled.div`
+  margin: ${({ theme }) => theme.spacing.md} 0;
+  display: flex;
+  justify-content: flex-start; /* Alinha o captcha à esquerda */
+  
+  /* Ajuste fino para o tamanho não esticar o layout */
+  & > div {
+    transform: scale(0.9); /* Deixa o captcha ligeiramente menor */
+    transform-origin: left top;
+  }
 `
 
 export const ForgotPasswordForm: React.FC = () => {
@@ -47,40 +72,23 @@ export const ForgotPasswordForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isSubmitted, setIsSubmitted] = useState(false)
-  
-  // 1. Definição do estado do Token (Corrigindo o erro de Cannot find setCaptchaToken)
   const [captchaToken, setCaptchaToken] = useState<string | null>(null)
-  
-  // 2. Definição do Ref (Corrigindo o erro de Cannot find captchaRef)
   const captchaRef = useRef<ReCAPTCHA>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError(null)
-
-    // 3. Validação de segurança no Frontend
     if (!captchaToken) {
-      setError("Por favor, resolva o CAPTCHA para continuar.")
+      setError("Por favor, resolva o CAPTCHA.")
       return
     }
-
+    setError(null)
     setIsLoading(true)
 
     try {
-      // Simulação da chamada de API enviando os dados
-      console.log('Dados para o backend:', { email, captchaToken })
-      
       await new Promise(resolve => setTimeout(resolve, 2000))
-      
-      if (email !== 'teste@gmail.com') {
-        throw new Error("Usuário não encontrado em nossa base de dados.")
-      }
-
       setIsSubmitted(true)
     } catch (err: any) {
-      setError(err.message || 'Ocorreu um erro. Tente novamente mais tarde.')
-      
-      // 4. Resetar o captcha em caso de erro para forçar nova validação humana
+      setError(err.message || 'Erro ao processar.')
       captchaRef.current?.reset()
       setCaptchaToken(null)
     } finally {
@@ -91,18 +99,25 @@ export const ForgotPasswordForm: React.FC = () => {
   if (isSubmitted) {
     return (
       <StyledCard>
-        <CardTitle>E-mail Enviado!</CardTitle>
+        <CardTitle>E-MAIL ENVIADO</CardTitle>
         <SuccessMessage>
-          Um link de recuperação foi enviado para <strong>{email}</strong>. 
-          Verifique sua caixa de entrada para redefinir sua senha.
+          Um link de recuperação foi enviado para <strong>{email}</strong>.
         </SuccessMessage>
-        <TextLink to="/login">Voltar para o Login</TextLink>
+        <Link to="/login" style={{ textAlign: 'center', display: 'block', color: '#D4AF37' }}>
+          Voltar para o Login
+        </Link>
       </StyledCard>
     )
   }
 
- return (
+  return (
     <StyledCard>
+      <TopNav>
+        <BackLink to="/login">
+          <span>‹</span> Voltar
+        </BackLink>
+      </TopNav>
+
       <CardTitle>Redefinir Sua Senha</CardTitle>
       <CardSubtitle>
         Insira o endereço de e-mail da sua conta para receber instruções de redefinição.
@@ -111,7 +126,7 @@ export const ForgotPasswordForm: React.FC = () => {
       <Form onSubmit={handleSubmit}>
         <Input
           id="email"
-          label="Digite seu e-mail ou ID de usuário"
+          label="Endereço de e-mail *"
           type="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
@@ -119,22 +134,22 @@ export const ForgotPasswordForm: React.FC = () => {
           disabled={isLoading}
         />
         
-        <Button type="submit" fullWidth disabled={isLoading}>
-          {isLoading ? 'Enviando...' : 'Continuar'}
+        <CaptchaWrapper>
+          <Captcha 
+            ref={captchaRef}
+            siteKey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+            theme="dark"
+            size="normal" // Formato mais horizontal que o compact
+            onChange={(token) => setCaptchaToken(token)}
+          />
+        </CaptchaWrapper>
+
+        <Button type="submit" fullWidth size="large" disabled={isLoading}>
+          {isLoading ? 'ENVIANDO...' : 'CONTINUAR'}
         </Button>
 
-          <Captcha 
-          ref={captchaRef}
-          siteKey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-          theme="dark"
-          size='compact'
-          onChange={(token) => setCaptchaToken(token)}
-        />
-
-        <TextLink to="/login">Voltar para o Login</TextLink>
-
         {error && (
-          <ErrorMessage style={{ marginTop: '0.5rem' }}>
+          <ErrorMessage style={{ marginTop: '1.5rem' }}>
             {error}
           </ErrorMessage>
         )}
