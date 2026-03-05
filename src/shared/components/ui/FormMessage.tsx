@@ -8,12 +8,18 @@ export const ErrorMessage = styled.div`
 `
 
 export const SuccessMessage = styled.div`
-  background: ${({ theme }) => theme.colors.success};
+  /* Verde mais escuro e integrado ao tema Dark */
+  background: rgba(76, 175, 80, 0.15); 
+  border: 1px solid ${({ theme }) => theme.colors.success};
   color: ${({ theme }) => theme.colors.white};
   padding: ${({ theme }) => theme.spacing.md};
   border-radius: ${({ theme }) => theme.borderRadius.md};
   font-size: ${({ theme }) => theme.fontSizes.sm};
-  margin-bottom: ${({ theme }) => theme.spacing.md};
-  text-align: center;
-  line-height: 1.5;
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
+  text-align: left; /* Alinhado à esquerda conforme o padrão Epic */
+  line-height: 1.6;
+
+  strong {
+    color: ${({ theme }) => theme.colors.success};
+  }
 `
