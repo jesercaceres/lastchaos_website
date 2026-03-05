@@ -1,3 +1,4 @@
+// src/features/forgot-password/components/ForgotPasswordForm.tsx
 import React, { useRef, useState } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 import styled from 'styled-components'
@@ -5,14 +6,15 @@ import { Link } from 'react-router-dom'
 import { Input, Button, Card, ErrorMessage, SuccessMessage, Captcha } from '../../../shared/components/ui'
 
 const StyledCard = styled(Card)`
-  max-width: 500px; /* Reduzido para notebook conforme modelo Epic Games */
+  max-width: 500px;
   width: 100%;
   border: 2px solid ${({ theme }) => theme.colors.gold};
   margin: 0 auto;
   padding: ${({ theme }) => theme.spacing.xl};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    padding: ${({ theme }) => theme.spacing.md};
+    padding: ${({ theme }) => theme.spacing.lg};
+    width: 92%; 
   }
 `
 
@@ -39,7 +41,7 @@ const CardTitle = styled.h2`
   font-size: ${({ theme }) => theme.fontSizes['3xl']};
   color: ${({ theme }) => theme.colors.white};
   margin-bottom: ${({ theme }) => theme.spacing.sm};
-  text-align: left; /* Alinhamento Epic Games */
+  text-align: left;
 `
 
 const CardSubtitle = styled.p`
@@ -58,12 +60,19 @@ const Form = styled.form`
 const CaptchaWrapper = styled.div`
   margin: ${({ theme }) => theme.spacing.md} 0;
   display: flex;
-  justify-content: flex-start; /* Alinha o captcha à esquerda */
+  justify-content: flex-start; /* Alinhamento à esquerda Epic Games */
+  width: 100%;
   
-  /* Ajuste fino para o tamanho não esticar o layout */
   & > div {
-    transform: scale(0.9); /* Deixa o captcha ligeiramente menor */
-    transform-origin: left top;
+    /* Scale 0.85 garante que caiba no mobile sem vazar do card */
+    transform: scale(0.85);
+    transform-origin: left top; /* Mantém o alinhamento com a Label do Input */
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    & > div {
+      transform: scale(0.82); 
+    }
   }
 `
 
@@ -78,7 +87,7 @@ export const ForgotPasswordForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!captchaToken) {
-      setError("Por favor, resolva o CAPTCHA.")
+      setError("Por favor, resolva o desafio de segurança.")
       return
     }
     setError(null)
@@ -86,11 +95,12 @@ export const ForgotPasswordForm: React.FC = () => {
 
     try {
       await new Promise(resolve => setTimeout(resolve, 2000))
+      if (email !== 'teste@gmail.com') throw new Error("Endereço de e-mail não encontrado.")
       setIsSubmitted(true)
     } catch (err: any) {
-      setError(err.message || 'Erro ao processar.')
-      captchaRef.current?.reset()
-      setCaptchaToken(null)
+      setError(err.message || 'Erro ao processar solicitação.');
+      captchaRef.current?.reset();
+      setCaptchaToken(null);
     } finally {
       setIsLoading(false)
     }
@@ -101,9 +111,9 @@ export const ForgotPasswordForm: React.FC = () => {
       <StyledCard>
         <CardTitle>E-MAIL ENVIADO</CardTitle>
         <SuccessMessage>
-          Um link de recuperação foi enviado para <strong>{email}</strong>.
+          As instruções de recuperação foram enviadas para <strong>{email}</strong>.
         </SuccessMessage>
-        <Link to="/login" style={{ textAlign: 'center', display: 'block', color: '#D4AF37' }}>
+        <Link to="/login" style={{ textAlign: 'center', display: 'block', color: '#D4AF37', textDecoration: 'none' }}>
           Voltar para o Login
         </Link>
       </StyledCard>
@@ -113,20 +123,16 @@ export const ForgotPasswordForm: React.FC = () => {
   return (
     <StyledCard>
       <TopNav>
-        <BackLink to="/login">
-          <span>‹</span> Voltar
-        </BackLink>
+        <BackLink to="/login"><span>‹</span> Voltar</BackLink>
       </TopNav>
 
       <CardTitle>Redefinir Sua Senha</CardTitle>
-      <CardSubtitle>
-        Insira o endereço de e-mail da sua conta para receber instruções de redefinição.
-      </CardSubtitle>
+      <CardSubtitle>Insira o endereço de e-mail da sua conta para receber instruções de redefinição.</CardSubtitle>
       
       <Form onSubmit={handleSubmit}>
         <Input
           id="email"
-          label="Endereço de e-mail *"
+          label="Endereço de e-mail"
           type="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
@@ -139,7 +145,7 @@ export const ForgotPasswordForm: React.FC = () => {
             ref={captchaRef}
             siteKey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
             theme="dark"
-            size="normal" // Formato mais horizontal que o compact
+            size="normal"
             onChange={(token) => setCaptchaToken(token)}
           />
         </CaptchaWrapper>
@@ -148,11 +154,7 @@ export const ForgotPasswordForm: React.FC = () => {
           {isLoading ? 'ENVIANDO...' : 'CONTINUAR'}
         </Button>
 
-        {error && (
-          <ErrorMessage style={{ marginTop: '1.5rem' }}>
-            {error}
-          </ErrorMessage>
-        )}
+        {error && <ErrorMessage style={{ marginTop: '1.5rem' }}>{error}</ErrorMessage>}
       </Form>
     </StyledCard>
   )

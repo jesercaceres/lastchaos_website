@@ -6,11 +6,8 @@ import { CaptchaProps } from '../../../types';
 
 const CaptchaContainer = styled.div`
   display: flex;
-  justify-content: center;
-  width: 100%;
-  /* Removido o margin-bottom para não conflitar com o gap do Form */
+  /* Removido o justify-content: center e width: 100% para permitir alinhamento flexível */
   
-  /* Remove o fundo branco que aparece brevemente enquanto carrega */
   & > div > div {
     border-radius: ${({ theme }) => theme.borderRadius.md};
     overflow: hidden;
@@ -18,7 +15,7 @@ const CaptchaContainer = styled.div`
 `;
 
 export const Captcha = forwardRef<ReCAPTCHA, CaptchaProps>(
-  ({ onChange, siteKey, theme = 'dark', size = 'compact' }: CaptchaProps, ref) => {
+  ({ onChange, siteKey, theme = 'dark', size = 'normal' }, ref) => {
     return (
       <CaptchaContainer>
         <ReCAPTCHA
