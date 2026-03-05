@@ -25,40 +25,34 @@ const CopyrightText = styled.p`
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     font-size: ${({ theme }) => theme.fontSizes.xs};
   }
+    @media(max-width: ${({ theme }) => theme.breakpoints.large}) {
+    margin-bottom: ${({ theme }) => theme.spacing.md};
+    font-size: ${({ theme }) => theme.fontSizes.xs};
+    
+    }
 `
 
 const LoginContainer = styled.div`
-  min-height: 100dvh;
+  /* Em vez de 100dvh puro, subtraímos a altura do Header */
+  height: calc(100dvh - var(--header-height, 80px));
   width: 100%;
 
   display: flex;
-  flex-direction: column; /* Importante para o copyright ficar embaixo no mobile */
+  flex-direction: column; 
   justify-content: center;
   align-items: center;
-
-  padding: ${({ theme }) => theme.spacing.xl};
-
-  /* Imagem de fundo */
+  padding: ${({ theme }) => theme.spacing.md};
+  
   background-image: url(${loginImage});
   background-size: cover;
   background-position: center;
+  overflow: hidden; /* Evita scroll acidental */
 
-  /* Desktop: */
-  @media (min-height: 690px) {
-    min-height: calc(100dvh - var(--header-height, 80px));
-  }
-
-  /* MOBILE*/
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    /* No mobile, não centralizamos verticalmente de forma rígida.
-       Damos um padding no topo para fugir do Header e deixamos rolar se precisar. */
-    justify-content: flex-start;
-    padding: ${({ theme }) => theme.spacing.md};
-
-    /* Empurra o card para baixo o suficiente para não bater no Header fixo */
+    height: auto;
+    min-height: 100dvh;
+    overflow-y: auto;
     padding-top: calc(var(--header-height, 70px) + 2rem);
-
-    height: auto; /* Permite que a altura cresça se o teclado abrir */
   }
 `
 const LoginCard = styled.div`
@@ -78,7 +72,12 @@ const LoginCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+ @media(max-width: ${({ theme}) => theme.breakpoints.large}){
+    padding: ${({ theme }) => theme.spacing.md};
+    margin-top: ${({ theme }) => theme.spacing['2xl']};
 `
+ 
 
 const Title = styled.h1`
   font-family: ${({ theme }) => theme.fonts.epic};
@@ -86,8 +85,10 @@ const Title = styled.h1`
   color: ${({ theme }) => theme.colors.gold};
   text-align: center;
   margin-bottom: ${({ theme }) => theme.spacing.lg};
+  @media(max-width: ${({ theme}) => theme.breakpoints.large}){
+  font-size: ${({ theme }) => theme.fontSizes['3xl']};
+  
 `
-
 const Form = styled.form`
   display: flex;
   flex-direction: column;
@@ -116,15 +117,6 @@ const StyledLink = styled(Link)`
 
 const ErrorMessage = styled.div`
   background: ${({ theme }) => theme.colors.error};
-  color: ${({ theme }) => theme.colors.white};
-  padding: ${({ theme }) => theme.spacing.sm};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  font-size: ${({ theme }) => theme.fontSizes.sm};
-  margin-bottom: ${({ theme }) => theme.spacing.md};
-`
-
-const SuccessMessage = styled.div`
-  background: ${({ theme }) => theme.colors.success};
   color: ${({ theme }) => theme.colors.white};
   padding: ${({ theme }) => theme.spacing.sm};
   border-radius: ${({ theme }) => theme.borderRadius.md};
