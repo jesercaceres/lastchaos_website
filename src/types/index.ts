@@ -112,3 +112,10 @@ export interface GuildRatingEntry {
   name: string
   members: number
 }
+
+export interface CaptchaProps {
+  onChange: (token: string | null) => void
+  siteKey: string
+  theme?: 'light' | 'dark'
+  size?: 'normal' | 'compact' | 'invisible'
+}

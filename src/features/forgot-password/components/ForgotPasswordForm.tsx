@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
+import ReCAPTCHA from 'react-google-recaptcha' 
 import styled from 'styled-components'
-import { Input, Button, Card, TextLink, ErrorMessage, SuccessMessage } from '../../../shared/components/ui'
+import { Input, Button, Card, TextLink, ErrorMessage, SuccessMessage, Captcha } from '../../../shared/components/ui'
 
 const StyledCard = styled(Card)`
   max-width: 600px;
@@ -46,28 +47,47 @@ export const ForgotPasswordForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  
+  // 1. Definição do estado do Token (Corrigindo o erro de Cannot find setCaptchaToken)
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
+  
+  // 2. Definição do Ref (Corrigindo o erro de Cannot find captchaRef)
+  const captchaRef = useRef<ReCAPTCHA>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
+
+    // 3. Validação de segurança no Frontend
+    if (!captchaToken) {
+      setError("Por favor, resolva o CAPTCHA para continuar.")
+      return
+    }
+
     setIsLoading(true)
 
     try {
-      // Simulação da chamada de API (Substituir pela chamada real depois)
+      // Simulação da chamada de API enviando os dados
+      console.log('Dados para o backend:', { email, captchaToken })
+      
       await new Promise(resolve => setTimeout(resolve, 2000))
       
-      // Exemplo de como tratar erro do backend:
-      if (email !== 'teste@gmail.com') throw new Error("Usuário não encontrado.")
+      if (email !== 'teste@gmail.com') {
+        throw new Error("Usuário não encontrado em nossa base de dados.")
+      }
 
       setIsSubmitted(true)
     } catch (err: any) {
       setError(err.message || 'Ocorreu um erro. Tente novamente mais tarde.')
+      
+      // 4. Resetar o captcha em caso de erro para forçar nova validação humana
+      captchaRef.current?.reset()
+      setCaptchaToken(null)
     } finally {
       setIsLoading(false)
     }
   }
 
-  // Se o formulário foi enviado com sucesso, mostramos a confirmação
   if (isSubmitted) {
     return (
       <StyledCard>
@@ -81,12 +101,13 @@ export const ForgotPasswordForm: React.FC = () => {
     )
   }
 
-  return (
+ return (
     <StyledCard>
       <CardTitle>Redefinir Sua Senha</CardTitle>
       <CardSubtitle>
         Insira o endereço de e-mail da sua conta para receber instruções de redefinição.
       </CardSubtitle>
+      
       <Form onSubmit={handleSubmit}>
         <Input
           id="email"
@@ -97,11 +118,26 @@ export const ForgotPasswordForm: React.FC = () => {
           required
           disabled={isLoading}
         />
+        
         <Button type="submit" fullWidth disabled={isLoading}>
           {isLoading ? 'Enviando...' : 'Continuar'}
         </Button>
-        {error && <ErrorMessage>{error}</ErrorMessage>}
+
+          <Captcha 
+          ref={captchaRef}
+          siteKey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+          theme="dark"
+          size='compact'
+          onChange={(token) => setCaptchaToken(token)}
+        />
+
         <TextLink to="/login">Voltar para o Login</TextLink>
+
+        {error && (
+          <ErrorMessage style={{ marginTop: '0.5rem' }}>
+            {error}
+          </ErrorMessage>
+        )}
       </Form>
     </StyledCard>
   )

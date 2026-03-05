@@ -8,3 +8,4 @@ export { SectionDivider } from './SectionDivider'
 export { PlayersRankAndGuildChampionsStyles } from './PlayersRankAndGuildChampions'
 export { TextLink } from './TextLink';
 export { ErrorMessage, SuccessMessage } from './FormMessage'
+export { Captcha } from './Captcha'
