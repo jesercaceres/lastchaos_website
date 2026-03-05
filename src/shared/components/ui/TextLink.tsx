@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const TextLink = styled(Link)`
   display: block;
   text-align: center;
-  margin-top: ${({ theme }) => theme.spacing.md};
+  padding-top: ${({ theme }) => theme.spacing.xs};
   color: ${({ theme }) => theme.colors.gold};
   font-size: ${({ theme }) => theme.fontSizes.sm};
   text-decoration: none;
