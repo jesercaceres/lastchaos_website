@@ -35,7 +35,7 @@ const HeroSection = styled.section`
   flex-direction: column;
   justify-content: flex-end;
   background-image:
-    linear-gradient(to top, rgba(0, 0, 0, 10) 0%, transparent 30%), url(${heroImage});
+    linear-gradient(to top, rgba(0, 0, 0, 1) 0%, transparent 30%), url(${heroImage});
   background-position: center top;
   background-size: cover;
   padding-bottom: ${({ theme }) => theme.spacing['6xl']};
@@ -62,8 +62,6 @@ const ButtonsOverlay = styled.div`
   justify-content: center;
 `
 
-// --- WRAPPERS DE FUNDO (Padronizados) ---
-
 const sectionBaseStyles = `
   width: 100%;
   min-height: 100vh;
@@ -75,10 +73,8 @@ const sectionBaseStyles = `
   background-position: center;
 `
 
-// 1. Wrapper para Notícias
 const NewsSectionWrapper = styled.section`
   ${sectionBaseStyles}
-  /* Padding top explícito para afastar do Divider */
   padding-top: ${({ theme }) => theme.spacing.xl};
   padding-bottom: ${({ theme }) => theme.spacing['5xl']};
   background-image: url(${newsBg});
@@ -91,18 +87,14 @@ const NewsSectionWrapper = styled.section`
   }
 `
 
-// 2. Wrapper para Servidores
 const ServersSectionWrapper = styled.section`
   ${sectionBaseStyles}
-  /* Padding top IGUAL ao de notícias para consistência visual */
   padding-top: ${({ theme }) => theme.spacing.xl};
   padding-bottom: ${({ theme }) => theme.spacing.xl};
 
   background-image:
-    linear-gradient(to bottom, rgba(0, 0, 0, 10) 0%, transparent 100%),
-    // Topo
+    linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, transparent 100%),
     linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 30%),
-    // Baixo
     url(${serversBg});
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
@@ -124,7 +116,6 @@ const SectionTitle = styled.h2`
   }
 `
 
-// --- GRIDS E CARDS ---
 const ServersGrid = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -146,7 +137,6 @@ const NewsGrid = styled.div`
   }
 `
 
-// Card Transparente (Glassmorphism)
 const TransparentCard = styled(Card)`
   display: flex;
   flex-direction: column;
@@ -194,20 +184,49 @@ const NewsDate = styled.span`
   color: ${({ theme }) => theme.colors.gray};
   font-size: ${({ theme }) => theme.fontSizes.xs};
 `
-const NewsCategory = styled.span`
+
+// COMPONENTE COM A LÓGICA DE CORES REVISADA
+const NewsCategory = styled.span<{ $category?: News['category'] }>`
+  /* 1. Controle de Tamanho: impede que a barra fique gigante */
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+
+  /* 2. Espaçamento Interno e Margens: menor para apenas "circular" o texto */
   margin-top: ${({ theme }) => theme.spacing.sm};
   margin-bottom: ${({ theme }) => theme.spacing.xs};
-  display: inline-block;
-  padding: ${({ theme }) => `calc(${theme.spacing.xs} / 2) ${theme.spacing.sm}`};
-  background: ${({ theme }) => theme.colors.brown};
+  padding: 2px 10px; /* Reduzido para ficar compacto */
+  
+  /* 3. Tipografia */
   color: ${({ theme }) => theme.colors.white};
   border-radius: ${({ theme }) => theme.borderRadius.full};
-  font-size: ${({ theme }) => theme.fontSizes.xs};
-  font-weight: 600;
+  font-size: 10px; /* Um pouco menor que o xs padrão para badges */
+  font-weight: 700;
   text-transform: uppercase;
-`
+  letter-spacing: 0.5px;
 
-// --- ESTILOS DO MODAL ---
+  /* 4. Lógica de Cores baseada no Tema Medieval */
+  background: ${({ theme, $category }) => {
+    switch ($category) {
+      case 'news':
+        return theme.colors.info; // Azul para notícias gerais
+      case 'event':
+        return theme.colors.gold; // Dourado para eventos épicos
+      case 'update':
+        return theme.colors.success; // Verde para atualizações/sucesso
+      case 'maintenance':
+        return theme.colors.error; // Vermelho para manutenções
+      default:
+        return theme.colors.gray;
+    }
+  }};
+
+  /* 5. Estética Adicional: uma borda sutil para destaque */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+`;
+
 const ModalImage = styled.img`
   width: 100%;
   max-height: ${({ theme }) => `calc(${theme.spacing['7xl']} + ${theme.spacing['2xl']})`};
@@ -232,7 +251,6 @@ const ModalText = styled.div`
   white-space: pre-wrap;
 `
 
-// Estilos internos do card de servidor
 const ServerHeader = styled.div`
   display: flex;
   align-items: center;
@@ -299,7 +317,6 @@ const ProgressBarFill = styled.div<{ $percent: number }>`
     `linear-gradient(90deg, ${theme.colors.gold}, ${theme.colors.lightGold})`};
 `
 
-// --- COMPONENTE HOME ---
 export const Home: React.FC = () => {
   const [selectedNews, setSelectedNews] = useState<News | null>(null)
 
@@ -331,7 +348,6 @@ export const Home: React.FC = () => {
 
       <SectionDivider />
 
-      {/* SEÇÃO 1: NOTÍCIAS */}
       <NewsSectionWrapper>
         <ContentContainer>
           <SectionTitle>Últimas Notícias</SectionTitle>
@@ -339,7 +355,12 @@ export const Home: React.FC = () => {
             {featuredNews.map(news => (
               <TransparentCard key={news.id} hoverable onClick={() => handleOpenNews(news)}>
                 {news.image && <NewsImage src={news.image} alt={news.title} />}
-                <NewsCategory>{news.category}</NewsCategory>
+                
+                {/* AQUI ESTÁ O AJUSTE: Passando a prop $category */}
+                <NewsCategory $category={news.category}>
+                  {news.category}
+                </NewsCategory>
+
                 <NewsTitle>{news.title}</NewsTitle>
                 <NewsContent>
                   {news.content.length > 100
@@ -355,12 +376,10 @@ export const Home: React.FC = () => {
 
       <SectionDivider />
 
-      {/* SEÇÃO 2: RANKINGS */}
       <HomeRankingsSection />
 
       <SectionDivider />
 
-      {/* SEÇÃO 3: SERVIDORES */}
       <ServersSectionWrapper>
         <ContentContainer>
           <SectionTitle>Servidores em Destaque</SectionTitle>
@@ -404,13 +423,15 @@ export const Home: React.FC = () => {
         </ContentContainer>
       </ServersSectionWrapper>
 
-      {/* MODAL DE NOTÍCIAS */}
       <Modal isOpen={!!selectedNews} onClose={handleCloseNews} title={selectedNews?.title}>
         {selectedNews && (
           <>
             {selectedNews.image && <ModalImage src={selectedNews.image} alt={selectedNews.title} />}
             <ModalMeta>
-              <NewsCategory>{selectedNews.category}</NewsCategory>
+              {/* AJUSTE NO MODAL TAMBÉM: Passando a prop $category */}
+              <NewsCategory $category={selectedNews.category}>
+                {selectedNews.category}
+              </NewsCategory>
               <NewsDate>{new Date(selectedNews.date).toLocaleDateString('pt-BR')}</NewsDate>
             </ModalMeta>
             <ModalText>{selectedNews.content}</ModalText>
