@@ -93,6 +93,8 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
+  @media(max-width: ${({ theme }) => theme.breakpoints.large}){
+    gap: ${({ theme }) => theme.spacing.sm};
 `
 
 const LinksContainer = styled.div`
