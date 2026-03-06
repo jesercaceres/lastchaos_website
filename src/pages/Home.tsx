@@ -146,8 +146,6 @@ const NewsGrid = styled.div`
   }
 `
 
-// src/pages/Home.tsx
-
 const TransparentCard = styled(Card)`
   display: flex;
   flex-direction: column;

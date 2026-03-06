@@ -35,22 +35,24 @@ const Title = styled.h1`
   color: ${({ theme }) => theme.colors.gold};
   text-align: center;
   margin-bottom: ${({ theme }) => theme.spacing.xl};
+  margin-top: ${({ theme }) => theme.spacing.xl};
 `
 
 const ControlsRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: ${({ theme }) => theme.spacing.md};
-  margin-bottom: ${({ theme }) => theme.spacing.xl};
+  gap: ${({ theme }) => theme.spacing.sm};
+  margin-bottom: 4rem;
   color: ${({ theme }) => theme.colors.lightGray};
-  font-size: ${({ theme }) => theme.fontSizes.xs};
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  cursor: default;
 `
 
 const Select = styled.select`
   background: rgba(11, 12, 16, 0.8);
-  color: ${({ theme }) => theme.colors.lightGray};
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  color: ${({ theme }) => theme.colors.gold};
+  border: 2px solid rgba(212, 175, 55, 0.25);
   border-radius: ${({ theme }) => theme.borderRadius.md};
   padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.sm}`};
   outline: none;
