@@ -108,11 +108,15 @@ const SectionTitle = styled.h2`
   font-size: ${({ theme }) => theme.fontSizes['4xl']};
   color: ${({ theme }) => theme.colors.gold};
   text-align: center;
-  margin-bottom: ${({ theme }) => `calc(${theme.spacing.xl} + ${theme.spacing.xs})`};
+  margin-bottom: ${({ theme }) => `calc(${theme.spacing.xl} + ${theme.spacing.xl})`};
   text-shadow: 0 4px 15px rgba(0, 0, 0, 1);
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     font-size: ${({ theme }) => theme.fontSizes['3xl']};
+  }
+  
+  @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
+  margin-bottom: ${({ theme }) => `calc(${theme.spacing.xl} + ${theme.spacing.xs})`};
   }
 `
 
@@ -130,30 +134,39 @@ const ServersGrid = styled.div`
 
 const NewsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); 
   gap: ${({ theme }) => theme.spacing.lg};
+  
+  @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     grid-template-columns: 1fr;
   }
 `
 
+// src/pages/Home.tsx
+
 const TransparentCard = styled(Card)`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.md};
-  padding: ${({ theme }) => theme.spacing.lg};
-  background: rgba(11, 12, 16, 0.8);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(212, 175, 55, 0.15);
+  gap: ${({ theme }) => theme.spacing.md}
+  padding: ${({ theme }) => theme.spacing.md}
+  background: rgba(0, 0, 0, 0.8);
+
+  border: 2px solid ${({ theme }) => theme.colors.gold}88; /* 88 adiciona ~50% de transparência */
+  /* border: 2px solid ${({ theme }) => theme.colors.gold}; */
+  
   transition: all ${({ theme }) => theme.transitions.normal};
   cursor: pointer;
 
   &:hover {
     transform: translateY(-5px);
     border-color: ${({ theme }) => theme.colors.gold};
-    background: rgba(11, 12, 16, 0.9);
+    box-shadow: ${({ theme }) => theme.shadows.gold}; /* Garante o brilho no hover */
   }
-`
+`;
 
 const NewsImage = styled.img`
   width: 100%;
