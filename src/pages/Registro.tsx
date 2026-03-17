@@ -2,8 +2,10 @@ import { useState, FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { Button, Input } from '../shared/components/ui'
-import { RegisterFormData } from '../types'
 import registerBgImage from '../assets/images/register-bg.png'
+import { api } from '../shared/services/api'
+import { registerSchema, RegisterDto } from '../features/auth/schemas/register.schema'
+
 
 const CopyrightText = styled.p`
   position: absolute;
@@ -15,7 +17,6 @@ const CopyrightText = styled.p`
   width: 100%;
   pointer-events: none;
 
-  /* Oculta em notebooks para dar espaço ao formulário longo */
   @media (max-width: ${({ theme }) => theme.breakpoints.large}) or (max-height: 850px) {
     display: none;
   }
@@ -37,7 +38,7 @@ const RegistroContainer = styled.div`
   background-image: url(${registerBgImage});
   background-size: cover;
   background-position: center;
-  overflow: hidden; /* Remove scroll no desktop */
+  overflow: hidden;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     justify-content: flex-start;
@@ -61,7 +62,6 @@ const RegistroCard = styled.div`
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
   box-shadow: ${({ theme }) => theme.shadows.xl};
 
-  /* Compactação para notebooks */
   @media (max-width: ${({ theme }) => theme.breakpoints.large}) or (max-height: 850px) {
     padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
     transform: scale(0.9);
@@ -84,7 +84,6 @@ const Title = styled.h1`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  /* Reduz o gap entre os inputs para economizar altura vertical */
   gap: 2px;
 
   label {
@@ -116,6 +115,7 @@ const ErrorMessage = styled.div`
   border-radius: ${({ theme }) => theme.borderRadius.md};
   font-size: ${({ theme }) => theme.fontSizes.sm};
   margin-bottom: ${({ theme }) => theme.spacing.sm};
+  margin-top: ${({ theme }) => theme.spacing.sm};
 `
 
 const SuccessMessage = styled.div`
@@ -129,46 +129,40 @@ const SuccessMessage = styled.div`
 
 export const Registro: React.FC = () => {
   const navigate = useNavigate()
-  const [formData, setFormData] = useState<RegisterFormData>({
-    login: '',
+  
+  // 3. Atualizámos as chaves do estado para baterem certo com o Zod/Backend
+  const [formData, setFormData] = useState<RegisterDto>({
+    userId: '',
     email: '',
-    password: '',
-    confirmPassword: '',
+    passwd: '',
+    confirmPasswd: '',
   })
-  const [errors, setErrors] = useState<Partial<RegisterFormData>>({})
+  
+  const [errors, setErrors] = useState<Partial<RegisterDto>>({})
   const [submitError, setSubmitError] = useState<string>('')
   const [submitSuccess, setSubmitSuccess] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
+  // 4. O nosso validador agora é incrivelmente simples, poderoso e seguro!
   const validateForm = (): boolean => {
-    const newErrors: Partial<RegisterFormData> = {}
-
-    if (!formData.login.trim()) {
-      newErrors.login = 'Login é obrigatório'
-    } else if (formData.login.length < 3) {
-      newErrors.login = 'Login deve ter no mínimo 3 caracteres'
+    const result = registerSchema.safeParse(formData);
+    
+    if (!result.success) {
+      // O Zod devolve os erros num formato um pouco complexo, 
+      // aqui formatamos para o nosso estado `errors` ler facilmente.
+      const formattedErrors: Partial<RegisterDto> = {};
+      result.error.issues.forEach((issue) => {
+        const field = issue.path[0] as keyof RegisterDto;
+        if (!formattedErrors[field]) {
+          formattedErrors[field] = issue.message;
+        }
+      });
+      setErrors(formattedErrors);
+      return false;
     }
 
-    if (!formData.email.trim()) {
-      newErrors.email = 'E-mail é obrigatório'
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'E-mail inválido'
-    }
-
-    if (!formData.password) {
-      newErrors.password = 'Senha é obrigatória'
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Senha deve ter no mínimo 6 caracteres'
-    }
-
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Confirmação de senha é obrigatória'
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'As senhas não coincidem'
-    }
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
+    setErrors({});
+    return true;
   }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -179,14 +173,26 @@ export const Registro: React.FC = () => {
     if (!validateForm()) return
 
     setIsLoading(true)
-    setTimeout(() => {
+
+    try {
+      // Como o nosso formData agora tem os nomes exatos do DTO, podemos passar diretamente!
+      await api.post('/auth/register', formData)
+
       setIsLoading(false)
       setSubmitSuccess(true)
+
       setTimeout(() => navigate('/login'), 2000)
-    }, 1000)
+    } catch (error: any) {
+      setIsLoading(false)
+      if (error.response && error.response.data && error.response.data.message) {
+        setSubmitError(error.response.data.message)
+      } else {
+        setSubmitError('Ocorreu um erro inesperado ao contactar o servidor.')
+      }
+    }
   }
 
-  const handleChange = (field: keyof RegisterFormData) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (field: keyof RegisterDto) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({ ...prev, [field]: e.target.value }))
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: undefined }))
@@ -197,50 +203,49 @@ export const Registro: React.FC = () => {
     <RegistroContainer>
       <RegistroCard>
         <Title>Registrar</Title>
-        {submitError && <ErrorMessage>{submitError}</ErrorMessage>}
-        {submitSuccess && (
-          <SuccessMessage>Sucesso! Redirecionando...</SuccessMessage>
-        )}
+        {submitSuccess && <SuccessMessage>Sucesso! Redirecionando para o Login...</SuccessMessage>}
         <Form onSubmit={handleSubmit}>
+          {/* Atualizámos os bindings dos inputs para as novas propriedades */}
           <Input
-            label="Login"
+            label="Utilizador"
             type="text"
-            placeholder="Digite seu login"
-            value={formData.login}
-            onChange={handleChange('login')}
-            error={errors.login}
+            placeholder="Digite o seu nome de utilizador"
+            value={formData.userId}
+            onChange={handleChange('userId')}
+            error={errors.userId}
             required
           />
           <Input
             label="E-mail"
             type="email"
-            placeholder="Digite seu e-mail"
+            placeholder="Digite o seu e-mail"
             value={formData.email}
             onChange={handleChange('email')}
             error={errors.email}
             required
           />
           <Input
-            label="Senha"
+            label="Palavra-passe"
             type="password"
-            placeholder="Digite sua senha"
-            value={formData.password}
-            onChange={handleChange('password')}
-            error={errors.password}
+            placeholder="Digite a sua palavra-passe"
+            value={formData.passwd}
+            onChange={handleChange('passwd')}
+            error={errors.passwd}
             required
           />
           <Input
-            label="Confirmar Senha"
+            label="Confirmar Palavra-passe"
             type="password"
-            placeholder="Confirme sua senha"
-            value={formData.confirmPassword}
-            onChange={handleChange('confirmPassword')}
-            error={errors.confirmPassword}
+            placeholder="Confirme a sua palavra-passe"
+            value={formData.confirmPasswd}
+            onChange={handleChange('confirmPasswd')}
+            error={errors.confirmPasswd}
             required
           />
           <Button type="submit" fullWidth size="large" disabled={isLoading || submitSuccess}>
-            {isLoading ? 'Registrando...' : submitSuccess ? 'Registrado!' : 'Registrar'}
+            {isLoading ? 'A Registar...' : submitSuccess ? 'Registado!' : 'Registar'}
           </Button>
+          {submitError && <ErrorMessage>{submitError}</ErrorMessage>}
         </Form>
         <LinksContainer>
           <StyledLink to="/login">Já possui uma conta? Faça login</StyledLink>
