@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
 import { Header, Footer } from '../shared/components/layout'
-import { Home, Login, Registro, Download, Comunidade, Regras, Doacoes, Ranking, ForgotPassword } from '../pages'
+import { Home, Login, Registro, Download, Comunidade, Regras, Doacoes, Ranking, ForgotPassword, PasswordRecovery } from '../pages'
 
 const MainLayout = () => (
   <>
@@ -37,7 +37,8 @@ export const AppRoutes: React.FC = () => {
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Registro />} />
-          <Route path="/recovery" element={<ForgotPassword />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/recovery" element={<PasswordRecovery />} />
         </Route>
       </Routes>
     </BrowserRouter>
