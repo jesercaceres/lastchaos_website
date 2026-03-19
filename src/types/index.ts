@@ -73,6 +73,7 @@ export interface InputProps {
   placeholder?: string
   value: string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void
   error?: string
   required?: boolean
   disabled?: boolean 

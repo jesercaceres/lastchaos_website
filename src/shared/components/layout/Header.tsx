@@ -1,10 +1,34 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import logo from '../../../assets/icons/logo.png'
 import { ButtonLink } from '../ui/ButtonLink'
+import { useAuth } from '../../contexts/AuthContext'
+import { UserMenu } from './UserMenu'
 
-// ... (estilos HeaderContainer, HeaderContent, Logo, LogoIcon, Nav, NavLink) ...
+const smoothFadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`
+
+const AnimatedAuthGroup = styled.div<{ $isMobile?: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.sm};
+  animation: ${smoothFadeIn} 0.4s ease-out forwards;
+
+  ${({ $isMobile, theme }) => $isMobile && `
+    flex-direction: column;
+    width: 100%;
+    gap: ${theme.spacing.md};
+  `}
+`
 
 const HeaderContainer = styled.header`
   border-bottom: 1px solid ${({ theme }) => theme.colors.gold};
@@ -35,8 +59,8 @@ const HeaderContent = styled.div`
   box-sizing: border-box;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
-    flex-wrap: wrap;
-    gap: ${({ theme }) => theme.spacing.sm};
+    flex-wrap: nowrap;
+    gap: ${({ theme }) => theme.spacing.xs};
   }
 
   @media (max-width: 414px) {
@@ -205,7 +229,6 @@ const MobileNav = styled.nav<{ isOpen: boolean }>`
   }
 `
 
-// Estilo específico para o divisor no menu mobile
 const MobileDivider = styled.div`
   height: 1px;
   background: rgba(212, 175, 55, 0.2);
@@ -226,6 +249,8 @@ export const Header: React.FC = () => {
   const location = useLocation()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const headerRef = useRef<HTMLElement | null>(null)
+  
+  const { isAuthenticated, signOut } = useAuth()
 
   useEffect(() => {
     const setHeaderHeight = () => {
@@ -258,6 +283,12 @@ export const Header: React.FC = () => {
     setMobileMenuOpen(!mobileMenuOpen)
   }
 
+  const handleMobileLogout = (e: React.MouseEvent) => {
+    e.preventDefault()
+    signOut()
+    setMobileMenuOpen(false)
+  }
+
   return (
     <HeaderContainer ref={headerRef as any}>
       <HeaderContent>
@@ -274,12 +305,20 @@ export const Header: React.FC = () => {
         </Nav>
 
         <AuthButtonsContainer>
-          <ButtonLink to="/login" variant="primary" size="xs">
-            Login
-          </ButtonLink>
-          <ButtonLink to="/registro" variant="secondary" size="xs">
-            Registrar
-          </ButtonLink>
+          {isAuthenticated ? (
+            <AnimatedAuthGroup key="logged-in">
+              <UserMenu />
+            </AnimatedAuthGroup>
+          ) : (
+            <AnimatedAuthGroup key="logged-out">
+              <ButtonLink to="/login" variant="primary" size="xs">
+                Login
+              </ButtonLink>
+              <ButtonLink to="/registro" variant="secondary" size="xs">
+                Registrar
+              </ButtonLink>
+            </AnimatedAuthGroup>
+          )}
         </AuthButtonsContainer>
 
         <MobileMenuButton
@@ -303,25 +342,37 @@ export const Header: React.FC = () => {
           </NavLink>
         ))}
 
-        {/* Divisor para separar itens de navegação das ações de conta */}
         <MobileDivider />
 
-        {/* Links de Auth como texto simples no mobile */}
-        <NavLink
-          to="/login"
-          isActive={location.pathname === '/login'}
-          onClick={() => setMobileMenuOpen(false)}
-        >
-          Login
-        </NavLink>
-        <NavLink
-          to="/registro"
-          isActive={location.pathname === '/registro'}
-          onClick={() => setMobileMenuOpen(false)}
-          style={{ color: '#D4AF37', fontWeight: 600 }}
-        >
-          Registrar-se
-        </NavLink>
+        {isAuthenticated ? (
+          <AnimatedAuthGroup key="mobile-logged-in" $isMobile>
+            <NavLink
+              to="/"
+              onClick={handleMobileLogout}
+              style={{ color: '#F44336', fontWeight: 600 }}
+            >
+              Sair da Conta
+            </NavLink>
+          </AnimatedAuthGroup>
+        ) : (
+          <AnimatedAuthGroup key="mobile-logged-out" $isMobile>
+            <NavLink
+              to="/login"
+              isActive={location.pathname === '/login'}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Login
+            </NavLink>
+            <NavLink
+              to="/registro"
+              isActive={location.pathname === '/registro'}
+              onClick={() => setMobileMenuOpen(false)}
+              style={{ color: '#D4AF37', fontWeight: 600 }}
+            >
+              Registrar-se
+            </NavLink>
+          </AnimatedAuthGroup>
+        )}
       </MobileNav>
     </HeaderContainer>
   )

@@ -142,6 +142,7 @@ export const Registro: React.FC = () => {
   const [submitError, setSubmitError] = useState<string>('')
   const [submitSuccess, setSubmitSuccess] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   // 4. O nosso validador agora é incrivelmente simples, poderoso e seguro!
   const validateForm = (): boolean => {
@@ -166,8 +167,9 @@ export const Registro: React.FC = () => {
   }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setSubmitError('')
+    e.preventDefault();
+    setHasSubmitted(true); // <-- ADICIONE AQUI: Marcamos que ele já tentou enviar!
+    setSubmitError('');
     setSubmitSuccess(false)
 
     if (!validateForm()) return
@@ -192,10 +194,50 @@ export const Registro: React.FC = () => {
     }
   }
 
-  const handleChange = (field: keyof RegisterDto) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({ ...prev, [field]: e.target.value }))
-    if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: undefined }))
+const handleChange = (field: keyof RegisterDto) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    const newData = { ...formData, [field]: newValue };
+    
+    setFormData(newData);
+
+    // Se ele já clicou em Registar antes e tomou erro, ajudamos em tempo real letra a letra:
+    if (hasSubmitted) {
+      const result = registerSchema.safeParse(newData);
+      if (!result.success) {
+        const fieldError = result.error.issues.find(issue => issue.path[0] === field);
+        setErrors(prev => ({
+          ...prev,
+          [field]: fieldError ? fieldError.message : undefined
+        }));
+      } else {
+        setErrors({}); // Tudo perfeito, limpa todos os erros!
+      }
+    } else {
+      // Se ele está digitando pela primeira vez (antes de clicar em Registar), somos "bonzinhos".
+      // Se tinha um erro do 'onBlur' e ele voltou a digitar, limpamos a tela para não estressar.
+      if (errors[field]) {
+        setErrors(prev => ({ ...prev, [field]: undefined }));
+      }
+    }
+  }
+
+  // Essa função dispara no exato momento que o usuário "sai" de um campo (aperta TAB ou clica fora)
+  const handleBlur = (field: keyof RegisterDto) => () => {
+    const result = registerSchema.safeParse(formData);
+    
+    if (!result.success) {
+      const fieldError = result.error.issues.find(issue => issue.path[0] === field);
+      
+      if (fieldError) {
+        // Se o Zod achou erro NESTE campo que ele acabou de sair, mostramos!
+        setErrors(prev => ({ ...prev, [field]: fieldError.message }));
+      } else {
+        // Se ele consertou o campo e saiu, garantimos que a mensagem de erro soma
+        setErrors(prev => ({ ...prev, [field]: undefined }));
+      }
+    } else {
+      // Se ao sair do campo o formulário inteiro ficou válido, limpamos tudo
+      setErrors({});
     }
   }
 
@@ -212,6 +254,7 @@ export const Registro: React.FC = () => {
             placeholder="Digite o seu nome de utilizador"
             value={formData.userId}
             onChange={handleChange('userId')}
+            onBlur={handleBlur('userId')}
             error={errors.userId}
             required
           />
@@ -230,6 +273,7 @@ export const Registro: React.FC = () => {
             placeholder="Digite a sua palavra-passe"
             value={formData.passwd}
             onChange={handleChange('passwd')}
+            onBlur={handleBlur('passwd')}
             error={errors.passwd}
             required
           />
@@ -239,6 +283,7 @@ export const Registro: React.FC = () => {
             placeholder="Confirme a sua palavra-passe"
             value={formData.confirmPasswd}
             onChange={handleChange('confirmPasswd')}
+            onBlur={handleBlur('confirmPasswd')}
             error={errors.confirmPasswd}
             required
           />

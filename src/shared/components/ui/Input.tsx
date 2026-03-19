@@ -58,6 +58,7 @@ export const Input: React.FC<InputProps> = ({
   placeholder,
   value,
   onChange,
+  onBlur,
   error,
   required,
   disabled,
@@ -76,6 +77,7 @@ export const Input: React.FC<InputProps> = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
         hasError={!!error}
         required={required}
         disabled={disabled}
