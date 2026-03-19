@@ -8,6 +8,7 @@ import { SectionDivider } from '../shared/components/ui/SectionDivider'
 import { mockNews, mockServers } from '../mocks'
 import { HomeRankingsSection } from '../features/ranking/components/HomeRankingsSection'
 import { News } from '../types'
+import { useAuth } from '../shared/contexts/AuthContext'
 
 import heroImage from '../assets/images/oldWorld-lc.png'
 import newsBg from '../assets/images/news-bg.png'
@@ -329,6 +330,7 @@ const ProgressBarFill = styled.div<{ $percent: number }>`
 `
 
 export const Home: React.FC = () => {
+  const { isAuthenticated } = useAuth()
   const [selectedNews, setSelectedNews] = useState<News | null>(null)
 
   const featuredServers = mockServers.slice(0, 3)
@@ -350,9 +352,15 @@ export const Home: React.FC = () => {
             <ButtonLink size="large" to="/download">
               Baixar Jogo
             </ButtonLink>
-            <ButtonLink size="large" variant="secondary" to="/registro">
-              Registrar-se
-            </ButtonLink>
+            {isAuthenticated ? (
+              <ButtonLink size="large" variant="secondary" to="/minha-conta">
+                Minha Conta
+              </ButtonLink>
+            ) : (
+              <ButtonLink size="large" variant="secondary" to="/registro">
+                Registrar-se
+              </ButtonLink>
+            )}
           </HeroButtons>
         </ButtonsOverlay>
       </HeroSection>

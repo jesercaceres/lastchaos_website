@@ -14,64 +14,106 @@ const fadeInDown = keyframes`
   }
 `;
 
+const UserMenuWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.lg};
+  position: relative;
+`;
+
+const NotificationContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
+const BellIcon = styled.svg`
+  width: 20px;
+  height: 20px;
+  fill: #dcb75f;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
+`;
+
+const NotificationBadge = styled.div`
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #d32f2f;
+  color: white;
+  font-size: 0.65rem;
+  font-weight: bold;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #111;
+  padding: 0 4px;
+`;
+
 const UserCardContainer = styled.div`
   display: flex;
   align-items: center;
-  background: linear-gradient(135deg, rgba(20, 20, 20, 0.8) 0%, rgba(10, 10, 10, 0.95) 100%);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  border-radius: 50px;
-  padding: 4px 16px 4px 4px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  background: linear-gradient(180deg, #24262a 0%, #141518 100%);
+  border: 1px solid #7a6128;
+  border-top: 1px solid #c2a65d;
+  border-bottom: 2px solid #291f0c;
+  border-radius: 4px;
+  padding: 8px 16px 8px 28px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.2s ease;
   cursor: pointer;
   position: relative;
   user-select: none;
-
+  margin-left: 18px; 
+  
   &:hover {
-    border-color: ${({ theme }) => theme.colors.gold};
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.25);
-    transform: translateY(-2px);
+    border-color: #dcb75f;
+    background: linear-gradient(180deg, #2b2e33 0%, #18191c 100%);
   }
 `;
 
 const AvatarCircle = styled.div`
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  border: 2px solid ${({ theme }) => theme.colors.gold};
-  background: linear-gradient(135deg, ${({ theme }) => theme.colors.darkGold} 0%, ${({ theme }) => theme.colors.dark} 100%);
+  border: 2px solid #8e7436;
+  background: linear-gradient(135deg, #2a2a2a 0%, #0a0a0a 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: ${({ theme }) => theme.spacing.sm};
-  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.5);
-  
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.1);
+  position: absolute;
+  left: -22px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+
   &::before {
-    content: '👑'; 
-    font-size: 1.2rem;
+    content: '👤'; 
+    font-size: 1.3rem;
   }
 `;
 
 const UserInfo = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: ${({ theme }) => theme.spacing.md};
-`;
-
-const WelcomeText = styled.span`
-  font-size: 0.65rem;
-  color: ${({ theme }) => theme.colors.lightGray};
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: -2px;
 `;
 
 const UserName = styled.span`
-  font-family: ${({ theme }) => theme.fonts.epic};
-  font-size: 0.95rem;
-  color: ${({ theme }) => theme.colors.gold};
-  font-weight: 700;
+  font-family: ${({ theme }) => theme.fonts.body};
+  font-size: 1.1rem;
+  color: #ebdcb9;
+  font-weight: 500;
+  letter-spacing: 0.5px;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 `;
 
@@ -79,13 +121,14 @@ const DropdownIcon = styled.svg<{ isOpen: boolean }>`
   width: 14px;
   height: 14px;
   fill: none;
-  stroke: ${({ theme }) => theme.colors.gold};
+  stroke: #ebdcb9;
   stroke-width: 2.5;
   stroke-linecap: round;
   stroke-linejoin: round;
   transition: transform 0.3s ease;
   transform: ${({ isOpen }) => (isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
   opacity: 0.8;
+  margin-left: 10px;
 `;
 
 const DropdownMenu = styled.div<{ isOpen: boolean }>`
@@ -178,30 +221,38 @@ export const UserMenu: React.FC = () => {
   };
 
   return (
-    <div ref={menuRef} style={{ position: 'relative' }}>
+    <UserMenuWrapper ref={menuRef}>
       
-      <UserCardContainer onClick={() => setMenuOpen(!menuOpen)}>
-        <AvatarCircle />
-        <UserInfo>
-          <WelcomeText>Saudações,</WelcomeText>
-          <UserName>{user.userId}</UserName>
-        </UserInfo>
-        
-        <DropdownIcon isOpen={menuOpen} viewBox="0 0 24 24">
-          <polyline points="6 9 12 15 18 9" />
-        </DropdownIcon>
-      </UserCardContainer>
+      <NotificationContainer>
+        <BellIcon viewBox="0 0 24 24">
+          <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z" />
+        </BellIcon>
+        <NotificationBadge>1</NotificationBadge>
+      </NotificationContainer>
 
-      <DropdownMenu isOpen={menuOpen}>
-        <DropdownItem onClick={handleNavigateToDonation}>
-          <span style={{ fontSize: '1.1rem' }}>💎</span> Doações
-        </DropdownItem>
-        
-        <DropdownItem className="logout" onClick={signOut}>
-          <span style={{ fontSize: '1.1rem' }}>🚪</span> Sair da Conta
-        </DropdownItem>
-      </DropdownMenu>
+      <div style={{ position: 'relative' }}>
+        <UserCardContainer onClick={() => setMenuOpen(!menuOpen)}>
+          <AvatarCircle />
+          <UserInfo>
+            <UserName>{user.userId || 'ArthurusMMO'}</UserName>
+          </UserInfo>
+          
+          <DropdownIcon isOpen={menuOpen} viewBox="0 0 24 24">
+            <polyline points="6 9 12 15 18 9" />
+          </DropdownIcon>
+        </UserCardContainer>
 
-    </div>
+        <DropdownMenu isOpen={menuOpen}>
+          <DropdownItem onClick={handleNavigateToDonation}>
+            <span style={{ fontSize: '1.1rem' }}>💎</span> Doações
+          </DropdownItem>
+          
+          <DropdownItem className="logout" onClick={signOut}>
+            <span style={{ fontSize: '1.1rem' }}>🚪</span> Sair da Conta
+          </DropdownItem>
+        </DropdownMenu>
+      </div>
+
+    </UserMenuWrapper>
   );
 };
