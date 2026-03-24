@@ -109,9 +109,7 @@ const StyledLink = styled(Link)`
 `
 
 const ErrorMessage = styled.div`
-  background: ${({ theme }) => theme.colors.error};
-  color: ${({ theme }) => theme.colors.white};
-  padding: ${({ theme }) => theme.spacing.xs};
+  color: ${({ theme }) => theme.colors.error};
   border-radius: ${({ theme }) => theme.borderRadius.md};
   font-size: ${({ theme }) => theme.fontSizes.sm};
   margin-bottom: ${({ theme }) => theme.spacing.sm};
@@ -139,6 +137,7 @@ export const Registro: React.FC = () => {
   })
   
   const [errors, setErrors] = useState<Partial<RegisterDto>>({})
+  const [dirtyFields, setDirtyFields] = useState<Partial<Record<keyof RegisterDto, boolean>>>({})
   const [submitError, setSubmitError] = useState<string>('')
   const [submitSuccess, setSubmitSuccess] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -199,9 +198,9 @@ const handleChange = (field: keyof RegisterDto) => (e: React.ChangeEvent<HTMLInp
     const newData = { ...formData, [field]: newValue };
     
     setFormData(newData);
+    setDirtyFields(prev => ({ ...prev, [field]: true }));
 
-    // Se ele já clicou em Registar antes e tomou erro, ajudamos em tempo real letra a letra:
-    if (hasSubmitted) {
+    if (hasSubmitted || errors[field]) {
       const result = registerSchema.safeParse(newData);
       if (!result.success) {
         const fieldError = result.error.issues.find(issue => issue.path[0] === field);
@@ -210,34 +209,23 @@ const handleChange = (field: keyof RegisterDto) => (e: React.ChangeEvent<HTMLInp
           [field]: fieldError ? fieldError.message : undefined
         }));
       } else {
-        setErrors({}); // Tudo perfeito, limpa todos os erros!
-      }
-    } else {
-      // Se ele está digitando pela primeira vez (antes de clicar em Registar), somos "bonzinhos".
-      // Se tinha um erro do 'onBlur' e ele voltou a digitar, limpamos a tela para não estressar.
-      if (errors[field]) {
         setErrors(prev => ({ ...prev, [field]: undefined }));
       }
     }
   }
 
-  // Essa função dispara no exato momento que o usuário "sai" de um campo (aperta TAB ou clica fora)
   const handleBlur = (field: keyof RegisterDto) => () => {
+    if (!dirtyFields[field] && !hasSubmitted) {
+      return;
+    }
+
     const result = registerSchema.safeParse(formData);
     
     if (!result.success) {
       const fieldError = result.error.issues.find(issue => issue.path[0] === field);
-      
-      if (fieldError) {
-        // Se o Zod achou erro NESTE campo que ele acabou de sair, mostramos!
-        setErrors(prev => ({ ...prev, [field]: fieldError.message }));
-      } else {
-        // Se ele consertou o campo e saiu, garantimos que a mensagem de erro soma
-        setErrors(prev => ({ ...prev, [field]: undefined }));
-      }
+      setErrors(prev => ({ ...prev, [field]: fieldError ? fieldError.message : undefined }));
     } else {
-      // Se ao sair do campo o formulário inteiro ficou válido, limpamos tudo
-      setErrors({});
+      setErrors(prev => ({ ...prev, [field]: undefined }));
     }
   }
 
@@ -264,6 +252,7 @@ const handleChange = (field: keyof RegisterDto) => (e: React.ChangeEvent<HTMLInp
             placeholder="Digite o seu e-mail"
             value={formData.email}
             onChange={handleChange('email')}
+            onBlur={handleBlur('email')}
             error={errors.email}
             required
           />

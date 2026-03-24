@@ -132,6 +132,7 @@ export const Login: React.FC = () => {
   })
   
   const [errors, setErrors] = useState<Partial<LoginDto>>({})
+  const [dirtyFields, setDirtyFields] = useState<Partial<Record<keyof LoginDto, boolean>>>({})
   const [submitError, setSubmitError] = useState<string>('')
   const [isLoading, setIsLoading] = useState(false)
   const [hasSubmitted, setHasSubmitted] = useState(false) 
@@ -141,8 +142,11 @@ export const Login: React.FC = () => {
     const newData = { ...formData, [field]: newValue };
     
     setFormData(newData);
+    setDirtyFields(prev => ({ ...prev, [field]: true }));
 
-    if (hasSubmitted) {
+    // Valida no onChange para garantir feedback imediato caso já tenha submetido
+    // ou caso o campo já esteja mostrando erro, assim o erro some imediatamente ao ser consertado.
+    if (hasSubmitted || errors[field]) {
       const result = loginSchema.safeParse(newData);
       if (!result.success) {
         const fieldError = result.error.issues.find(issue => issue.path[0] === field);
@@ -151,27 +155,25 @@ export const Login: React.FC = () => {
           [field]: fieldError ? fieldError.message : undefined
         }));
       } else {
-        setErrors({});
-      }
-    } else {
-      if (errors[field]) {
         setErrors(prev => ({ ...prev, [field]: undefined }));
       }
     }
   }
 
   const handleBlur = (field: keyof LoginDto) => () => {
+    // Só exibimos erro ao sair do campo se o usuário já digitou algo (dirty),
+    // ou se já tentou realizar o login (hasSubmitted).
+    if (!dirtyFields[field] && !hasSubmitted) {
+      return;
+    }
+
     const result = loginSchema.safeParse(formData);
     
     if (!result.success) {
       const fieldError = result.error.issues.find(issue => issue.path[0] === field);
-      if (fieldError) {
-        setErrors(prev => ({ ...prev, [field]: fieldError.message }));
-      } else {
-        setErrors(prev => ({ ...prev, [field]: undefined }));
-      }
+      setErrors(prev => ({ ...prev, [field]: fieldError ? fieldError.message : undefined }));
     } else {
-      setErrors({});
+      setErrors(prev => ({ ...prev, [field]: undefined }));
     }
   }
 
@@ -229,7 +231,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         <Title>Login</Title>
         <Form onSubmit={handleSubmit}>
           <Input
-            label="Utilizador"
+            label="ID de usuário"
             type="text"
             placeholder="Digite seu login"
             value={formData.userId}
@@ -240,7 +242,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
           />
 
           <Input
-            label="Palavra-passe"
+            label="Senha"
             type="password"
             placeholder="Digite sua senha"
             value={formData.passwd}
