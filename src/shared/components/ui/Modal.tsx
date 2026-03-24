@@ -25,13 +25,23 @@ const ModalContainer = styled.div`
   border: 2px solid ${({ theme }) => theme.colors.gold};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   padding: ${({ theme }) => theme.spacing.xl};
-  max-width: 500px;
+  max-width: 700px;
   width: 90%;
   max-height: 90dvh;
   overflow-y: auto;
+  overflow-x: hidden;
   box-shadow: ${({ theme }) => theme.shadows.xl};
   animation: fadeIn 0.3s ease-in-out;
   position: relative;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
+    max-width: 600px;
+    padding: ${({ theme }) => theme.spacing.lg};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    padding: ${({ theme }) => theme.spacing.md};
+  }
 `
 
 const CloseButton = styled.button`
@@ -61,6 +71,15 @@ const ModalTitle = styled.h2`
   margin-bottom: ${({ theme }) => theme.spacing.md};
   color: ${({ theme }) => theme.colors.gold};
   font-family: ${({ theme }) => theme.fonts.epic};
+  word-wrap: break-word;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
+    font-size: ${({ theme }) => theme.fontSizes['3xl']};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.fontSizes['2xl']};
+  }
 `
 
 export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, title }) => {

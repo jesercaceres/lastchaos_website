@@ -245,6 +245,14 @@ const ModalImage = styled.img`
   object-fit: cover;
   border-radius: ${({ theme }) => theme.borderRadius.md};
   margin-bottom: ${({ theme }) => theme.spacing.md};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
+    max-height: ${({ theme }) => theme.spacing['8xl']};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    max-height: ${({ theme }) => theme.spacing['7xl']};
+  }
 `
 
 const ModalMeta = styled.div`
@@ -261,6 +269,11 @@ const ModalText = styled.div`
   line-height: 1.8;
   font-size: ${({ theme }) => theme.fontSizes.md};
   white-space: pre-wrap;
+  word-wrap: break-word; /* Evita que o texto quebre o layout no modal */
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
+    font-size: ${({ theme }) => theme.fontSizes.sm};
+  }
 `
 
 const ServerHeader = styled.div`
