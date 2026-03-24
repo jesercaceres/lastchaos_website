@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { Input, Button, Card, ErrorMessage, SuccessMessage } from '../../shared/components/ui'
+import { api } from '../../shared/services/api'
+import { resetPasswordSchema } from '../auth/schemas/resetPassword.schema'
 
 const StyledCard = styled(Card)`
   max-width: 500px;
@@ -11,11 +13,9 @@ const StyledCard = styled(Card)`
   padding: ${({ theme }) => theme.spacing.xl};
   animation: fadeIn 0.5s ease-out;
 
-  /* AJUSTE PARA LAYOUTS LARGE (NOTEBOOKS) */
   @media (max-width: ${({ theme }) => theme.breakpoints.large}) {
     max-width: 450px;
     padding: ${({ theme }) => theme.spacing.lg};
-    /* Escala sutil para caber melhor em telas de menor altura */
     transform: scale(0.95);
     transform-origin: center;
   }
@@ -77,7 +77,7 @@ const CardSubtitle = styled.p`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.xs}; /* Redução do gap interno para layouts compactos */
+  gap: ${({ theme }) => theme.spacing.xs}; 
 `
 
 const SuccessIconWrapper = styled.div`
@@ -100,35 +100,83 @@ const SuccessIconWrapper = styled.div`
   }
 `
 
+const ErrorIconWrapper = styled(SuccessIconWrapper)`
+  color: ${({ theme }) => theme.colors.error};
+  svg {
+    filter: drop-shadow(0 0 10px rgba(244, 67, 54, 0.4));
+  }
+`
+
 export const RecoveryForm: React.FC = () => {
   const navigate = useNavigate()
+  
+  // 3. Capturamos o token e o userId diretamente da URL!
+  const [searchParams] = useSearchParams()
+  const token = searchParams.get('token')
+  const userId = searchParams.get('userId')
+
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
+  // 4. Se não houver token na URL, barramos o utilizador imediatamente
+  if (!token) {
+    return (
+      <StyledCard>
+        <ErrorIconWrapper>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="15" y1="9" x2="9" y2="15"></line>
+            <line x1="9" y1="9" x2="15" y2="15"></line>
+          </svg>
+        </ErrorIconWrapper>
+        <CardTitle>LINK INVÁLIDO</CardTitle>
+        <CardSubtitle style={{ marginBottom: '1rem' }}>
+          O link de recuperação é inválido, está incompleto ou já expirou.
+        </CardSubtitle>
+        <Button onClick={() => navigate('/forgot-password')} fullWidth size="medium">
+          SOLICITAR NOVO LINK
+        </Button>
+      </StyledCard>
+    )
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
 
-    if (password.length < 6) {
-      setError("A senha deve conter pelo menos 6 caracteres.")
-      return
-    }
+    // Validamos usando o nosso Zod Schema
+    const validation = resetPasswordSchema.safeParse({
+      token,
+      newPassword: password,
+      confirmPassword: confirmPassword
+    });
 
-    if (password !== confirmPassword) {
-      setError("As senhas digitadas não coincidem.")
-      return
+    if (!validation.success) {
+      // Pega o primeiro erro encontrado e exibe
+      setError(validation.error.issues[0].message);
+      return;
     }
 
     setIsLoading(true)
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000))
+      // 5. Enviamos a nova senha e o token para a nossa cozinha (Back-end)
+      await api.post('/auth/reset-password', {
+        token,
+        newPassword: password
+      })
+      
       setIsSubmitted(true)
     } catch (err: any) {
-      setError(err.message || 'Erro ao processar sua solicitação.');
+      // 6. Se o token expirou (passou dos 15 minutos) ou for falso, o back-end avisa!
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message)
+      } else {
+        setError('Ocorreu um erro inesperado. Tente solicitar um novo link.')
+      }
     } finally {
       setIsLoading(false)
     }
@@ -147,7 +195,7 @@ export const RecoveryForm: React.FC = () => {
         <CardTitle>SENHA ALTERADA</CardTitle>
         
         <SuccessMessage>
-          Sua senha foi redefinida com sucesso! Você já pode utilizar suas novas credenciais para acessar sua conta.
+          A sua senha foi redefinida com sucesso! Já pode utilizar as suas novas credenciais para acessar sua conta.
         </SuccessMessage>
 
         <Button onClick={() => navigate('/login')} fullWidth size="large">
@@ -163,7 +211,11 @@ export const RecoveryForm: React.FC = () => {
         <BackLink to="/login"><span>‹</span> Voltar</BackLink>
       </TopNav>
       <CardTitle>REDEFINIR SENHA</CardTitle>
-      <CardSubtitle>Escolha uma nova senha forte para proteger sua jornada em Old World Last Chaos.</CardSubtitle>
+      
+      {/* Mostramos o nome do utilizador para ele ter certeza de que está a alterar a conta certa! */}
+      <CardSubtitle>
+        Escolha uma nova senha forte para proteger a conta <strong>{userId}</strong>.
+      </CardSubtitle>
       
       <Form onSubmit={handleSubmit}>
         <Input
@@ -187,16 +239,15 @@ export const RecoveryForm: React.FC = () => {
           required
           disabled={isLoading}
         />
-
+          {error && (
+          <div style={{ marginBottom: '1rem' }}>
+            <ErrorMessage>{error}</ErrorMessage>
+          </div>
+        )}
         <Button type="submit" fullWidth size="medium" disabled={isLoading}>
           {isLoading ? 'ENVIANDO...' : 'REDEFINIR'}
         </Button>
 
-        {error && (
-          <div style={{ marginTop: '1.5rem' }}>
-            <ErrorMessage>{error}</ErrorMessage>
-          </div>
-        )}
       </Form>
     </StyledCard>
   )

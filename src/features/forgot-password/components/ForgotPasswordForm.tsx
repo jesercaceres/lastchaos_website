@@ -3,6 +3,7 @@ import ReCAPTCHA from 'react-google-recaptcha'
 import styled from 'styled-components'
 import { Link, useNavigate } from 'react-router-dom'
 import { Input, Button, Card, ErrorMessage, SuccessMessage, Captcha } from '../../../shared/components/ui'
+import { api } from '../../../shared/services/api' // 1. Importamos o nosso garçom (Axios)
 
 const StyledCard = styled(Card)`
   max-width: 500px;
@@ -10,7 +11,7 @@ const StyledCard = styled(Card)`
   border: 2px solid ${({ theme }) => theme.colors.gold};
   margin: 0 auto;
   padding: ${({ theme }) => theme.spacing.xl};
-  animation: fadeIn 0.5s ease-out; /* Animação definida no GlobalStyle.ts */
+  animation: fadeIn 0.5s ease-out;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     padding: ${({ theme }) => theme.spacing.lg};
@@ -90,32 +91,45 @@ const SuccessIconWrapper = styled.div`
 
 export const ForgotPasswordForm: React.FC = () => {
   const navigate = useNavigate()
-  const [email, setEmail] = useState('')
+  
+  const [identifier, setIdentifier] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [successMessage, setSuccessMessage] = useState('')
+  
   const [captchaToken, setCaptchaToken] = useState<string | null>(null)
   const captchaRef = useRef<ReCAPTCHA>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Validação básica
+    if (!identifier.trim()) {
+      setError("Por favor, informe o seu E-mail ou ID de Utilizador.")
+      return
+    }
+
     if (!captchaToken) {
       setError("Por favor, resolva o desafio de segurança.")
       return
     }
+    
     setError(null)
     setIsLoading(true)
 
     try {
-      // Simulação de API
-      await new Promise(resolve => setTimeout(resolve, 1500))
+      const response = await api.post('/auth/forgot-password', { identifier })
       
-      // Exemplo de erro para teste de reset do captcha
-      if (email === 'erro@gmail.com') throw new Error("Serviço temporariamente indisponível.")
-
+      setSuccessMessage(response.data.message)
       setIsSubmitted(true)
     } catch (err: any) {
-      setError(err.message || 'Erro ao processar solicitação.');
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message)
+      } else {
+        setError('Erro ao processar solicitação. Tente novamente mais tarde.')
+      }
+      
       captchaRef.current?.reset();
       setCaptchaToken(null);
     } finally {
@@ -137,11 +151,12 @@ export const ForgotPasswordForm: React.FC = () => {
           </svg>
         </SuccessIconWrapper>
 
-        <CardTitle>E-MAIL ENVIADO</CardTitle>
+        <CardTitle>SOLICITAÇÃO ENVIADA</CardTitle>
         
         <SuccessMessage>
-          As instruções de recuperação de senha foram enviadas para o endereço 
-          <strong> {email}</strong>. Por favor, verifique sua caixa de entrada e siga as orientações.
+          {successMessage}
+          <br /><br />
+          Por favor, verifique a sua caixa de entrada (e a pasta de spam) e siga as orientações.
         </SuccessMessage>
 
         <Button onClick={() => navigate('/login')} fullWidth size="medium">
@@ -157,16 +172,17 @@ export const ForgotPasswordForm: React.FC = () => {
         <BackLink to="/login"><span>‹</span> Voltar</BackLink>
       </TopNav>
 
-      <CardTitle>Redefinir Sua Senha</CardTitle>
-      <CardSubtitle>Insira o endereço de e-mail da sua conta para receber instruções de redefinição.</CardSubtitle>
+      <CardTitle>Recuperar Senha</CardTitle>
+      
+      <CardSubtitle>Insira o seu E-mail ou ID de Utilizador da sua conta para receber as instruções de recuperação.</CardSubtitle>
       
       <Form onSubmit={handleSubmit}>
         <Input
-          id="email"
-          label="Endereço de e-mail"
-          type="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
+          id="identifier"
+          label="E-mail ou Utilizador"
+          type="text"
+          value={identifier}
+          onChange={e => setIdentifier(e.target.value)}
           required
           disabled={isLoading}
         />
@@ -182,7 +198,7 @@ export const ForgotPasswordForm: React.FC = () => {
         </CaptchaWrapper>
 
         <Button type="submit" fullWidth size="large" disabled={isLoading}>
-          {isLoading ? 'ENVIANDO...' : 'CONTINUAR'}
+          {isLoading ? 'A ENVIAR...' : 'CONTINUAR'}
         </Button>
 
         {error && <ErrorMessage style={{ marginTop: '1.5rem' }}>{error}</ErrorMessage>}

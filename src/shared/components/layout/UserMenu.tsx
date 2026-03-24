@@ -234,7 +234,7 @@ export const UserMenu: React.FC = () => {
         <UserCardContainer onClick={() => setMenuOpen(!menuOpen)}>
           <AvatarCircle />
           <UserInfo>
-            <UserName>{user.userId || 'ArthurusMMO'}</UserName>
+            <UserName>{user.userId}</UserName>
           </UserInfo>
           
           <DropdownIcon isOpen={menuOpen} viewBox="0 0 24 24">
@@ -248,7 +248,7 @@ export const UserMenu: React.FC = () => {
           </DropdownItem>
           
           <DropdownItem className="logout" onClick={signOut}>
-            <span style={{ fontSize: '1.1rem' }}>🚪</span> Sair da Conta
+            <span style={{ fontSize: '1.1rem' }}></span> Sair da Conta
           </DropdownItem>
         </DropdownMenu>
       </div>

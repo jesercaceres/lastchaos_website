@@ -208,6 +208,8 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
       // 2. Apague aquele localStorage.setItem manual e chame o Gerente!
       // O seu backend devolve: token e user (com userCode, userId, email)
       signIn(response.data.token, response.data.user);
+      console.log(response.data.user)
+      console.log(response.data.token)
 
       setIsLoading(false)
       navigate('/')

@@ -3,7 +3,7 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 interface User {
   userId: string;
   email?: string;
-  userCode: number; // Obrigatório para o futuro (ex: buscar avatar)
+  userCode: number;
 }
 
 interface AuthContextData {
